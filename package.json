@@ -5,10 +5,12 @@
   "main": "index.js",
   "scripts": {
     "test": "jest --watch",
-    "dev": "webpack",
+    "dev": "webpack --mode development --watch",
     "server:dev": "nodemon server/index.js",
     "lint": "eslint .",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "start": "webpack && node server/index.js",
+    "test:CI": "jest"
   },
   "repository": {
     "type": "git",
