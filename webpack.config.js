@@ -1,8 +1,6 @@
 const path = require('path');
 
 module.exports = {
-  mode: 'development',
-  watch: true,
   entry: path.resolve(__dirname, '/client/src/index.js'),
   module: {
     rules: [
