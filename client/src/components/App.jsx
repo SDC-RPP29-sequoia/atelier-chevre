@@ -1,15 +1,22 @@
-import React from  'react';
+import React from 'react';
 import '../styles.css';
+
+import Header from './Header.jsx';
 
 class App extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      currentProduct: {}
+    };
   }
 
   render() {
     return (
-      <p>Its working</p>
-    )
+      <div className="wrapper">
+        <Header currentProduct={this.state.currentProduct} />
+      </div>
+    );
   }
 }
 
