@@ -11,18 +11,14 @@ html {
 body {
   width: 100%;
   min-height: 100vh;
-  border: 2px dotted red;
 }
 
-div.wrapper {
+.wrapper {
   display: flex;
   flex-direction: column;
   align-items: center;
-}
-
-div.wrapper > * {
-  width: 900px;
-  max-width: 100%;
+  max-width: 1280px;
+  margin: 0 auto;
 }
 
 header {
@@ -39,4 +35,8 @@ header input {
   border: none;
   border-bottom: 2px solid white;
   background-color: transparent;
+}
+
+#one-star {
+  align-self: flex-start;
 }
