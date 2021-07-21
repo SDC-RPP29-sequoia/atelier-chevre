@@ -1,35 +1,38 @@
 import React from 'react';
 import { AiOutlineStar, AiFillStar } from 'react-icons/ai';
-
 import '../reviews.css';
 
 class Stars extends React.Component {
   constructor(props) {
     super(props);
+  }
+
+  roundAverage(average) {
+    return Math.round(average / .25) * .25;
+  }
+
+  convertToPercent(roundedAverage) {
+    return Math.floor((roundedAverage / 5) * 100);
+  }
+
+  adjustQuarters (quarterPercent) {
+
+    if ( quarterPercent % 20 === 5) {
+      quarterPercent += 3.25;
+    } else {
+      quarterPercent -= 3.25;
+    }
+
+    return quarterPercent;
 
   }
 
-  render() {
-    const avgReview = Math.round(this.props.avg / .25) * .25;
-    let percent = Math.floor((avgReview / 5) * 100);
+  render () {
+    const averageReview = this.roundAverage(this.props.average);
+    let percent = this.convertToPercent(averageReview);
 
-    const widthTable = {
-      5: '8.5',
-      15: '12',
-      25: '28.5',
-      35: '32',
-      45: '48.5',
-      55: '52',
-      65: '68.5',
-      75: '72',
-      85: '88.5',
-      95: '92'
-    };
-
-    for (let key in widthTable) {
-      if (percent.toString() === key) {
-        percent = widthTable[key];
-      }
+    if (percent % 10 === 5) {
+      percent = this.adjustQuarters(percent);
     }
 
     const width = {
