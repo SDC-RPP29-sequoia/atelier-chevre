@@ -24,7 +24,6 @@ class Stars extends React.Component {
     }
 
     return quarterPercent;
-
   }
 
   render () {
@@ -40,7 +39,7 @@ class Stars extends React.Component {
     };
 
     return (
-      <div className="stars-container">
+      <div id="stars-container">
         <div className="inner-stars-container" style={width}>
           <AiFillStar className="inner-star" />
           <AiFillStar className="inner-star" />
