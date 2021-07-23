@@ -132,8 +132,6 @@ app.post('/addAnswer', (req, res) => {
       console.log('add answer err', err);
     }
 
-    console.log(response.body);
-
     res.send(body);
   });
 });

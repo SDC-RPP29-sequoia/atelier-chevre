@@ -9,7 +9,8 @@ class QAList extends React.Component {
     this.state = {
       currProductId: props.currProductId,
       questions: [],
-      answers: []
+      answers: [],
+      currProduct: {}
     };
 
     this.questionHelpful = this.questionHelpful.bind(this);
@@ -21,6 +22,28 @@ class QAList extends React.Component {
 
   componentDidMount() {
     this.getQuestions();
+    this.getProduct();
+  }
+
+  getProduct() {
+    axios({
+      method: 'GET',
+      url: `https://app-hrsei-api.herokuapp.com/api/fec2/hr-rpp/products/${this.state.currProductId}`,
+      headers: {
+        Authorization: QAconfig.GITHUB,
+      }
+    })
+      .then(response => {
+        let currProduct = response.data;
+
+        this.setState({
+          currProduct
+        });
+      })
+      .catch(err => {
+        console.log('axios get error', err);
+      });
+
   }
 
   getQuestions() {
@@ -109,27 +132,47 @@ class QAList extends React.Component {
 
   addAnswer(e) {
     let questionId = e.target.getAttribute('question_id');
+    let questionBody = e.target.getAttribute('question_body');
+    let productName = this.state.currProduct.name;
 
-    axios({
-      method: 'POST',
-      url: '/addAnswer',
-      data: {
-        auth: QAconfig.GITHUB,
-        questionId,
-        data: {
-          body: 'This is my test answer',
-          name: 'testUsername123',
-          email: 'tester@test.com',
-          photos: ['https://raw.githubusercontent.com/PKief/vscode-markdown-checkbox/master/logo.png', 'https://raw.githubusercontent.com/PKief/vscode-markdown-checkbox/master/logo.png', 'https://raw.githubusercontent.com/PKief/vscode-markdown-checkbox/master/logo.png']
-        }
+    console.log('add answer clicked for question id', questionId, 'question body', questionBody, 'product name', productName);
+
+    let modal = document.querySelector('.modal');
+
+    modal.style.display = 'block';
+
+    let closeBtn = document.querySelector('.close-btn');
+
+    closeBtn.onclick = () => {
+      modal.style.display = 'none';
+    };
+
+    window.onclick = (e) => {
+      if (e.target === modal) {
+        modal.style.display = 'none';
       }
-    })
-      .then(response => {
-        this.getQuestions();
-      })
-      .catch(err => {
-        console.log('q helpful axios error', err);
-      });
+    };
+
+    // axios({
+    //   method: 'POST',
+    //   url: '/addAnswer',
+    //   data: {
+    //     auth: QAconfig.GITHUB,
+    //     questionId,
+    //     data: {
+    //       body: 'This is my test answer',
+    //       name: 'testUsername123',
+    //       email: 'tester@test.com',
+    //       photos: ['https://raw.githubusercontent.com/PKief/vscode-markdown-checkbox/master/logo.png', 'https://raw.githubusercontent.com/PKief/vscode-markdown-checkbox/master/logo.png', 'https://raw.githubusercontent.com/PKief/vscode-markdown-checkbox/master/logo.png']
+    //     }
+    //   }
+    // })
+    //   .then(response => {
+    //     this.getQuestions();
+    //   })
+    //   .catch(err => {
+    //     console.log('q helpful axios error', err);
+    //   });
   }
 
   addQuestion() {
@@ -231,7 +274,7 @@ class QAList extends React.Component {
               <div className="qhelpful-addanswer">
                 <div>Helpful?&nbsp;</div>
                 <div className="question-helpful" onClick={this.questionHelpful} question_id={q.question_id}>Yes ({q.question_helpfulness}) |&nbsp;</div>
-                <div className="add-answer" onClick={this.addAnswer} question_id={q.question_id}>Add Answer</div>
+                <div className="add-answer" onClick={this.addAnswer} question_id={q.question_id} question_body={q.question_body}>Add Answer</div>
               </div>
 
             </div>
@@ -244,6 +287,35 @@ class QAList extends React.Component {
       <div className="qa" id="buttons">
         <button id="more-answered-qs" onClick={this.moreAnsweredQs}>MORE ANSWERED QUESTIONS</button>
         <button id="addq" onClick={this.addQuestion}>ADD A QUESTION +</button>
+      </div>
+
+      <div className="modal">
+        <div className="modal-content">
+          <span className="close-btn">&times;</span>
+          <p>Submit Answer</p>
+          <div className="subtitle">Product Name: Question Body</div>
+          <form id="add-answer">
+            <ul>
+              <li>
+                <label>Your answer:</label>
+                <input type="text" id="modal-answer" placeholder="Your Answer"/>
+              </li>
+              <li>
+                <label>What is your nickname:</label>
+                <input type="text" id="modal-answer-nickname" placeholder="What is your nickname Example: jack543!"/>
+              </li>
+              <li>
+                <label>Your email:</label>
+                <input type="text" id="modal-answer-email" placeholder="Your email Example: jack@email.com"/>
+              </li>
+              <li>
+                <label>Upload photos here:</label>
+                <input type="text" id="modal" placeholder="Upload Photos here"/>
+              </li>
+              <input type="submit" value="Submit answer"/>
+            </ul>
+          </form>
+        </div>
       </div>
 
       </div>
