@@ -22,10 +22,11 @@ class QAList extends React.Component {
 
   getQuestions() {
     axios({
-      method: 'GET',
-      url: `https://app-hrsei-api.herokuapp.com/api/fec2/hr-rpp/qa/questions?product_id=${this.state.currProductId}`,
-      headers: {
-        Authorization: QAconfig.GITHUB
+      method: 'POST',
+      url: '/getQuestions',
+      data: {
+        auth: QAconfig.GITHUB,
+        productId: this.state.currProductId
       }
     })
       .then(response => {
@@ -46,24 +47,25 @@ class QAList extends React.Component {
       });
   }
 
-  answerHelpful() {
+  answerHelpful(e) {
     console.log('Answer Helpful clicked');
 
-    let questionId = e.target.getAttribute('question_id');
+    let answerId = e.target.getAttribute('answer_id');
 
     axios({
-      method: 'PUT',
-      url: `https://app-hrsei-api.herokuapp.com/api/fec2/hr-rpp/qa/questions/${questionId}/helpful`,
-      headers: {
-        Authorization: QAconfig.GITHUB
+      method: 'POST',
+      url: '/answerHelpful',
+      data: {
+        auth: QAconfig.GITHUB,
+        answerId
       }
     })
       .then(response => {
-        console.log('q helpful axios put', response);
+        console.log('a helpful axios put', response);
         this.getQuestions();
       })
       .catch(err => {
-        console.log('q helpful axios error', err);
+        console.log('a helpful axios error', err);
       });
   }
 
@@ -76,10 +78,11 @@ class QAList extends React.Component {
     let questionId = e.target.getAttribute('question_id');
 
     axios({
-      method: 'PUT',
-      url: `https://app-hrsei-api.herokuapp.com/api/fec2/hr-rpp/qa/questions/${questionId}/helpful`,
-      headers: {
-        Authorization: QAconfig.GITHUB
+      method: 'POST',
+      url: '/questionHelpful',
+      data: {
+        auth: QAconfig.GITHUB,
+        questionId
       }
     })
       .then(response => {
@@ -149,7 +152,7 @@ class QAList extends React.Component {
 
                     <div className="signature-helpful-report">
                       <div className="author-date">by {a.answerer_name}, {date} | Helpful (A)?</div>
-                      <div className="answer-helpful" onClick={this.answerHelpful}>Yes ({a.helpfulness}) |</div>
+                      <div className="answer-helpful" onClick={this.answerHelpful} answer_id={a.id}>Yes ({a.helpfulness}) |</div>
                       <div className="report-answer" onClick={this.answerReport}>Report (A)</div>
                     </div>
 
