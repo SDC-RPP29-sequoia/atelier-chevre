@@ -1,4 +1,5 @@
 import React from 'react';
+import './ProductOverview.scss';
 
 class ProductOverview extends React.Component {
   constructor(props) {

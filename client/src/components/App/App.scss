@@ -1,0 +1,13 @@
+/* Built html gets injected into a div with id of 'app' so styles in here will be app wide */
+#app {
+  .wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .wrapper > * {
+    width: 900px;
+    max-width: 100%;
+  }
+}
