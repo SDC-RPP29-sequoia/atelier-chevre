@@ -14,7 +14,7 @@ app.get('/', (req, res) => {
 });
 
 app.post('/getQuestions', (req, res) => {
-  let url = `https://app-hrsei-api.herokuapp.com/api/fec2/hr-rpp/qa/questions?product_id=${req.body.productId}`;
+  let url = `https://app-hrsei-api.herokuapp.com/api/fec2/hr-rpp/qa/questions?product_id=${req.body.productId}&page=1&count=100`;
 
   request({
     method: 'GET',
@@ -68,6 +68,71 @@ app.post('/questionHelpful', (req, res) => {
     if (err) {
       console.log('q helpful err', err);
     }
+
+    res.send(body);
+  });
+});
+
+app.post('/reportAnswer', (req, res) => {
+  let answerId = req.body.answerId;
+
+  let url = `https://app-hrsei-api.herokuapp.com/api/fec2/hr-rpp/qa/answers/${answerId}/report`;
+
+  request({
+    method: 'PUT',
+    url,
+    headers: {
+      Authorization: req.body.auth
+    }
+  }, (err, response, body) => {
+    if (err) {
+      console.log('report answer err', err);
+    }
+
+    res.send(body);
+  });
+});
+
+app.post('/addQuestion', (req, res) => {
+  let json = req.body.data;
+
+  let url = 'https://app-hrsei-api.herokuapp.com/api/fec2/hr-rpp/qa/questions';
+
+  request({
+    method: 'POST',
+    url,
+    headers: {
+      Authorization: req.body.auth
+    },
+    json
+  }, (err, response, body) => {
+    if (err) {
+      console.log('add question err', err);
+    }
+
+    res.send(body);
+  });
+});
+
+app.post('/addAnswer', (req, res) => {
+  let questionId = req.body.questionId;
+  let json = req.body.data;
+
+  let url = `https://app-hrsei-api.herokuapp.com/api/fec2/hr-rpp/qa/questions/${questionId}/answers`;
+
+  request({
+    method: 'POST',
+    url,
+    headers: {
+      Authorization: req.body.auth
+    },
+    json
+  }, (err, response, body) => {
+    if (err) {
+      console.log('add answer err', err);
+    }
+
+    console.log(response.body);
 
     res.send(body);
   });

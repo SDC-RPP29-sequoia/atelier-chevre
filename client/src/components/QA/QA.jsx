@@ -7,7 +7,7 @@ import QButtons from './QButtons';
 
 import './QA.scss';
 
-class QA extends React.Component {
+class QuestionsAndAnswers extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -18,13 +18,12 @@ class QA extends React.Component {
   render() {
     return (
       <div className="qa" id="qa-wrapper">
-        <QAHeader currProductId={this.state.currProductId}/>
+        <QAHeader currProductId={this.state.currProductId} />
         <SearchBar />
-        <QAList currProductId={this.state.currProductId}/>
-        <QButtons />
+        <QAList currProductId={this.state.currProductId} />
       </div>
     );
   }
 }
 
-export default QA;
+export default QuestionsAndAnswers;
