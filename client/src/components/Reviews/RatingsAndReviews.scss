@@ -1,10 +1,9 @@
 #reviews-wrapper {
   display: grid;
-  height: 500px;
   grid-template-columns: 25% 1fr;
   grid-template-rows: 500px; // remove later
   grid-gap: 50px;
-  border: 1px dotted green;
+  border: 1px dotted green; // remove later
   margin-top: 20px;
   padding: 0 80px;
 
