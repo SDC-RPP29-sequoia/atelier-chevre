@@ -98,6 +98,8 @@ app.post('/addQuestion', (req, res) => {
 
   let url = 'https://app-hrsei-api.herokuapp.com/api/fec2/hr-rpp/qa/questions';
 
+  console.log('json', json);
+
   request({
     method: 'POST',
     url,
@@ -110,6 +112,8 @@ app.post('/addQuestion', (req, res) => {
       console.log('add question err', err);
     }
 
+    console.log(body);
+
     res.send(body);
   });
 });
@@ -117,6 +121,8 @@ app.post('/addQuestion', (req, res) => {
 app.post('/addAnswer', (req, res) => {
   let questionId = req.body.questionId;
   let json = req.body.data;
+
+  console.log('json', json);
 
   let url = `https://app-hrsei-api.herokuapp.com/api/fec2/hr-rpp/qa/questions/${questionId}/answers`;
 
@@ -131,6 +137,8 @@ app.post('/addAnswer', (req, res) => {
     if (err) {
       console.log('add answer err', err);
     }
+
+    console.log(body);
 
     res.send(body);
   });

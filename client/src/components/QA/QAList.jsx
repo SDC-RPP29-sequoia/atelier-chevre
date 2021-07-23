@@ -9,8 +9,10 @@ class QAList extends React.Component {
     this.state = {
       currProductId: props.currProductId,
       questions: [],
-      answers: [],
-      currProduct: {}
+      currProduct: {},
+      productName: '',
+      questionBody: '',
+      questionId: ''
     };
 
     this.questionHelpful = this.questionHelpful.bind(this);
@@ -18,6 +20,8 @@ class QAList extends React.Component {
     this.answerReport = this.answerReport.bind(this);
     this.addAnswer = this.addAnswer.bind(this);
     this.addQuestion = this.addQuestion.bind(this);
+    this.submitAnswer = this.submitAnswer.bind(this);
+    this.submitQuestion = this.submitQuestion.bind(this);
   }
 
   componentDidMount() {
@@ -135,7 +139,11 @@ class QAList extends React.Component {
     let questionBody = e.target.getAttribute('question_body');
     let productName = this.state.currProduct.name;
 
-    console.log('add answer clicked for question id', questionId, 'question body', questionBody, 'product name', productName);
+    this.setState({
+      productName,
+      questionBody,
+      questionId
+    });
 
     let modal = document.querySelector('.modal');
 
@@ -152,41 +160,87 @@ class QAList extends React.Component {
         modal.style.display = 'none';
       }
     };
-
-    // axios({
-    //   method: 'POST',
-    //   url: '/addAnswer',
-    //   data: {
-    //     auth: QAconfig.GITHUB,
-    //     questionId,
-    //     data: {
-    //       body: 'This is my test answer',
-    //       name: 'testUsername123',
-    //       email: 'tester@test.com',
-    //       photos: ['https://raw.githubusercontent.com/PKief/vscode-markdown-checkbox/master/logo.png', 'https://raw.githubusercontent.com/PKief/vscode-markdown-checkbox/master/logo.png', 'https://raw.githubusercontent.com/PKief/vscode-markdown-checkbox/master/logo.png']
-    //     }
-    //   }
-    // })
-    //   .then(response => {
-    //     this.getQuestions();
-    //   })
-    //   .catch(err => {
-    //     console.log('q helpful axios error', err);
-    //   });
   }
 
-  addQuestion() {
+  submitAnswer(e) {
+    e.preventDefault();
+
+    let modal = document.querySelector('.modal');
+    modal.style.display = 'none';
+
+    let formElement = document.querySelector('#add-answer');
+    let formData = new FormData(formElement);
+
+    let data = {};
+
+    for (let [key, value] of formData) {
+      data[key] = value;
+    }
+
+    axios({
+      method: 'POST',
+      url: '/addAnswer',
+      data: {
+        auth: QAconfig.GITHUB,
+        questionId: this.state.questionId,
+        data
+      }
+    })
+      .then(response => {
+        this.getQuestions();
+      })
+      .catch(err => {
+        console.log('submit answer axios error', err);
+      });
+  }
+
+  addQuestion(e) {
+    let productName = this.state.currProduct.name;
+
+    this.setState({
+      productName
+    });
+
+    let modal = document.querySelector('.modal-q');
+
+    modal.style.display = 'block';
+
+    let closeBtn = document.querySelector('.close-btn');
+
+    closeBtn.onclick = () => {
+      modal.style.display = 'none';
+    };
+
+    window.onclick = (e) => {
+      if (e.target === modal) {
+        modal.style.display = 'none';
+      }
+    };
+  }
+
+  submitQuestion(e) {
+    e.preventDefault();
+
+    let modal = document.querySelector('.modal-q');
+    modal.style.display = 'none';
+
+    let formElement = document.querySelector('#add-question');
+    let formData = new FormData(formElement);
+
+    let data = {};
+
+    for (let [key, value] of formData) {
+      data[key] = value;
+    }
+
+    data['product_id'] = this.state.currProductId;
+
     axios({
       method: 'POST',
       url: '/addQuestion',
       data: {
         auth: QAconfig.GITHUB,
-        data: {
-          body: 'This is my test question?',
-          name: 'testUsername456',
-          email: 'guineapig@mail.cmm',
-          'product_id': this.state.currProductId
-        }
+        data
       }
     })
       .then(response => {
@@ -195,6 +249,8 @@ class QAList extends React.Component {
       .catch(err => {
         console.log('add q axios error', err);
       });
+
+
   }
 
   loadMoreAnswers() {
@@ -293,27 +349,38 @@ class QAList extends React.Component {
         <div className="modal-content">
           <span className="close-btn">&times;</span>
           <p>Submit Answer</p>
-          <div className="subtitle">Product Name: Question Body</div>
+          <div className="subtitle">{this.state.productName}: {this.state.questionBody}</div>
           <form id="add-answer">
-            <ul>
-              <li>
-                <label>Your answer:</label>
-                <input type="text" id="modal-answer" placeholder="Your Answer"/>
-              </li>
-              <li>
-                <label>What is your nickname:</label>
-                <input type="text" id="modal-answer-nickname" placeholder="What is your nickname Example: jack543!"/>
-              </li>
-              <li>
-                <label>Your email:</label>
-                <input type="text" id="modal-answer-email" placeholder="Your email Example: jack@email.com"/>
-              </li>
-              <li>
-                <label>Upload photos here:</label>
-                <input type="text" id="modal" placeholder="Upload Photos here"/>
-              </li>
-              <input type="submit" value="Submit answer"/>
-            </ul>
+            <label>Your answer:</label>
+            <textarea id="modal-answer" name="body"></textarea>
+            <label>What is your nickname:</label>
+            <input type="text" id="modal-answer-nickname" placeholder="Example: jack543!" name="name"/>
+            <div>For privacy reasons, do not use your full name or email address</div>
+            <label>Your email:</label>
+            <input type="text" id="modal-answer-email" placeholder="Example: jack@email.com" name="email"/>
+            <div>For authentication reasons, you will not be emailed</div>
+            {/* <label>Upload photos:</label>
+            <input type="file" id="modal-photos" name="photos"/> */}
+            <button onClick={this.submitAnswer}>Submit answer</button>
+          </form>
+        </div>
+      </div>
+
+      <div className="modal-q">
+        <div className="modal-content">
+          <span className="close-btn">&times;</span>
+          <p>Ask Your Question</p>
+          <div className="subtitle">About the {this.state.productName}</div>
+          <form id="add-question">
+            <label>Your Question:</label>
+            <textarea id="modal-question" name="body"></textarea>
+            <label>What is your nickname:</label>
+            <input type="text" id="modal-question-nickname" placeholder="Example: jackson11!" name="name"/>
+            <div>For privacy reasons, do not use your full name or email address</div>
+            <label>Your email:</label>
+            <input type="text" id="modal-question-email" placeholder="Why did you like the product or not" name="email"/>
+            <div>For authentication reasons, you will not be emailed</div>
+            <button onClick={this.submitQuestion}>Submit question</button>
           </form>
         </div>
       </div>
