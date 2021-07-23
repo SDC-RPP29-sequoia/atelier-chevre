@@ -1,0 +1,29 @@
+#reviews-wrapper {
+  display: grid;
+  height: 500px;
+  grid-template-columns: 25% 1fr;
+  grid-template-rows: 500px; // remove later
+  grid-gap: 50px;
+  border: 1px dotted green;
+  margin-top: 20px;
+  padding: 0 80px;
+
+  #reviews-col1 {
+    background-color: aqua; // remove later
+  }
+
+  #reviews-col2 {
+    background-color: goldenrod; // remove later
+  }
+
+  .large-avg-review {
+    font-size: 4rem;
+    padding: 0;
+  }
+
+  #avg-reviews-container {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+  }
+
+}
