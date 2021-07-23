@@ -39,7 +39,7 @@ class Stars extends React.Component {
     };
 
     return (
-      <div id="stars-container">
+      <div className="stars-container">
         <div className="inner-stars-container" style={width}>
           <AiFillStar className="inner-star" />
           <AiFillStar className="inner-star" />
