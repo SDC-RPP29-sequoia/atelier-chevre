@@ -5,7 +5,7 @@ import SearchBar from './SearchBar';
 import QAList from './QAList';
 import QButtons from './QButtons';
 
-import './QA.css';
+import './QA.scss';
 
 class QA extends React.Component {
   constructor(props) {

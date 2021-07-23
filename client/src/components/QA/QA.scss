@@ -1,8 +1,4 @@
 /* WRAPPER */
-.qa {
-
-}
-
 #qa-wrapper {
   background: rgb(207, 207, 198);
   color: blue;
@@ -11,7 +7,6 @@
   flex-direction: column;
   flex-wrap: no-wrap;
   align-content: space-around;
-}
 
 /* HEADER */
 #header {
@@ -117,4 +112,4 @@
   align-self: flex-end;
   order: 2;
 }
-
+}
