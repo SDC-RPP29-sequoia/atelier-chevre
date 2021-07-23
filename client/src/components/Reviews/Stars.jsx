@@ -40,13 +40,6 @@ class Stars extends React.Component {
 
     return (
       <div className="stars-container">
-        <div className="inner-stars-container" style={width}>
-          <AiFillStar className="inner-star" />
-          <AiFillStar className="inner-star" />
-          <AiFillStar className="inner-star" />
-          <AiFillStar className="inner-star" />
-          <AiFillStar className="inner-star" />
-        </div>
         <div className="outer-stars-container">
           <AiOutlineStar className="outer-star"/>
           <AiOutlineStar className="outer-star"/>
@@ -54,6 +47,14 @@ class Stars extends React.Component {
           <AiOutlineStar className="outer-star"/>
           <AiOutlineStar className="outer-star"/>
         </div>
+        <div className="inner-stars-container" style={width}>
+          <AiFillStar className="inner-star" />
+          <AiFillStar className="inner-star" />
+          <AiFillStar className="inner-star" />
+          <AiFillStar className="inner-star" />
+          <AiFillStar className="inner-star" />
+        </div>
+
       </div>
     );
   }
