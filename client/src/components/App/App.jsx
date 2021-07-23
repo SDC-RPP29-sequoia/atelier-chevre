@@ -3,7 +3,7 @@ import '../../styles.scss';
 import './App.scss';
 
 import Header from '../Header/Header.jsx';
-import Stars from '../Stars/Stars.jsx';
+import Stars from '../Reviews/Stars.jsx';
 
 class App extends React.Component {
   constructor(props) {
