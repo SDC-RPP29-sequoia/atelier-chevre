@@ -1,0 +1,15 @@
+#header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 40px;
+  width: 100% !important;
+  background-color: rgb(129, 129, 129);
+  color: white;
+
+  input {
+    border: none;
+    border-bottom: 2px solid white;
+    background-color: transparent;
+  }
+}

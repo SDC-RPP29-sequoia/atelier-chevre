@@ -1,7 +1,9 @@
 import React from 'react';
-import '../styles.css';
+import '../../styles.scss';
+import './App.scss';
 
-import Header from './Header.jsx';
+import Header from '../Header/Header.jsx';
+import Stars from '../Stars/Stars.jsx';
 import QA from '../QA/QA.jsx';
 
 class App extends React.Component {

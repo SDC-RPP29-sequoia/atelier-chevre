@@ -1,5 +1,5 @@
 import React from 'react';
-import App from '../client/src/components/App.jsx';
+import App from './App.jsx';
 import { shallow } from 'enzyme';
 
 import QA from '../client/src/QA/QA.jsx';
