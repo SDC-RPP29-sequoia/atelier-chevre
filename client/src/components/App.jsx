@@ -2,12 +2,14 @@ import React from 'react';
 import '../styles.css';
 
 import Header from './Header.jsx';
+import QA from '../QA/QA.jsx';
 
 class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      currentProduct: {}
+      currentProduct: {},
+      currProductId: 28213
     };
   }
 
@@ -15,6 +17,7 @@ class App extends React.Component {
     return (
       <div className="wrapper">
         <Header currentProduct={this.state.currentProduct} />
+        <QA currProductId={this.state.currProductId}/>
       </div>
     );
   }
