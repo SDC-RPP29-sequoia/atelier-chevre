@@ -1,6 +1,6 @@
 import React from 'react';
 import { AiOutlineStar, AiFillStar } from 'react-icons/ai';
-import '../reviews.css';
+import './Stars.scss';
 
 class Stars extends React.Component {
   constructor(props) {
