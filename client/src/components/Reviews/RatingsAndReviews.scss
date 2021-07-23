@@ -1,32 +1,39 @@
-#reviews-wrapper {
-  display: grid;
-  grid-template-columns: 25% 1fr;
-  grid-template-rows: 500px; // remove later
-  grid-gap: 50px;
-  border: 1px dotted green; // remove later
-  margin-top: 20px;
-  padding: 0 80px;
+  #reviews-section {
+    margin-top: 20px;
+    border: 1px dotted green; // remove later
 
-  #reviews-col1 {
-    background-color: aqua; // remove later
+    #review-section-title {
+      padding: 0 80px;
+    }
+
+    #reviews-wrapper {
+      display: grid;
+      grid-template-columns: 25% 1fr;
+      grid-template-rows: 500px; // remove later
+      grid-gap: 50px;
+      margin-top: 10px;
+      padding: 0 80px;
+    }
+
+    #reviews-col1 {
+      background-color: aqua; // remove later
+    }
+
+    #reviews-col2 {
+      background-color: goldenrod; // remove later
+    }
+
+    .large-avg-review {
+      font-size: 4rem;
+      padding: 0;
+    }
+
+    #avg-reviews-container {
+      display: grid;
+      grid-template-columns: 1fr 2fr;
+    }
+
+    #avg-stars-container {
+      padding-top: 10px;
+    }
   }
-
-  #reviews-col2 {
-    background-color: goldenrod; // remove later
-  }
-
-  .large-avg-review {
-    font-size: 4rem;
-    padding: 0;
-  }
-
-  #avg-reviews-container {
-    display: grid;
-    grid-template-columns: 1fr 2fr;
-  }
-
-  #avg-stars-container {
-    padding-top: 10px;
-  }
-
-}

@@ -23,16 +23,19 @@ class RatingsAndReviews extends React.Component {
     const averageRating = this.getAverageRating(ratingsDummyData);
 
     return (
-      <div id="reviews-wrapper">
-        <div id="reviews-col1">
-          <div>RATINGS AND REVIEWS</div>
-          <div id="avg-reviews-container">
-            <div className="large-avg-review">{averageRating}</div>
-            <div id="avg-stars-container"><Stars average={averageRating} /></div>
-          </div>
-        </div>
-        <div id="reviews-col2">
+      <div id="reviews-section">
+        <div id="review-section-title">RATINGS AND REVIEWS</div>
+        <div id="reviews-wrapper">
+          <div id="reviews-col1">
 
+            <div id="avg-reviews-container">
+              <div className="large-avg-review">{averageRating}</div>
+              <div id="avg-stars-container"><Stars average={averageRating} /></div>
+            </div>
+          </div>
+          <div id="reviews-col2">
+
+          </div>
         </div>
       </div>
     );
