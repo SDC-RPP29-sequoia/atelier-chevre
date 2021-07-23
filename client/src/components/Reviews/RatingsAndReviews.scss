@@ -15,14 +15,6 @@
       padding: 0 80px;
     }
 
-    #reviews-col1 {
-      background-color: aqua; // remove later
-    }
-
-    #reviews-col2 {
-      background-color: goldenrod; // remove later
-    }
-
     .large-avg-review {
       font-size: 4rem;
       padding: 0;
@@ -35,5 +27,37 @@
 
     #avg-stars-container {
       padding-top: 10px;
+    }
+
+    #percent-recommended {
+      font-size: .85rem;
+    }
+
+    #sort-reviews {
+      font-weight: bold;
+    }
+
+    .review-content {
+      margin-top: 1rem;
+      border-bottom: 1px solid;
+    }
+
+    .review-summary {
+      font-weight: bold;
+      margin: 1rem 0;
+    }
+
+    .review-body, .helpful {
+      font-size: .85rem;
+      margin-bottom: 1rem;
+    }
+
+    .review-content-top-section {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .review-content-user-and-date {
+      place-self: end;
     }
   }

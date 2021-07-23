@@ -2,6 +2,8 @@ import React from 'react';
 import './RatingsAndReviews.scss';
 
 import Stars from './Stars';
+import Sort from './Sort';
+import ReviewContent from './ReviewContent';
 
 class RatingsAndReviews extends React.Component {
   constructor(props) {
@@ -9,7 +11,8 @@ class RatingsAndReviews extends React.Component {
 
     this.state = {
       currentProductReviews: {},
-      currentProductMeta: {}
+      currentProductMeta: {},
+      displayedReviewsCount: 2
     };
   }
 
@@ -27,25 +30,47 @@ class RatingsAndReviews extends React.Component {
     return averageRating;
   }
 
+  getPercentRecommended ({results}) {
+    const percentRecommended = (results.reduce((recommended, review) => {
+      if (review.recommend) {
+        return recommended + 1;
+      } else {
+        return recommended;
+      }
+    }, 0) / results.length) * 100;
+
+    return percentRecommended;
+  }
+
 
   render () {
     // figure out - only render once data has been returned for a product
 
     const averageRating = this.getAverageRating(ratingsDummyData);
+    const percentRecommended = this.getPercentRecommended(ratingsDummyData);
+    const totalReviews = ratingsDummyData.results.length;
+
+    const displayedReviews = ratingsDummyData.results.slice(0, this.state.displayedReviewsCount);
+
+    const reviewsToDisplay = displayedReviews.map(review => {
+      return <ReviewContent review={review} />;
+    });
+
 
     return (
       <div id="reviews-section">
         <div id="review-section-title">RATINGS AND REVIEWS</div>
         <div id="reviews-wrapper">
           <div id="reviews-col1">
-
             <div id="avg-reviews-container">
               <div className="large-avg-review">{averageRating}</div>
               <div id="avg-stars-container"><Stars average={averageRating} /></div>
             </div>
+            <div id="percent-recommended">{percentRecommended}% of reviews recommend this product</div>
           </div>
           <div id="reviews-col2">
-
+            <Sort totalReviews={totalReviews}/>
+            {reviewsToDisplay}
           </div>
         </div>
       </div>
