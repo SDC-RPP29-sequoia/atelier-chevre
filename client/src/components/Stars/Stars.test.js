@@ -1,5 +1,5 @@
 import React from 'react';
-import Stars from '../client/src/components/Stars.jsx';
+import Stars from './Stars.jsx';
 import { shallow } from 'enzyme';
 
 describe('Stars component', () => {
