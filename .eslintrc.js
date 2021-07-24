@@ -3,6 +3,7 @@ module.exports = {
     'es6': true
   },
   parserOptions: {
+    ecmaVersion: 2020,
     ecmaFeatures: {
       jsx: true,
       modules: true,

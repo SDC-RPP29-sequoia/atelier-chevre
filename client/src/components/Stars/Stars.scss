@@ -1,20 +1,16 @@
-#stars-container {
-  display: inline-block;
-  position: relative;
+.stars-container {
   width: 80px;
 
   .inner-stars-container {
     white-space: nowrap;
     overflow: hidden;
-    position: absolute;
   }
 
   .outer-stars-container {
     position: absolute;
-    color: black;
   }
 
   .inner-star {
-    color: goldenrod;
+    color: goldenrod
   }
 }

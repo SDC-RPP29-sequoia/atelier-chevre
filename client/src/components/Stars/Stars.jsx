@@ -15,9 +15,9 @@ class Stars extends React.Component {
     return Math.floor((roundedAverage / 5) * 100);
   }
 
-  adjustQuarters (quarterPercent) {
+  adjustQuarters(quarterPercent) {
 
-    if ( quarterPercent % 20 === 5) {
+    if (quarterPercent % 20 === 5) {
       quarterPercent += 3.25;
     } else {
       quarterPercent -= 3.25;
@@ -26,7 +26,7 @@ class Stars extends React.Component {
     return quarterPercent;
   }
 
-  render () {
+  render() {
     const averageReview = this.roundAverage(this.props.average);
     let percent = this.convertToPercent(averageReview);
 
@@ -39,20 +39,20 @@ class Stars extends React.Component {
     };
 
     return (
-      <div id="stars-container">
+      <div className="stars-container">
+        <div className="outer-stars-container">
+          <AiOutlineStar className="outer-star" />
+          <AiOutlineStar className="outer-star" />
+          <AiOutlineStar className="outer-star" />
+          <AiOutlineStar className="outer-star" />
+          <AiOutlineStar className="outer-star" />
+        </div>
         <div className="inner-stars-container" style={width}>
           <AiFillStar className="inner-star" />
           <AiFillStar className="inner-star" />
           <AiFillStar className="inner-star" />
           <AiFillStar className="inner-star" />
           <AiFillStar className="inner-star" />
-        </div>
-        <div className="outer-stars-container">
-          <AiOutlineStar className="outer-star"/>
-          <AiOutlineStar className="outer-star"/>
-          <AiOutlineStar className="outer-star"/>
-          <AiOutlineStar className="outer-star"/>
-          <AiOutlineStar className="outer-star"/>
         </div>
       </div>
     );
