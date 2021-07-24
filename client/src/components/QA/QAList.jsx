@@ -165,6 +165,44 @@ class QAList extends React.Component {
   submitAnswer(e) {
     e.preventDefault();
 
+    let answer = document.getElementById('modal-answer').value;
+    let name = document.getElementById('modal-answer-nickname').value;
+    let email = document.getElementById('modal-answer-email').value;
+
+    let tracker = {
+      answer,
+      name,
+      email
+    };
+
+    if (!answer || !name || !email || !email.includes('@')) {
+      let string = 'You must enter the following: ';
+
+      for (let key in tracker) {
+        if (!tracker[key]) {
+          string += `${key}, `;
+        }
+      }
+
+      string = string.slice(0, -2);
+
+      let string2;
+
+      if (!email.includes('@') && email) {
+        string2 = '. Your email must also be formatted correctly';
+      }
+
+      if (string.length === 28) {
+        alert('Your email must be formatted correctly');
+      } else if (string2) {
+        alert(string + string2);
+      } else {
+        alert(string);
+      }
+
+      return;
+    }
+
     let modal = document.querySelector('.modal');
     modal.style.display = 'none';
 
