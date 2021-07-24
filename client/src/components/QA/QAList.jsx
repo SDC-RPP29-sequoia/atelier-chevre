@@ -398,41 +398,22 @@ class QAList extends React.Component {
     let text = this.state.searchVal;
     let questions = this.state.questions;
 
-    console.log(questions);
-
     let filteredQs = questions.filter(q => {
       let question = q.question_body.toLowerCase();
-
-      console.log(question, question.includes(text), text);
 
       return q.question_body.includes(text);
     });
 
     if (!text || text === '' || text.length < 2) {
-      console.log('NO TEXT, RESET');
       this.setState({
         filteredQs: questions
       });
     }
 
     if (text.length > 2) {
-      console.log('made it', text.length);
-
-      console.log('filtered', filteredQs);
-
       this.setState({
         filteredQs
       });
-
-      // if (!Array.isArray(filteredQs) && !filteredQs.length) {
-      //   this.setState({
-      //     filteredQs
-      //   });
-      // } else if (Array.isArray(filteredQs)) {
-      //   this.setState({
-      //     filteredQs
-      //   });
-      // }
     }
   }
 
