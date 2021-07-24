@@ -95,6 +95,26 @@ app.post('/questionHelpful', (req, res) => {
   });
 });
 
+app.post('/reportQuestion', (req, res) => {
+  let questionId = req.body.questionId;
+
+  let url = `https://app-hrsei-api.herokuapp.com/api/fec2/hr-rpp/qa/questions/${questionId}/report`;
+
+  request({
+    method: 'PUT',
+    url,
+    headers: {
+      Authorization: req.body.auth
+    }
+  }, (err, response, body) => {
+    if (err) {
+      console.log('report question err', err);
+    }
+
+    res.send(body);
+  });
+});
+
 app.post('/reportAnswer', (req, res) => {
   let answerId = req.body.answerId;
 

@@ -17,6 +17,7 @@ class QAList extends React.Component {
     };
 
     this.questionHelpful = this.questionHelpful.bind(this);
+    this.questionReport = this.questionReport.bind(this);
     this.answerHelpful = this.answerHelpful.bind(this);
     this.answerReport = this.answerReport.bind(this);
     this.addAnswer = this.addAnswer.bind(this);
@@ -78,6 +79,15 @@ class QAList extends React.Component {
   }
 
   answerHelpful(e) {
+    let clicked = e.target.getAttribute('clicked');
+
+    if (clicked === 'true') {
+      alert('You cannot vote more than once!');
+      return;
+    }
+
+    e.target.setAttribute('clicked', 'true');
+
     let answerId = e.target.getAttribute('answer_id');
 
     axios({
@@ -118,6 +128,15 @@ class QAList extends React.Component {
   }
 
   questionHelpful(e) {
+    let clicked = e.target.getAttribute('clicked');
+
+    if (clicked === 'true') {
+      alert('You cannot vote more than once!');
+      return;
+    }
+
+    e.target.setAttribute('clicked', 'true');
+
     let questionId = e.target.getAttribute('question_id');
 
     axios({
@@ -133,6 +152,27 @@ class QAList extends React.Component {
       })
       .catch(err => {
         console.log('q helpful axios error', err);
+      });
+  }
+
+  questionReport(e) {
+    let questionId = e.target.getAttribute('question_id');
+
+    e.target.innerHTML = 'Reported';
+
+    axios({
+      method: 'POST',
+      url: '/reportQuestion',
+      data: {
+        auth: QAconfig.GITHUB,
+        questionId
+      }
+    })
+      .then(response => {
+
+      })
+      .catch(err => {
+        console.log('report q axios error', err);
       });
   }
 
@@ -441,7 +481,7 @@ class QAList extends React.Component {
                       <div>by&nbsp;</div>
                       <div className="author-date" dangerouslySetInnerHTML={{__html: aName}}></div>
                       <div>, {date} | Helpful?&nbsp;</div>
-                      <div className="answer-helpful" onClick={this.answerHelpful} answer_id={a.id}>Yes ({a.helpfulness}) |&nbsp;</div>
+                      <div className="answer-helpful" onClick={this.answerHelpful} answer_id={a.id} clicked="false">Yes ({a.helpfulness}) |&nbsp;</div>
                       <div className="report-answer" onClick={this.answerReport} answer_id={a.id}>Report</div>
                     </div>
 
@@ -453,8 +493,9 @@ class QAList extends React.Component {
 
               <div className="qhelpful-addanswer">
                 <div>Helpful?&nbsp;</div>
-                <div className="question-helpful" onClick={this.questionHelpful} question_id={q.question_id}>Yes ({q.question_helpfulness}) |&nbsp;</div>
-                <div className="add-answer" onClick={this.addAnswer} question_id={q.question_id} question_body={q.question_body}>Add Answer</div>
+                <div className="question-helpful" onClick={this.questionHelpful} question_id={q.question_id} clicked="false">Yes ({q.question_helpfulness}) |&nbsp;</div>
+                <div className="add-answer" onClick={this.addAnswer} question_id={q.question_id} question_body={q.question_body}>Add Answer |&nbsp;</div>
+                <div className="report-question" onClick={this.questionReport} question_id={q.question_id}>Report</div>
               </div>
 
             </div>
@@ -475,17 +516,17 @@ class QAList extends React.Component {
           <form id="add-answer">
             <label>Your answer:</label>
             <textarea id="modal-answer" name="body" maxLength="1000"></textarea>
+            <div className="modal-answer-photos">{this.state.photos.map((photo, i) => {
+              return (
+                <img src={`http://localhost:3000/photos/${photo.filename}`} width="50px" height="50px" key={i}></img>
+              );
+            })}</div>
             <label>What is your nickname:</label>
             <input type="text" id="modal-answer-nickname" placeholder="Example: jack543!" name="name" maxLength="50"/>
             <div>For privacy reasons, do not use your full name or email address</div>
             <label>Your email:</label>
             <input type="text" id="modal-answer-email" placeholder="Example: jack@email.com" name="email" maxLength="60"/>
             <div>For authentication reasons, you will not be emailed</div>
-            <div className="modal-answer-photos">{this.state.photos.map((photo, i) => {
-              return (
-                <img src={`http://localhost:3000/photos/${photo.filename}`} width="50px" height="50px" key={i}></img>
-              );
-            })}</div>
             <label id="modal-photos-label">Upload photos:</label>
             <input type="file" id="modal-photos" name="photos" onChange={this.uploadPhotos}/>
             <button onClick={this.submitAnswer}>Submit answer</button>
