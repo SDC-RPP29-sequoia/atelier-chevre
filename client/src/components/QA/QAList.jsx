@@ -221,6 +221,45 @@ class QAList extends React.Component {
   submitQuestion(e) {
     e.preventDefault();
 
+    let question = document.getElementById('modal-question').value;
+    let name = document.getElementById('modal-question-nickname').value;
+    let email = document.getElementById('modal-question-email').value;
+
+    let tracker = {
+      question,
+      name,
+      email
+    };
+
+    if (!question || !name || !email || !email.includes('@')) {
+      let string = 'You must enter the following: ';
+
+      for (let key in tracker) {
+        if (!tracker[key]) {
+          string += `${key}, `;
+        }
+      }
+
+      string = string.slice(0, -2);
+
+      let string2;
+
+      if (!email.includes('@') && email) {
+        string2 = '. Your email must also be formatted correctly';
+      }
+
+      if (string.length === 28) {
+        alert('Your email must be formatted correctly');
+      } else if (string2) {
+        alert(string + string2);
+      } else {
+        alert(string);
+      }
+
+      return;
+    }
+
+
     let modal = document.querySelector('.modal-q');
     modal.style.display = 'none';
 
@@ -352,12 +391,12 @@ class QAList extends React.Component {
           <div className="subtitle">{this.state.productName}: {this.state.questionBody}</div>
           <form id="add-answer">
             <label>Your answer:</label>
-            <textarea id="modal-answer" name="body"></textarea>
+            <textarea id="modal-answer" name="body" maxLength="1000"></textarea>
             <label>What is your nickname:</label>
-            <input type="text" id="modal-answer-nickname" placeholder="Example: jack543!" name="name"/>
+            <input type="text" id="modal-answer-nickname" placeholder="Example: jack543!" name="name" maxLength="50"/>
             <div>For privacy reasons, do not use your full name or email address</div>
             <label>Your email:</label>
-            <input type="text" id="modal-answer-email" placeholder="Example: jack@email.com" name="email"/>
+            <input type="text" id="modal-answer-email" placeholder="Example: jack@email.com" name="email" maxLength="60"/>
             <div>For authentication reasons, you will not be emailed</div>
             {/* <label>Upload photos:</label>
             <input type="file" id="modal-photos" name="photos"/> */}
@@ -373,12 +412,12 @@ class QAList extends React.Component {
           <div className="subtitle">About the {this.state.productName}</div>
           <form id="add-question">
             <label>Your Question:</label>
-            <textarea id="modal-question" name="body"></textarea>
+            <textarea id="modal-question" name="body" maxLength="1000"></textarea>
             <label>What is your nickname:</label>
-            <input type="text" id="modal-question-nickname" placeholder="Example: jackson11!" name="name"/>
+            <input type="text" id="modal-question-nickname" placeholder="Example: jackson11!" name="name" maxLength="60"/>
             <div>For privacy reasons, do not use your full name or email address</div>
             <label>Your email:</label>
-            <input type="text" id="modal-question-email" placeholder="Why did you like the product or not" name="email"/>
+            <input type="text" id="modal-question-email" placeholder="Why did you like the product or not" name="email" maxLength="60"/>
             <div>For authentication reasons, you will not be emailed</div>
             <button onClick={this.submitQuestion}>Submit question</button>
           </form>
