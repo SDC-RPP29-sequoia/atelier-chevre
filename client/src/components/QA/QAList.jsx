@@ -378,8 +378,6 @@ class QAList extends React.Component {
       .catch(err => {
         console.log('add q axios error', err);
       });
-
-
   }
 
   loadMoreAnswers() {
@@ -451,7 +449,7 @@ class QAList extends React.Component {
 
             return (
               <div key={q.question_date + i} className="qa" id="list">
-                <div className="question">Q: {q.question_body}</div>
+                <div className="question"><b>Q: {q.question_body}</b></div>
 
                 <div>{answers.map(a => {
                   let ISOdate = new Date(a.date);
@@ -470,7 +468,7 @@ class QAList extends React.Component {
                   return (
                     <div className="answer-container" key={a.id}>
 
-                      <div className="answer" key={a.body}>A: {a.body}</div>
+                      <div className="answer" key={a.body}><b>A:</b>&nbsp;{a.body}</div>
                       <div className="answer-photos">{a.photos.map((photo, i) => {
                         return (
                           <img src={photo} width="50px" height="50px" key={i}></img>
@@ -488,7 +486,9 @@ class QAList extends React.Component {
                     </div>
                   );
                 })}
-                <div className="load-more-answers" onClick={this.loadMoreAnswers}>LOAD MORE ANSWERS</div>
+                <br></br>
+                <div className="load-more-answers" onClick={this.loadMoreAnswers}><b>LOAD MORE ANSWERS</b></div>
+                <br></br>
                 </div>
 
                 <div className="qhelpful-addanswer">
