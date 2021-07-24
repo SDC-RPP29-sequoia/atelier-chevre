@@ -13,7 +13,9 @@ class QAList extends React.Component {
       productName: '',
       questionBody: '',
       questionId: '',
-      photos: []
+      photos: [],
+      searchVal: '',
+      filteredQs: []
     };
 
     this.questionHelpful = this.questionHelpful.bind(this);
@@ -25,6 +27,7 @@ class QAList extends React.Component {
     this.submitAnswer = this.submitAnswer.bind(this);
     this.submitQuestion = this.submitQuestion.bind(this);
     this.uploadPhotos = this.uploadPhotos.bind(this);
+    this.handleChange = this.handleChange.bind(this);
   }
 
   componentDidMount() {
@@ -50,7 +53,6 @@ class QAList extends React.Component {
       .catch(err => {
         console.log('axios get error', err);
       });
-
   }
 
   getQuestions() {
@@ -58,7 +60,6 @@ class QAList extends React.Component {
       method: 'POST',
       url: '/getQuestions',
       data: {
-        auth: QAconfig.GITHUB,
         productId: this.state.currProductId
       }
     })
@@ -70,7 +71,8 @@ class QAList extends React.Component {
         });
 
         this.setState({
-          questions
+          questions,
+          filteredQs: questions
         });
       })
       .catch(err => {
@@ -87,14 +89,12 @@ class QAList extends React.Component {
     }
 
     e.target.setAttribute('clicked', 'true');
-
     let answerId = e.target.getAttribute('answer_id');
 
     axios({
       method: 'POST',
       url: '/answerHelpful',
       data: {
-        auth: QAconfig.GITHUB,
         answerId
       }
     })
@@ -108,14 +108,12 @@ class QAList extends React.Component {
 
   answerReport(e) {
     let answerId = e.target.getAttribute('answer_id');
-
     e.target.innerHTML = 'Reported';
 
     axios({
       method: 'POST',
       url: '/reportAnswer',
       data: {
-        auth: QAconfig.GITHUB,
         answerId
       }
     })
@@ -136,14 +134,12 @@ class QAList extends React.Component {
     }
 
     e.target.setAttribute('clicked', 'true');
-
     let questionId = e.target.getAttribute('question_id');
 
     axios({
       method: 'POST',
       url: '/questionHelpful',
       data: {
-        auth: QAconfig.GITHUB,
         questionId
       }
     })
@@ -157,14 +153,12 @@ class QAList extends React.Component {
 
   questionReport(e) {
     let questionId = e.target.getAttribute('question_id');
-
     e.target.innerHTML = 'Reported';
 
     axios({
       method: 'POST',
       url: '/reportQuestion',
       data: {
-        auth: QAconfig.GITHUB,
         questionId
       }
     })
@@ -188,7 +182,6 @@ class QAList extends React.Component {
     });
 
     let modal = document.querySelector('.modal');
-
     modal.style.display = 'block';
 
     let closeBtn = document.querySelector('.close-btn');
@@ -298,7 +291,6 @@ class QAList extends React.Component {
       method: 'POST',
       url: '/addAnswer',
       data: {
-        auth: QAconfig.GITHUB,
         questionId: this.state.questionId,
         data
       }
@@ -322,7 +314,6 @@ class QAList extends React.Component {
     });
 
     let modal = document.querySelector('.modal-q');
-
     modal.style.display = 'block';
 
     let closeBtn = document.querySelector('.modal-q .close-btn');
@@ -344,6 +335,8 @@ class QAList extends React.Component {
     let question = document.getElementById('modal-question').value;
     let name = document.getElementById('modal-question-nickname').value;
     let email = document.getElementById('modal-question-email').value;
+
+    console.log('entered submit question', question, name, email);
 
     let tracker = {
       question,
@@ -398,7 +391,6 @@ class QAList extends React.Component {
       method: 'POST',
       url: '/addQuestion',
       data: {
-        auth: QAconfig.GITHUB,
         data
       }
     })
@@ -423,136 +415,188 @@ class QAList extends React.Component {
     console.log('MORE ANSWERED QUESTIONS clicked');
   }
 
+  handleChange(e) {
+    this.setState({
+      searchVal: e.target.value
+    });
+
+    let text = this.state.searchVal;
+    let questions = this.state.questions;
+
+    console.log(questions);
+
+    let filteredQs = questions.filter(q => {
+      let question = q.question_body.toLowerCase();
+
+      console.log(question, question.includes(text), text);
+
+      return q.question_body.includes(text);
+    });
+
+    if (!text || text === '' || text.length < 2) {
+      console.log('NO TEXT, RESET');
+      this.setState({
+        filteredQs: questions
+      });
+    }
+
+    if (text.length > 2) {
+      console.log('made it', text.length);
+
+      console.log('filtered', filteredQs);
+
+      this.setState({
+        filteredQs
+      });
+
+      // if (!Array.isArray(filteredQs) && !filteredQs.length) {
+      //   this.setState({
+      //     filteredQs
+      //   });
+      // } else if (Array.isArray(filteredQs)) {
+      //   this.setState({
+      //     filteredQs
+      //   });
+      // }
+    }
+  }
+
   render() {
     return (
-      <div id="qa-list">{this.state.questions.map((q, i) => {
+      <div>
+        <div className="qa" id="search">
+          <input type="text" value={this.state.searchVal} placeholder="HAVE A QUESTION? SEARCH FOR ANSWERS..." onChange={this.handleChange}></input>
+          <img src="https://image.flaticon.com/icons/png/512/61/61088.png"></img>
+        </div>
+        <div id="qa-list">{this.state.filteredQs.map((q, i) => {
 
-        if (q.answers) {
-          let answers = [];
-          let sellerAnswers = [];
+          if (q.answers) {
+            let answers = [];
+            let sellerAnswers = [];
 
-          for (var key in q.answers) {
-            if (q.answers[key].answerer_name === 'Seller') {
-              sellerAnswers.push(q.answers[key]);
-            } else {
-              answers.push(q.answers[key]);
+            for (var key in q.answers) {
+              if (q.answers[key].answerer_name === 'Seller') {
+                sellerAnswers.push(q.answers[key]);
+              } else {
+                answers.push(q.answers[key]);
+              }
             }
-          }
 
-          answers.sort((a, b) => {
-            return b.helpfulness - a.helpfulness;
-          });
+            answers.sort((a, b) => {
+              return b.helpfulness - a.helpfulness;
+            });
 
-          sellerAnswers.sort((a, b) => {
-            return b.helpfulness - a.helpfulness;
-          });
+            sellerAnswers.sort((a, b) => {
+              return b.helpfulness - a.helpfulness;
+            });
 
-          answers = sellerAnswers.concat(answers);
+            answers = sellerAnswers.concat(answers);
 
-          return (
-            <div key={q.question_date + i} className="qa" id="list">
-              <div className="question">Q: {q.question_body}</div>
+            return (
+              <div key={q.question_date + i} className="qa" id="list">
+                <div className="question">Q: {q.question_body}</div>
 
-              <div>{answers.map(a => {
-                let ISOdate = new Date(a.date);
-                let month = ISOdate.toLocaleString('default', { month: 'long'});
-                let day = ISOdate.getDate();
-                let year = ISOdate.getFullYear();
+                <div>{answers.map(a => {
+                  let ISOdate = new Date(a.date);
+                  let month = ISOdate.toLocaleString('default', { month: 'long'});
+                  let day = ISOdate.getDate();
+                  let year = ISOdate.getFullYear();
 
-                let date = `${month} ${day}, ${year}`;
+                  let date = `${month} ${day}, ${year}`;
 
-                let aName = a.answerer_name;
+                  let aName = a.answerer_name;
 
-                if (aName === 'Seller') {
-                  aName = '<b>Seller</b>';
-                }
+                  if (aName === 'Seller') {
+                    aName = '<b>Seller</b>';
+                  }
 
-                return (
-                  <div className="answer-container" key={a.id}>
+                  return (
+                    <div className="answer-container" key={a.id}>
 
-                    <div className="answer" key={a.body}>A: {a.body}</div>
-                    <div className="answer-photos">{a.photos.map((photo, i) => {
-                      return (
-                        <img src={photo} width="50px" height="50px" key={i}></img>
-                      );
-                    })}</div>
+                      <div className="answer" key={a.body}>A: {a.body}</div>
+                      <div className="answer-photos">{a.photos.map((photo, i) => {
+                        return (
+                          <img src={photo} width="50px" height="50px" key={i}></img>
+                        );
+                      })}</div>
 
-                    <div className="signature-helpful-report">
-                      <div>by&nbsp;</div>
-                      <div className="author-date" dangerouslySetInnerHTML={{__html: aName}}></div>
-                      <div>, {date} | Helpful?&nbsp;</div>
-                      <div className="answer-helpful" onClick={this.answerHelpful} answer_id={a.id} clicked="false">Yes ({a.helpfulness}) |&nbsp;</div>
-                      <div className="report-answer" onClick={this.answerReport} answer_id={a.id}>Report</div>
+                      <div className="signature-helpful-report">
+                        <div>by&nbsp;</div>
+                        <div className="author-date" dangerouslySetInnerHTML={{__html: aName}}></div>
+                        <div>, {date} | Helpful?&nbsp;</div>
+                        <div className="answer-helpful" onClick={this.answerHelpful} answer_id={a.id} clicked="false">Yes ({a.helpfulness}) |&nbsp;</div>
+                        <div className="report-answer" onClick={this.answerReport} answer_id={a.id}>Report</div>
+                      </div>
+
                     </div>
+                  );
+                })}
+                <div className="load-more-answers" onClick={this.loadMoreAnswers}>LOAD MORE ANSWERS</div>
+                </div>
 
-                  </div>
+                <div className="qhelpful-addanswer">
+                  <div>Helpful?&nbsp;</div>
+                  <div className="question-helpful" onClick={this.questionHelpful} question_id={q.question_id} clicked="false">Yes ({q.question_helpfulness}) |&nbsp;</div>
+                  <div className="add-answer" onClick={this.addAnswer} question_id={q.question_id} question_body={q.question_body}>Add Answer |&nbsp;</div>
+                  <div className="report-question" onClick={this.questionReport} question_id={q.question_id}>Report</div>
+                </div>
+
+              </div>
+            );
+          }
+        })}
+
+        <div className="qa" id="buttons">
+          <button id="more-answered-qs" onClick={this.moreAnsweredQs}>MORE ANSWERED QUESTIONS</button>
+          <button id="addq" onClick={this.addQuestion}>ADD A QUESTION +</button>
+        </div>
+
+        <div className="modal">
+          <div className="modal-content">
+            <span className="close-btn">&times;</span>
+            <p>Submit Answer</p>
+            <div className="subtitle">{this.state.productName}: {this.state.questionBody}</div>
+            <form id="add-answer">
+              <label>Your answer:</label>
+              <textarea id="modal-answer" name="body" maxLength="1000"></textarea>
+              <div className="modal-answer-photos">{this.state.photos.map((photo, i) => {
+                return (
+                  <img src={`http://localhost:3000/photos/${photo.filename}`} width="50px" height="50px" key={i}></img>
                 );
-              })}
-              <div className="load-more-answers" onClick={this.loadMoreAnswers}>LOAD MORE ANSWERS</div>
-              </div>
-
-              <div className="qhelpful-addanswer">
-                <div>Helpful?&nbsp;</div>
-                <div className="question-helpful" onClick={this.questionHelpful} question_id={q.question_id} clicked="false">Yes ({q.question_helpfulness}) |&nbsp;</div>
-                <div className="add-answer" onClick={this.addAnswer} question_id={q.question_id} question_body={q.question_body}>Add Answer |&nbsp;</div>
-                <div className="report-question" onClick={this.questionReport} question_id={q.question_id}>Report</div>
-              </div>
-
-            </div>
-          );
-        }
-      })}
-
-      <div className="qa" id="buttons">
-        <button id="more-answered-qs" onClick={this.moreAnsweredQs}>MORE ANSWERED QUESTIONS</button>
-        <button id="addq" onClick={this.addQuestion}>ADD A QUESTION +</button>
-      </div>
-
-      <div className="modal">
-        <div className="modal-content">
-          <span className="close-btn">&times;</span>
-          <p>Submit Answer</p>
-          <div className="subtitle">{this.state.productName}: {this.state.questionBody}</div>
-          <form id="add-answer">
-            <label>Your answer:</label>
-            <textarea id="modal-answer" name="body" maxLength="1000"></textarea>
-            <div className="modal-answer-photos">{this.state.photos.map((photo, i) => {
-              return (
-                <img src={`http://localhost:3000/photos/${photo.filename}`} width="50px" height="50px" key={i}></img>
-              );
-            })}</div>
-            <label>What is your nickname:</label>
-            <input type="text" id="modal-answer-nickname" placeholder="Example: jack543!" name="name" maxLength="50"/>
-            <div>For privacy reasons, do not use your full name or email address</div>
-            <label>Your email:</label>
-            <input type="text" id="modal-answer-email" placeholder="Example: jack@email.com" name="email" maxLength="60"/>
-            <div>For authentication reasons, you will not be emailed</div>
-            <label id="modal-photos-label">Upload photos:</label>
-            <input type="file" id="modal-photos" name="photos" onChange={this.uploadPhotos}/>
-            <button onClick={this.submitAnswer}>Submit answer</button>
-          </form>
+              })}</div>
+              <label>What is your nickname:</label>
+              <input type="text" id="modal-answer-nickname" placeholder="Example: jack543!" name="name" maxLength="50"/>
+              <div>For privacy reasons, do not use your full name or email address</div>
+              <label>Your email:</label>
+              <input type="text" id="modal-answer-email" placeholder="Example: jack@email.com" name="email" maxLength="60"/>
+              <div>For authentication reasons, you will not be emailed</div>
+              <label id="modal-photos-label">Upload photos:</label>
+              <input type="file" id="modal-photos" name="photos" onChange={this.uploadPhotos}/>
+              <button onClick={this.submitAnswer}>Submit answer</button>
+            </form>
+          </div>
         </div>
-      </div>
 
-      <div className="modal-q">
-        <div className="modal-content">
-          <span className="close-btn">&times;</span>
-          <p>Ask Your Question</p>
-          <div className="subtitle">About the {this.state.productName}</div>
-          <form id="add-question">
-            <label>Your Question:</label>
-            <textarea id="modal-question" name="body" maxLength="1000"></textarea>
-            <label>What is your nickname:</label>
-            <input type="text" id="modal-question-nickname" placeholder="Example: jackson11!" name="name" maxLength="60"/>
-            <div>For privacy reasons, do not use your full name or email address</div>
-            <label>Your email:</label>
-            <input type="text" id="modal-question-email" placeholder="Why did you like the product or not" name="email" maxLength="60"/>
-            <div>For authentication reasons, you will not be emailed</div>
-            <button onClick={this.submitQuestion}>Submit question</button>
-          </form>
+        <div className="modal-q">
+          <div className="modal-content">
+            <span className="close-btn">&times;</span>
+            <p>Ask Your Question</p>
+            <div className="subtitle">About the {this.state.productName}</div>
+            <form id="add-question">
+              <label>Your Question:</label>
+              <textarea id="modal-question" name="body" maxLength="1000"></textarea>
+              <label>What is your nickname:</label>
+              <input type="text" id="modal-question-nickname" placeholder="Example: jackson11!" name="name" maxLength="60"/>
+              <div>For privacy reasons, do not use your full name or email address</div>
+              <label>Your email:</label>
+              <input type="text" id="modal-question-email" placeholder="Why did you like the product or not" name="email" maxLength="60"/>
+              <div>For authentication reasons, you will not be emailed</div>
+              <button onClick={this.submitQuestion}>Submit question</button>
+            </form>
+          </div>
         </div>
-      </div>
 
+        </div>
       </div>
     );
   }

@@ -12,10 +12,12 @@ class SearchBar extends React.Component {
     this.setState({
       [key]: value
     });
+
+    console.log(this.state[key]);
   }
 
   search() {
-    // Implement!!
+
   }
 
   render() {

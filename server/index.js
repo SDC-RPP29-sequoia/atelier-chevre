@@ -4,12 +4,6 @@ require('dotenv').config();
 
 const request = require('request');
 const bodyParser = require('body-parser');
-
-
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended: false}));
-app.use(express.static(__dirname + '/../client/public'));
-
 const multer = require('multer');
 
 const storage = multer.diskStorage({
@@ -20,6 +14,10 @@ const storage = multer.diskStorage({
 });
 
 const upload = multer({ storage: storage }).single('file');
+
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended: false}));
+app.use(express.static(__dirname + '/../client/public'));
 
 app.get('/', (req, res) => {
   res.sendFile('index.html');
@@ -42,7 +40,7 @@ app.post('/getQuestions', (req, res) => {
     method: 'GET',
     url,
     headers: {
-      Authorization: req.body.auth
+      Authorization: process.env.TOKEN
     }
   }, (err, response, body) => {
     if (err) {
@@ -57,14 +55,13 @@ app.post('/getQuestions', (req, res) => {
 
 app.post('/answerHelpful', (req, res) => {
   let answerId = req.body.answerId;
-
   let url = `https://app-hrsei-api.herokuapp.com/api/fec2/hr-rpp/qa/answers/${answerId}/helpful`;
 
   request({
     method: 'PUT',
     url,
     headers: {
-      Authorization: req.body.auth
+      Authorization: process.env.TOKEN
     }
   }, (err, response, body) => {
     if (err) {
@@ -77,14 +74,13 @@ app.post('/answerHelpful', (req, res) => {
 
 app.post('/questionHelpful', (req, res) => {
   let questionId = req.body.questionId;
-
   let url = `https://app-hrsei-api.herokuapp.com/api/fec2/hr-rpp/qa/questions/${questionId}/helpful`;
 
   request({
     method: 'PUT',
     url,
     headers: {
-      Authorization: req.body.auth
+      Authorization: process.env.TOKEN
     }
   }, (err, response, body) => {
     if (err) {
@@ -97,14 +93,13 @@ app.post('/questionHelpful', (req, res) => {
 
 app.post('/reportQuestion', (req, res) => {
   let questionId = req.body.questionId;
-
   let url = `https://app-hrsei-api.herokuapp.com/api/fec2/hr-rpp/qa/questions/${questionId}/report`;
 
   request({
     method: 'PUT',
     url,
     headers: {
-      Authorization: req.body.auth
+      Authorization: process.env.TOKEN
     }
   }, (err, response, body) => {
     if (err) {
@@ -117,14 +112,13 @@ app.post('/reportQuestion', (req, res) => {
 
 app.post('/reportAnswer', (req, res) => {
   let answerId = req.body.answerId;
-
   let url = `https://app-hrsei-api.herokuapp.com/api/fec2/hr-rpp/qa/answers/${answerId}/report`;
 
   request({
     method: 'PUT',
     url,
     headers: {
-      Authorization: req.body.auth
+      Authorization: process.env.TOKEN
     }
   }, (err, response, body) => {
     if (err) {
@@ -137,14 +131,15 @@ app.post('/reportAnswer', (req, res) => {
 
 app.post('/addQuestion', (req, res) => {
   let json = req.body.data;
-
   let url = 'https://app-hrsei-api.herokuapp.com/api/fec2/hr-rpp/qa/questions';
+
+  console.log('entered add question', json);
 
   request({
     method: 'POST',
     url,
     headers: {
-      Authorization: req.body.auth
+      Authorization: process.env.TOKEN
     },
     json
   }, (err, response, body) => {
@@ -159,14 +154,13 @@ app.post('/addQuestion', (req, res) => {
 app.post('/addAnswer', (req, res) => {
   let questionId = req.body.questionId;
   let json = req.body.data;
-
   let url = `https://app-hrsei-api.herokuapp.com/api/fec2/hr-rpp/qa/questions/${questionId}/answers`;
 
   request({
     method: 'POST',
     url,
     headers: {
-      Authorization: req.body.auth
+      Authorization: process.env.TOKEN
     },
     json
   }, (err, response, body) => {
