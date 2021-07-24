@@ -1,38 +1,105 @@
 import React from 'react';
 import './RatingsAndReviews.scss';
+import { AiOutlinePlus } from 'react-icons/ai';
 
 import Stars from './Stars';
+import Sort from './Sort';
+import ReviewContent from './ReviewContent';
+import API from './ReviewsAPIUtils';
 
 class RatingsAndReviews extends React.Component {
   constructor(props) {
     super(props);
+
+    this.state = {
+      currentProductReviews: [],
+      currentProductMeta: {},
+      displayedReviewsCount: 2
+    };
   }
 
-  getAverageRating (data) {
-    let totalRating = 0;
-    data.results.forEach(review => {
-      totalRating += review.rating;
-    });
+  componentDidMount () {
+    // get reviews
+    this.getReviews();
 
-    return totalRating / data.results.length;
+    // get meta data
+
+  }
+
+  getReviews () {
+    API.getProductReviews(this.props.productId).then(response => {
+      this.setState({
+        currentProductReviews: response.results
+      });
+    });
+  }
+
+  getAverageRating (reviews) {
+    const averageRating = reviews.reduce((average, review) => {
+      return average + review.rating;
+    }, 0) / reviews.length;
+
+    return averageRating.toFixed(1);
+  }
+
+  getPercentRecommended (reviews) {
+    const percentRecommended = (reviews.reduce((recommended, review) => {
+      if (review.recommend) {
+        return recommended + 1;
+      } else {
+        return recommended;
+      }
+    }, 0) / reviews.length) * 100;
+
+    return percentRecommended.toFixed();
+  }
+
+  handleMoreReviewsClick () {
+    const newCount = this.state.displayedReviewsCount + 2;
+    this.setState({
+      displayedReviewsCount: newCount
+    });
   }
 
 
   render () {
+    // figure out - only render once data has been returned for a product
+    if (this.state.currentProductReviews.length === 0) {
+      return (
+        <div></div>
+      );
+    }
 
-    const averageRating = this.getAverageRating(ratingsDummyData);
+    const averageRating = this.getAverageRating(this.state.currentProductReviews);
+    const percentRecommended = this.getPercentRecommended(this.state.currentProductReviews);
+    const totalReviews = this.state.currentProductReviews.length;
+    const displayedReviews = this.state.currentProductReviews.slice(0, this.state.displayedReviewsCount);
+    const reviewsToDisplay = displayedReviews.map(review => {
+      return <ReviewContent key={review.review_id} review={review} />;
+    });
+
 
     return (
-      <div id="reviews-wrapper">
-        <div id="reviews-col1">
-          <div>RATINGS AND REVIEWS</div>
-          <div id="avg-reviews-container">
-            <div className="large-avg-review">{averageRating}</div>
-            <div id="avg-stars-container"><Stars average={averageRating} /></div>
+      <div id="reviews-section">
+        <div id="review-section-title">RATINGS AND REVIEWS</div>
+        <div id="reviews-wrapper">
+          <div id="reviews-col1">
+            <div id="avg-reviews-container">
+              <div className="large-avg-review">{averageRating}</div>
+              <div id="avg-stars-container"><Stars average={averageRating} /></div>
+            </div>
+            <div id="percent-recommended">{percentRecommended}% of reviews recommend this product</div>
           </div>
-        </div>
-        <div id="reviews-col2">
-
+          <div id="reviews-col2">
+            <Sort totalReviews={totalReviews}/>
+            <div className="review-content-wrapper">
+              {reviewsToDisplay}
+            </div>
+            {this.state.displayedReviewsCount < this.state.currentProductReviews.length &&
+              <button className="btn" onClick={() => this.handleMoreReviewsClick()}>MORE REVIEWS</button>
+            }
+            <button className="btn">ADD A REVIEW <span className="plus-icon">+</span></button>
+          </div>
         </div>
       </div>
     );
@@ -40,38 +107,3 @@ class RatingsAndReviews extends React.Component {
 }
 
 export default RatingsAndReviews;
-
-
-const ratingsDummyData = {
-  'product': '28212',
-  'page': 0,
-  'count': 5,
-  'results': [
-    {
-      'review_id': 407542,
-      'rating': 5,
-      'summary': 'This product was great!',
-      'recommend': true,
-      'response': '',
-      'body': 'I really did or did not like this product based on whether it was sustainably sourced. Then I found out that its made from nothing at all.',
-      'date': '2019-01-01T00:00:00.000Z',
-      'reviewer_name': 'funtime',
-      'helpfulness': 12,
-      'photos': []
-    },
-    {
-      'review_id': 407543,
-      'rating': 4,
-      'summary': 'This product was ok!',
-      'recommend': false,
-      'response': '',
-      'body': 'I really did not like this product solely because I am tiny and do not fit into it.',
-      'date': '2019-01-11T00:00:00.000Z',
-      'reviewer_name': 'mymainstreammother',
-      'helpfulness': 2,
-      'photos': []
-    }
-  ]
-};
-
-
