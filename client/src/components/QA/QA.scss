@@ -80,9 +80,8 @@
   grid-row: 4 / span 1;
 }
 
-#list .load-more-answers {
-  grid-column: 1 / span 1;
-  grid-row: 5 / span 1;
+.load-more-answers {
+  color: rgb(0, 255, 115);
 }
 
 #list .qhelpful-addanswer {

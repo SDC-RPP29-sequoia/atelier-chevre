@@ -447,7 +447,9 @@ class QAList extends React.Component {
 
                   </div>
                 );
-              })}</div>
+              })}
+              <div className="load-more-answers" onClick={this.loadMoreAnswers}>LOAD MORE ANSWERS</div>
+              </div>
 
               <div className="qhelpful-addanswer">
                 <div>Helpful?&nbsp;</div>
@@ -459,8 +461,6 @@ class QAList extends React.Component {
           );
         }
       })}
-
-      <div id="load-more-answers" onClick={this.loadMoreAnswers}>LOAD MORE ANSWERS</div>
 
       <div className="qa" id="buttons">
         <button id="more-answered-qs" onClick={this.moreAnsweredQs}>MORE ANSWERED QUESTIONS</button>
