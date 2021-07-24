@@ -2,7 +2,7 @@ import axios from 'axios';
 
 export default {
   getProductReviews: (productId) => {
-    return axios.get('/getReviews', {
+    return axios.get('/reviews', {
       params: {
         productId: productId
       }

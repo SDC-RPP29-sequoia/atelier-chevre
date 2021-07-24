@@ -1,7 +1,6 @@
   #reviews-section {
     color: #292929;
     margin-top: 20px;
-    border: 1px dotted green; // remove later
 
     #review-section-title {
       padding: 0 80px;
@@ -33,6 +32,7 @@
     }
 
     #percent-recommended {
+      margin-top: 20px;
       font-size: .85rem;
     }
 
@@ -97,6 +97,46 @@
       &:active {
         background-color: lightslategrey;
       }
+    }
+
+    #ratings-breakdown-wrapper {
+      margin-top: 30px;
+      display: grid;
+      grid-template-columns: 60px 185px 1fr;
+
+      .reviews-number-link {
+        font-size: .85rem;
+        text-decoration: underline;
+        cursor: pointer;
+      }
+
+      .reviews-number-nolink {
+        font-size: .85rem;
+      }
+    }
+
+    .ratings-breakdown-column {
+      display: grid;
+      align-items: center;
+      grid-template-rows: repeat(5, 1fr);
+      height: 130px;
+    }
+
+    .light-bar {
+      width: 100%;
+      height: 8px;
+      background-color: rgb(185, 185, 185);
+    }
+
+    .dark-bar {
+      height: 8px;
+      background-color: rgb(1, 160, 1);
+    }
+
+    .review-label {
+      margin-left: 5px;
+      font-size: .85rem;
+      place-self: center center;
     }
 
   }

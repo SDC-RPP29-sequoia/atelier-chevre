@@ -5,7 +5,7 @@ const axios = require('axios');
 
 app.use(express.static(__dirname + '/../client/public'));
 
-app.get('/getReviews', (req, res) => {
+app.get('/reviews', (req, res) => {
   axios.get(`https://app-hrsei-api.herokuapp.com/api/fec2/hr-rpp/reviews?product_id=${req.query.productId}`, {
     headers: {
       'Authorization': process.env.TOKEN

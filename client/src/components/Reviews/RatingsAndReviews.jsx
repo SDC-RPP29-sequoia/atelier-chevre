@@ -5,6 +5,7 @@ import { AiOutlinePlus } from 'react-icons/ai';
 import Stars from '../Stars/Stars';
 import Sort from './Sort';
 import ReviewContent from './ReviewContent';
+import RatingsBreakdown from './RatingsBreakdown';
 import API from './ReviewsAPIUtils';
 
 class RatingsAndReviews extends React.Component {
@@ -19,7 +20,6 @@ class RatingsAndReviews extends React.Component {
   }
 
   componentDidMount () {
-    // get reviews
     this.getReviews();
 
     // get meta data
@@ -63,10 +63,17 @@ class RatingsAndReviews extends React.Component {
 
 
   render () {
-    // figure out - only render once data has been returned for a product
     if (this.state.currentProductReviews.length === 0) {
       return (
-        <div></div>
+        <div id="reviews-section">
+          <div id="review-section-title">RATINGS AND REVIEWS</div>
+          <div id="reviews-wrapper">
+            <div id="reviews-col1"></div>
+            <div id="reviews-col2">
+              <button className="btn">ADD A REVIEW <span className="plus-icon">+</span></button>
+            </div>
+          </div>
+        </div>
       );
     }
 
@@ -88,6 +95,7 @@ class RatingsAndReviews extends React.Component {
               <div className="large-avg-review">{averageRating}</div>
               <div id="avg-stars-container"><Stars average={averageRating} /></div>
             </div>
+            <RatingsBreakdown reviews={this.state.currentProductReviews} totalReviews={totalReviews}/>
             <div id="percent-recommended">{percentRecommended}% of reviews recommend this product</div>
           </div>
           <div id="reviews-col2">
