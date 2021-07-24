@@ -12,7 +12,8 @@ class QAList extends React.Component {
       currProduct: {},
       productName: '',
       questionBody: '',
-      questionId: ''
+      questionId: '',
+      photos: []
     };
 
     this.questionHelpful = this.questionHelpful.bind(this);
@@ -22,6 +23,7 @@ class QAList extends React.Component {
     this.addQuestion = this.addQuestion.bind(this);
     this.submitAnswer = this.submitAnswer.bind(this);
     this.submitQuestion = this.submitQuestion.bind(this);
+    this.uploadPhotos = this.uploadPhotos.bind(this);
   }
 
   componentDidMount() {
@@ -162,12 +164,48 @@ class QAList extends React.Component {
     };
   }
 
+  renderPhotoThumbnails() {
+
+  }
+
+  uploadPhotos(e) {
+    console.log('entered uploadPhotos');
+
+    console.log('e target files', e.target.files[0]);
+
+    let data = new FormData();
+    data.append('file', e.target.files[0]);
+
+    let config = {
+      headers: {
+        'content-type': 'multipart/form-data'
+      }
+    };
+
+    axios.post('/uploadPhotos', data, config)
+      .then(res => {
+        console.log('res', res);
+
+        this.setState({
+          photos: [res.data, ...this.state.photos]
+        });
+
+        console.log(this.state.photos);
+      })
+      .catch(err => {
+        console.log('err', err);
+      });
+  }
+
   submitAnswer(e) {
     e.preventDefault();
 
     let answer = document.getElementById('modal-answer').value;
     let name = document.getElementById('modal-answer-nickname').value;
     let email = document.getElementById('modal-answer-email').value;
+    let photos = document.getElementById('modal-photos').value;
+
+    console.log('photos', photos);
 
     let tracker = {
       answer,
@@ -396,6 +434,9 @@ class QAList extends React.Component {
                       return (
                         <img src={photo} width="50px" height="50px" key={i}></img>
                       );
+                      // return (
+                      //   <img src={photo} width="50px" height="50px" key={i}></img>
+                      // );
                     })}</div>
 
                     <div className="signature-helpful-report">
@@ -442,8 +483,13 @@ class QAList extends React.Component {
             <label>Your email:</label>
             <input type="text" id="modal-answer-email" placeholder="Example: jack@email.com" name="email" maxLength="60"/>
             <div>For authentication reasons, you will not be emailed</div>
-            {/* <label>Upload photos:</label>
-            <input type="file" id="modal-photos" name="photos"/> */}
+            <div className="modal-answer-photos">{this.state.photos.map((photo, i) => {
+              return (
+                <img src={`http://localhost:3000/photos/${photo.filename}`} width="50px" height="50px" key={i}></img>
+              );
+            })}</div>
+            <label>Upload photos:</label>
+            <input type="file" id="modal-photos" name="photos" onChange={this.uploadPhotos}/>
             <button onClick={this.submitAnswer}>Submit answer</button>
           </form>
         </div>

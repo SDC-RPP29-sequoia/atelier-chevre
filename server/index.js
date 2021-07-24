@@ -5,12 +5,35 @@ require('dotenv').config();
 const request = require('request');
 const bodyParser = require('body-parser');
 
-app.use(express.static(__dirname + '/../client/public'));
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
+app.use(express.static(__dirname + '/../client/public'));
+
+const multer = require('multer');
+
+const storage = multer.diskStorage({
+  destination: __dirname + '/../client/public/photos',
+  filename: (req, file, cb) => {
+    console.log(file);
+    cb(null, file.originalname);
+  }
+});
+
+const upload = multer({ storage: storage }).single('file');
 
 app.get('/', (req, res) => {
   res.sendFile('index.html');
+});
+
+app.post('/uploadPhotos', (req, res) => {
+  upload(req, res, (err) => {
+    if (err) {
+      console.log('err', err);
+      res.sendStatus(500);
+    }
+    res.send(req.file);
+  });
 });
 
 app.post('/getQuestions', (req, res) => {
