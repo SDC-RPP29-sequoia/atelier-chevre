@@ -33,7 +33,7 @@ app.post('/uploadPhotos', (req, res) => {
   });
 });
 
-app.post('/getQuestions', (req, res) => {
+app.post('/questions', (req, res) => {
   let url = `https://app-hrsei-api.herokuapp.com/api/fec2/hr-rpp/qa/questions?product_id=${req.body.productId}&page=1&count=100`;
 
   request({

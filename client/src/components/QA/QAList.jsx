@@ -35,7 +35,7 @@ class QAList extends React.Component {
   getQuestions() {
     axios({
       method: 'POST',
-      url: '/getQuestions',
+      url: '/questions',
       data: {
         productId: this.state.currProductId
       }
@@ -400,8 +400,9 @@ class QAList extends React.Component {
 
     let filteredQs = questions.filter(q => {
       let question = q.question_body.toLowerCase();
+      let answer = JSON.stringify(q.answers).toLowerCase();
 
-      return q.question_body.includes(text);
+      return q.question_body.toLowerCase().includes(text) || answer.includes(text);
     });
 
     if (!text || text === '' || text.length < 2) {
