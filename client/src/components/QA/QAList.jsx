@@ -1,15 +1,13 @@
 import React from 'react';
 import axios from 'axios';
 
-import QAconfig from './QAconfig';
-
 class QAList extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       currProductId: props.currProductId,
       questions: [],
-      currProduct: {},
+      currProduct: {name: 'TEST PRODUCT NAME'},
       productName: '',
       questionBody: '',
       questionId: '',
@@ -32,27 +30,6 @@ class QAList extends React.Component {
 
   componentDidMount() {
     this.getQuestions();
-    this.getProduct();
-  }
-
-  getProduct() {
-    axios({
-      method: 'GET',
-      url: `https://app-hrsei-api.herokuapp.com/api/fec2/hr-rpp/products/${this.state.currProductId}`,
-      headers: {
-        Authorization: QAconfig.GITHUB,
-      }
-    })
-      .then(response => {
-        let currProduct = response.data;
-
-        this.setState({
-          currProduct
-        });
-      })
-      .catch(err => {
-        console.log('axios get error', err);
-      });
   }
 
   getQuestions() {
