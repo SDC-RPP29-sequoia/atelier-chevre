@@ -285,7 +285,7 @@ class QAList extends React.Component {
 
     modal.style.display = 'block';
 
-    let closeBtn = document.querySelector('.close-btn');
+    let closeBtn = document.querySelector('.modal-q .close-btn');
 
     closeBtn.onclick = () => {
       modal.style.display = 'none';
