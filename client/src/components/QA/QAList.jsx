@@ -164,15 +164,7 @@ class QAList extends React.Component {
     };
   }
 
-  renderPhotoThumbnails() {
-
-  }
-
   uploadPhotos(e) {
-    console.log('entered uploadPhotos');
-
-    console.log('e target files', e.target.files[0]);
-
     let data = new FormData();
     data.append('file', e.target.files[0]);
 
@@ -184,13 +176,15 @@ class QAList extends React.Component {
 
     axios.post('/uploadPhotos', data, config)
       .then(res => {
-        console.log('res', res);
-
         this.setState({
           photos: [res.data, ...this.state.photos]
         });
 
-        console.log(this.state.photos);
+        if (this.state.photos.length > 4) {
+          document.getElementById('modal-photos').style.display = 'none';
+          document.getElementById('modal-photos-label').innerHTML = 'Max 5 photos allowed';
+        }
+
       })
       .catch(err => {
         console.log('err', err);
@@ -204,8 +198,6 @@ class QAList extends React.Component {
     let name = document.getElementById('modal-answer-nickname').value;
     let email = document.getElementById('modal-answer-email').value;
     let photos = document.getElementById('modal-photos').value;
-
-    console.log('photos', photos);
 
     let tracker = {
       answer,
@@ -252,6 +244,15 @@ class QAList extends React.Component {
     for (let [key, value] of formData) {
       data[key] = value;
     }
+
+    let pics = [];
+
+    for (let i = 0; i < this.state.photos.length; i++) {
+      let photo = this.state.photos[i];
+      pics.push(`http://localhost:3000/photos/${photo.filename}`);
+    }
+
+    data.photos = pics;
 
     axios({
       method: 'POST',
@@ -434,9 +435,6 @@ class QAList extends React.Component {
                       return (
                         <img src={photo} width="50px" height="50px" key={i}></img>
                       );
-                      // return (
-                      //   <img src={photo} width="50px" height="50px" key={i}></img>
-                      // );
                     })}</div>
 
                     <div className="signature-helpful-report">
@@ -488,7 +486,7 @@ class QAList extends React.Component {
                 <img src={`http://localhost:3000/photos/${photo.filename}`} width="50px" height="50px" key={i}></img>
               );
             })}</div>
-            <label>Upload photos:</label>
+            <label id="modal-photos-label">Upload photos:</label>
             <input type="file" id="modal-photos" name="photos" onChange={this.uploadPhotos}/>
             <button onClick={this.submitAnswer}>Submit answer</button>
           </form>
