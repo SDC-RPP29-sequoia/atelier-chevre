@@ -225,6 +225,9 @@ class QAList extends React.Component {
       }
     })
       .then(response => {
+        document.getElementById('modal-answer').value = '';
+        document.getElementById('modal-answer-nickname').value = '';
+        document.getElementById('modal-answer-email').value = '';
         this.getQuestions();
       })
       .catch(err => {
@@ -321,6 +324,9 @@ class QAList extends React.Component {
       }
     })
       .then(response => {
+        document.getElementById('modal-question').value = '';
+        document.getElementById('modal-question-nickname').value = '';
+        document.getElementById('modal-question-email').value = '';
         this.getQuestions();
       })
       .catch(err => {
