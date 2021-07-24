@@ -95,8 +95,8 @@ class RatingsAndReviews extends React.Component {
               <div className="large-avg-review">{averageRating}</div>
               <div id="avg-stars-container"><Stars average={averageRating} /></div>
             </div>
-            <RatingsBreakdown reviews={this.state.currentProductReviews} totalReviews={totalReviews}/>
-            <div id="percent-recommended">{percentRecommended}% of reviews recommend this product</div>
+            <RatingsBreakdown percentRecommended={percentRecommended} reviews={this.state.currentProductReviews} totalReviews={totalReviews}/>
+
           </div>
           <div id="reviews-col2">
             <Sort totalReviews={totalReviews}/>

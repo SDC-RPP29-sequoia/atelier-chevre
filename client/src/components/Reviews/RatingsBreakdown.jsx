@@ -10,7 +10,7 @@ class RatingsBreakdown extends React.Component {
   }
 
   render() {
-    const { reviews, totalReviews} = this.props;
+    const { reviews, totalReviews, percentRecommended} = this.props;
     const reviewCounter = {
       5: 0,
       4: 0,
@@ -44,16 +44,19 @@ class RatingsBreakdown extends React.Component {
     }
 
     return (
-      <div id="ratings-breakdown-wrapper">
-        <div className="ratings-breakdown-column">
-          {columnOne}
+      <div>
+        <div id="ratings-breakdown-wrapper">
+          <div className="ratings-breakdown-column">
+            {columnOne}
+          </div>
+          <div className="ratings-breakdown-column">
+            {columnTwo}
+          </div>
+          <div className="ratings-breakdown-column">
+            {columnThree}
+          </div>
         </div>
-        <div className="ratings-breakdown-column">
-          {columnTwo}
-        </div>
-        <div className="ratings-breakdown-column">
-          {columnThree}
-        </div>
+        <div id="percent-recommended">{percentRecommended}% of reviews recommend this product</div>
       </div>
     );
   }
