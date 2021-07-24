@@ -313,8 +313,6 @@ class QAList extends React.Component {
     let name = document.getElementById('modal-question-nickname').value;
     let email = document.getElementById('modal-question-email').value;
 
-    console.log('entered submit question', question, name, email);
-
     let tracker = {
       question,
       name,
@@ -362,7 +360,7 @@ class QAList extends React.Component {
       data[key] = value;
     }
 
-    data['product_id'] = this.state.currProductId;
+    data['product_id'] = Number(this.state.currProductId);
 
     axios({
       method: 'POST',

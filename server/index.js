@@ -133,8 +133,6 @@ app.post('/addQuestion', (req, res) => {
   let json = req.body.data;
   let url = 'https://app-hrsei-api.herokuapp.com/api/fec2/hr-rpp/qa/questions';
 
-  console.log('entered add question', json);
-
   request({
     method: 'POST',
     url,
