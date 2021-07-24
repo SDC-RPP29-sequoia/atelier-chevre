@@ -1,17 +1,13 @@
 .stars-container {
-  display: inline-block;
-  position: relative;
   width: 80px;
 
   .inner-stars-container {
     white-space: nowrap;
     overflow: hidden;
-    position: absolute;
   }
 
   .outer-stars-container {
-    position: relative;
-    color: black;
+    position: absolute;
   }
 
   .inner-star {

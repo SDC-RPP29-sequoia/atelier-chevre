@@ -1,6 +1,7 @@
 const express = require('express');
 const app = express();
 require('dotenv').config();
+const axios = require('axios');
 
 const request = require('request');
 const bodyParser = require('body-parser');
@@ -19,9 +20,9 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(express.static(__dirname + '/../client/public'));
 
-app.get('/', (req, res) => {
-  res.sendFile('index.html');
-});
+// app.get('/', (req, res) => {
+//   res.sendFile('index.html');
+// });
 
 app.post('/uploadPhotos', (req, res) => {
   upload(req, res, (err) => {
@@ -170,6 +171,17 @@ app.post('/addAnswer', (req, res) => {
   });
 });
 
+
+app.get('/getReviews', (req, res) => {
+  axios.get(`https://app-hrsei-api.herokuapp.com/api/fec2/hr-rpp/reviews?product_id=${req.query.productId}`, {
+    headers: {
+      'Authorization': process.env.TOKEN
+    }
+  })
+    .then(response => {
+      res.send(response.data);
+    });
+});
 
 app.listen(process.env.PORT, () => {
   console.log('App listening on port ', process.env.PORT);

@@ -1,32 +1,102 @@
-#reviews-wrapper {
-  display: grid;
-  grid-template-columns: 25% 1fr;
-  grid-template-rows: 500px; // remove later
-  grid-gap: 50px;
-  border: 1px dotted green; // remove later
-  margin-top: 20px;
-  padding: 0 80px;
+  #reviews-section {
+    color: #292929;
+    margin-top: 20px;
+    border: 1px dotted green; // remove later
 
-  #reviews-col1 {
-    background-color: aqua; // remove later
+    #review-section-title {
+      padding: 0 80px;
+    }
+
+    #reviews-wrapper {
+      display: grid;
+      grid-template-columns: 25% 1fr;
+      grid-gap: 50px;
+      margin-top: 20px;
+      padding: 0 80px;
+    }
+
+    .large-avg-review {
+      font-size: 4rem;
+      line-height: .75em;
+      font-weight: 600;
+      padding: 0;
+    }
+
+    #avg-reviews-container {
+      display: grid;
+      grid-template-columns: 100px 1fr;
+      margin-bottom: 20px;
+    }
+
+    #avg-stars-container {
+      padding-top: .25rem;
+    }
+
+    #percent-recommended {
+      font-size: .85rem;
+    }
+
+    #sort-reviews {
+      margin-bottom: 1rem;
+      font-weight: bold;
+    }
+
+    .review-content {
+      margin-top: .8rem;
+      border-bottom: 1px solid;
+      .outer-stars-container {
+        position: relative;
+        top: 19px
+      }
+    }
+
+    .review-summary {
+      font-weight: bold;
+      margin: 1rem 0;
+    }
+
+    .review-body {
+      font-size: .85rem;
+      margin-bottom: 1rem;
+    }
+
+    .helpful {
+      color: rgb(121, 121, 121);
+      font-size: .7rem;
+      margin-bottom: 1rem;
+    }
+
+    .review-content-top-section {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .review-content-user-and-date {
+      color: rgb(121, 121, 121);
+      font-size: .85rem;
+      place-self: end;
+    }
+
+    .review-content-wrapper {
+      overflow: scroll;
+      max-height: 75vh;
+    }
+
+    .btn {
+      margin-top: 2rem;
+      margin-right: 20px;
+      font-weight: bold;
+      color: #292929;
+      background-color: white;
+      border: 1px solid #292929;
+      border-radius: 0;
+      padding: 1.5em 2em;
+      &:hover {
+        background-color: lightgray;
+      }
+      &:active {
+        background-color: lightslategrey;
+      }
+    }
+
   }
-
-  #reviews-col2 {
-    background-color: goldenrod; // remove later
-  }
-
-  .large-avg-review {
-    font-size: 4rem;
-    padding: 0;
-  }
-
-  #avg-reviews-container {
-    display: grid;
-    grid-template-columns: 1fr 2fr;
-  }
-
-  #avg-stars-container {
-    padding-top: 10px;
-  }
-
-}
