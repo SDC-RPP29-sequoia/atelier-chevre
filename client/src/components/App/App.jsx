@@ -4,7 +4,6 @@ import './App.scss';
 
 import Header from '../Header/Header.jsx';
 import RatingsAndReviews from '../Reviews/RatingsAndReviews.jsx';
-import Stars from '../Reviews/Stars.jsx';
 
 class App extends React.Component {
   constructor(props) {
@@ -18,7 +17,7 @@ class App extends React.Component {
     return (
       <div className="wrapper">
         <Header currentProduct={this.state.currentProduct} />
-        <RatingsAndReviews productId="28215"/>
+        <RatingsAndReviews productId="28213"/>
       </div>
     );
   }

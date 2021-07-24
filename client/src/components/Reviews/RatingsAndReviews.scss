@@ -43,7 +43,7 @@
 
     .review-content {
       margin-top: .8rem;
-      border-bottom: 1px solid;
+      border-bottom: 1px solid rgb(121, 121, 121);
       .outer-stars-container {
         position: relative;
         top: 19px
@@ -78,8 +78,8 @@
     }
 
     .review-content-wrapper {
-      overflow: scroll;
-      max-height: 75vh;
+      overflow-y: auto;
+      max-height: 60vh;
     }
 
     .btn {
