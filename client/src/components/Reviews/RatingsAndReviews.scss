@@ -11,12 +11,13 @@
       display: grid;
       grid-template-columns: 25% 1fr;
       grid-gap: 50px;
-      margin-top: 10px;
+      margin-top: 20px;
       padding: 0 80px;
     }
 
     .large-avg-review {
       font-size: 4rem;
+      line-height: .75em;
       font-weight: 600;
       padding: 0;
     }
@@ -24,10 +25,11 @@
     #avg-reviews-container {
       display: grid;
       grid-template-columns: 100px 1fr;
+      margin-bottom: 20px;
     }
 
     #avg-stars-container {
-      padding-top: 1rem;
+      padding-top: .25rem;
     }
 
     #percent-recommended {
@@ -35,12 +37,17 @@
     }
 
     #sort-reviews {
+      margin-bottom: 1rem;
       font-weight: bold;
     }
 
     .review-content {
-      margin-top: 2.5rem;
+      margin-top: .8rem;
       border-bottom: 1px solid;
+      .outer-stars-container {
+        position: relative;
+        top: 19px
+      }
     }
 
     .review-summary {
@@ -65,8 +72,14 @@
     }
 
     .review-content-user-and-date {
+      color: rgb(121, 121, 121);
       font-size: .85rem;
       place-self: end;
+    }
+
+    .review-content-wrapper {
+      overflow: scroll;
+      max-height: 75vh;
     }
 
     .btn {

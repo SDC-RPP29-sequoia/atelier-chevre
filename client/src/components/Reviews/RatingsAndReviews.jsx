@@ -92,7 +92,9 @@ class RatingsAndReviews extends React.Component {
           </div>
           <div id="reviews-col2">
             <Sort totalReviews={totalReviews}/>
-            {reviewsToDisplay}
+            <div className="review-content-wrapper">
+              {reviewsToDisplay}
+            </div>
             {this.state.displayedReviewsCount < this.state.currentProductReviews.length &&
               <button className="btn" onClick={() => this.handleMoreReviewsClick()}>MORE REVIEWS</button>
             }
