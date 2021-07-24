@@ -1,4 +1,5 @@
   #reviews-section {
+    color: #292929;
     margin-top: 20px;
     border: 1px dotted green; // remove later
 
@@ -17,16 +18,17 @@
 
     .large-avg-review {
       font-size: 4rem;
+      font-weight: 600;
       padding: 0;
     }
 
     #avg-reviews-container {
       display: grid;
-      grid-template-columns: 90px 1fr;
+      grid-template-columns: 100px 1fr;
     }
 
     #avg-stars-container {
-      padding-top: 10px;
+      padding-top: 1rem;
     }
 
     #percent-recommended {
@@ -38,7 +40,7 @@
     }
 
     .review-content {
-      margin-top: 1rem;
+      margin-top: 2.5rem;
       border-bottom: 1px solid;
     }
 
@@ -47,8 +49,14 @@
       margin: 1rem 0;
     }
 
-    .review-body, .helpful {
+    .review-body {
       font-size: .85rem;
+      margin-bottom: 1rem;
+    }
+
+    .helpful {
+      color: rgb(121, 121, 121);
+      font-size: .7rem;
       margin-bottom: 1rem;
     }
 
@@ -58,6 +66,25 @@
     }
 
     .review-content-user-and-date {
+      font-size: .85rem;
       place-self: end;
     }
+
+    .btn {
+      margin-top: 2rem;
+      margin-right: 20px;
+      font-weight: bold;
+      color: #292929;
+      background-color: white;
+      border: 1px solid #292929;
+      border-radius: 0;
+      padding: 1.5em 2em;
+      &:hover {
+        background-color: lightgray;
+      }
+      &:active {
+        background-color: lightslategrey;
+      }
+    }
+
   }

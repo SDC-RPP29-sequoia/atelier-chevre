@@ -18,7 +18,7 @@ class App extends React.Component {
     return (
       <div className="wrapper">
         <Header currentProduct={this.state.currentProduct} />
-        <RatingsAndReviews />
+        <RatingsAndReviews productId="28215"/>
       </div>
     );
   }

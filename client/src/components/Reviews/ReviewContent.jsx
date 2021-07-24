@@ -5,7 +5,6 @@ import './RatingsAndReviews.scss';
 const ReviewContent = ({review}) => {
   const date = new Date(review.date);
 
-  console.log(review);
   return (
     <div className="review-content">
       <div className="review-content-top-section">
