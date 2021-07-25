@@ -5,10 +5,10 @@ import SignatureHelpfulReport from './SignatureHelpfulReport';
 const AnswerContainer = (props) => {
   return (
     <div className="answer-container">
-      <div className="answer" key={props.body}><b>A:</b>&nbsp;{props.body}</div>
+      <div className="answer" key={props.body}><b className="answer-body">A:</b>&nbsp;{props.body}</div>
       <div className="answer-photos">{props.photos.map((photo, i) => {
         return (
-          <img src={photo} width="50px" height="50px" key={i}></img>
+          <img src={photo} width="80px" height="60px" key={i} className="answer-photo"></img>
         );
       })}
       </div>

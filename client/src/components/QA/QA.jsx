@@ -19,6 +19,7 @@ class QuestionsAndAnswers extends React.Component {
       currProductId: props.productId,
       questions: [],
       filteredQs: [],
+      answers: [],
       photos: [],
       productName: '',
       questionBody: '',
