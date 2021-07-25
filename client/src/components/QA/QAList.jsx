@@ -34,11 +34,8 @@ class QAList extends React.Component {
 
   getQuestions() {
     axios({
-      method: 'POST',
-      url: '/questions',
-      data: {
-        productId: this.state.currProductId
-      }
+      method: 'GET',
+      url: `/questions/?product_id=${this.state.currProductId}&page=1&count=100`
     })
       .then(response => {
         let questions = response.data.results;
@@ -184,7 +181,7 @@ class QAList extends React.Component {
       }
     };
 
-    axios.post('/uploadPhotos', data, config)
+    axios.post('/QAPhotos', data, config)
       .then(res => {
         this.setState({
           photos: [res.data, ...this.state.photos]
@@ -347,7 +344,6 @@ class QAList extends React.Component {
       return;
     }
 
-
     let modal = document.querySelector('.modal-q');
     modal.style.display = 'none';
 
@@ -364,7 +360,7 @@ class QAList extends React.Component {
 
     axios({
       method: 'POST',
-      url: '/addQuestion',
+      url: '/questions',
       data: {
         data
       }
