@@ -3,7 +3,7 @@ import '../../styles.scss';
 import './App.scss';
 
 import Header from '../Header/Header.jsx';
-import QuestionsAndAnswers from '../QA/QA.jsx';
+import QuestionsAndAnswers from '../QA/QuestionsAndAnswers.jsx';
 import RatingsAndReviews from '../Reviews/RatingsAndReviews.jsx';
 import Stars from '../Reviews/Stars.jsx';
 

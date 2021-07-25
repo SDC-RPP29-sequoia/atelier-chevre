@@ -3,9 +3,8 @@ import axios from 'axios';
 
 import QAHeader from './QAHeader';
 import SearchBar from './SearchBar';
-import AnswerContainer from './AnswerContainer';
-import SignatureHelpfulReport from './SignatureHelpfulReport';
-import QHelpfulAddAnswer from './QHelpfulAddAnswer';
+import QAList from './QAList';
+import QAButtons from './QAButtons';
 import AnswerModal from './AnswerModal';
 import QuestionModal from './QuestionModal';
 
@@ -491,41 +490,11 @@ class QuestionsAndAnswers extends React.Component {
     return (
       <div className="qa" id="qa-wrapper">
         <QAHeader />
-        <SearchBar searchVal={this.state.searchVal} handleChange={this.handleChange}/>
-        <div id="qa-list">{this.state.filteredQs.map((q, i) => {
-          if (q.answers) {
-            let answers = this.sortAnswers(q.answers);
-
-            return (
-              <div key={q.question_date + i} className="qa" id="list">
-                <div className="question"><b>Q: {q.question_body}</b></div>
-                <div>{answers.map(a => {
-                  let date = this.convertDate(a.date);
-                  let aName = a.answerer_name;
-
-                  if (aName === 'Seller') {
-                    aName = '<b>Seller</b>';
-                  }
-
-                  return (
-                    <AnswerContainer key={a.id} body={a.body} photos={a.photos} aName={aName} date={date} answerHelpful={this.answerHelpful} answer_id={a.id} helpfulness={a.helpfulness} answerReport={this.answerReport} />
-                  );
-                })}
-                <div className="load-more-answers" onClick={this.loadMoreAnswers}><b>LOAD MORE ANSWERS</b></div>
-                </div>
-                <QHelpfulAddAnswer questionHelpful={this.questionHelpful} addAnswer={this.addAnswer} questionReport={this.questionReport} question_id={q.question_id} question_helpfulness={q.question_helpfulness} question_id={q.question_id} question_body={q.question_body} />
-              </div>
-            );
-          }
-        })}
-
-        <div className="qa" id="buttons">
-          <button id="more-answered-qs" onClick={this.moreAnsweredQs}>MORE ANSWERED QUESTIONS</button>
-          <button id="addq" onClick={this.addQuestion}>ADD A QUESTION +</button>
-        </div>
-        <AnswerModal productName={this.state.productName} questionBody={this.state.questionBody} photos={this.state.photos} uploadPhotos={this.uploadPhotos} submitAnswer={this.submitAnswer}/>
-        <QuestionModal productName={this.state.productName} submitQuestion={this.submitQuestion}/>
-        </div>
+        <SearchBar searchVal={this.state.searchVal} handleChange={this.handleChange} />
+        <QAList filteredQs={this.state.filteredQs} sortAnswers={this.sortAnswers} convertDate={this.convertDate} answerHelpful={this.answerHelpful} answerReport={this.answerReport} loadMoreAnswers={this.loadMoreAnswers} questionHelpful={this.questionHelpful} addAnswer={this.addAnswer} questionReport={this.questionReport} moreAnsweredQs={this.moreAnsweredQs} addQuestion={this.addQuestion} productName={this.state.productName} questionBody={this.state.questionBody} photos={this.state.photos} uploadPhotos={this.uploadPhotos} submitAnswer={this.submitAnswer} productName={this.state.productName} submitQuestion={this.submitQuestion} />
+        <QAButtons moreAnsweredQs={this.moreAnsweredQs} addQuestion={this.addQuestion} />
+        <AnswerModal productName={this.state.productName} questionBody={this.state.questionBody} photos={this.state.photos} uploadPhotos={this.uploadPhotos} submitAnswer={this.submitAnswer} />
+        <QuestionModal productName={this.state.productName} submitQuestion={this.submitQuestion} />
       </div>
     );
   }

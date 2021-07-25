@@ -16,7 +16,7 @@ const AnswerModal = (props) => {
             );
           })}</div>
           <label>What is your nickname:</label>
-          <input type="text" id="modal-answer-nickname" placeholder="Example: jack543!" name="name" maxLength="50"/>
+          <input type="text" id="modal-answer-nickname" placeholder="Example: jack543!" name="name" maxLength="60"/>
           <div>For privacy reasons, do not use your full name or email address</div>
           <label>Your email:</label>
           <input type="text" id="modal-answer-email" placeholder="Example: jack@email.com" name="email" maxLength="60"/>

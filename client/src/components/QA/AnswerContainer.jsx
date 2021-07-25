@@ -12,7 +12,7 @@ const AnswerContainer = (props) => {
         );
       })}
       </div>
-      <SignatureHelpfulReport aName={props.aName} date={props.date} answerHelpful={props.answerHelpful} answer_id={props.answer_id} helpfulness={props.helpfulness} answerReport={props.answerReport}/>
+      <SignatureHelpfulReport aName={props.aName} date={props.date} answerHelpful={props.answerHelpful} answer_id={props.answer_id} helpfulness={props.helpfulness} answerReport={props.answerReport} />
     </div>
   );
 };
