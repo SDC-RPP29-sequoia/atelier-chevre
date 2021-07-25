@@ -7,17 +7,19 @@
   align-content: space-around;
 
   /* HEADER */
-  #header {
-    background: yellow;
+  #QAHeader {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
   }
 
   /* SEARCH */
   #search {
     display: flex;
+    margin-bottom: 1rem;
   }
 
   #search input {
-    width: 500px;
+    width: 100%;
   }
 
   #search img {
@@ -26,12 +28,7 @@
   }
 
   /* LIST */
-  #qa-list {
-    background: rgb(231, 229, 229);
-  }
-
   #list {
-    background: rgb(241, 237, 237);
     display: grid;
     grid-template-columns: 70% 30%;
   }
@@ -49,6 +46,10 @@
   .answer {
     grid-column: 1 / span 1;
     grid-row: 2 / span 1;
+
+    color: rgb(82, 82, 82);
+    font-size: 0.88rem;
+    margin-bottom: 1rem;
   }
 
   .answer-photos {
@@ -64,6 +65,10 @@
     display: flex;
     flex-direction: row;
     justify-content: flex-start;
+
+    color: rgb(121, 121, 121);
+    font-size: .7rem;
+    margin-bottom: 1rem;
   }
 
   .author-date {
@@ -78,10 +83,21 @@
     flex-direction: row;
     flex-wrap: nowrap;
     justify-content: flex-end;
+
+    color: rgb(71, 71, 71);
+    font-size: .7rem;
+    margin-bottom: 1rem;
+  }
+
+  .load-more-answers {
+    color: rgb(65, 65, 65);
+    font-size: .7rem;
+    margin-bottom: 1rem;
   }
 
   /* BUTTONS */
   #buttons {
+    margin-top: -30px;
     display: flex;
     flex-direction: row-reverse;
     justify-content: flex-end;
@@ -90,11 +106,41 @@
   #more-answered-qs {
     align-self: flex-start;
     order: 3;
+
+    margin-top: 2rem;
+    margin-right: 20px;
+    font-weight: bold;
+    color: #292929;
+    background-color: white;
+    border: 1px solid #292929;
+    border-radius: 0;
+    padding: 1.5em 2em;
+    &:hover {
+      background-color: lightgray;
+    }
+    &:active {
+      background-color: lightslategrey;
+    }
   }
 
   #addq {
     align-self: flex-end;
     order: 2;
+
+    margin-top: 2rem;
+    margin-right: 20px;
+    font-weight: bold;
+    color: #292929;
+    background-color: white;
+    border: 1px solid #292929;
+    border-radius: 0;
+    padding: 1.5em 2em;
+    &:hover {
+      background-color: lightgray;
+    }
+    &:active {
+      background-color: lightslategrey;
+    }
   }
 
   /* MODAL */

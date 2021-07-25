@@ -21,6 +21,7 @@ app.use(express.static(__dirname + '/../client/public'));
 // QUESTIONS & ANSWERS
 app.get('/questions', (req, res) => {
   let num = Number(req.query.product_id);
+  // let count = req.query.count;
   let url = `https://app-hrsei-api.herokuapp.com/api/fec2/hr-rpp/qa/questions?product_id=${num}&page=1&count=100`;
 
   axios.get(url, {
