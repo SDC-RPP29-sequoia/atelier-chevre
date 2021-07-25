@@ -42,6 +42,7 @@ class QuestionsAndAnswers extends React.Component {
     this.convertDate = this.convertDate.bind(this);
     this.sortAnswers = this.sortAnswers.bind(this);
     this.moreAnsweredQs = this.moreAnsweredQs.bind(this);
+    this.loadMoreAnswers = this.loadMoreAnswers.bind(this);
   }
 
   componentDidMount() {

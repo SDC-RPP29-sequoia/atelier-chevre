@@ -20,11 +20,21 @@
 
   #search input {
     width: 100%;
+    height: 3rem;
+    color: black;
+    font-weight: bold;
+    padding-left: 5px;
   }
 
   #search img {
     height: 10%;
     width: 5%;
+  }
+
+  #search ::placeholder {
+    color: black;
+    font-weight: bold;
+    padding-left: 5px;
   }
 
   /* LIST */
