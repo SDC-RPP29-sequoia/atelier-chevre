@@ -20,9 +20,25 @@ $standardBorder: 1px solid $standardColor;
     margin-right: 10px;
   }
 
+  .canceled-price {
+    span:nth-of-type(1) {
+      text-decoration: line-through;
+      margin-right: 10px;
+    }
+
+    span:nth-of-type(2) {
+      color: red;
+    }
+  }
+
+  .bg-image {
+    background-position: center;
+    background-size: cover;
+  }
+
   #announcement-banner {
     p {
-      font-size: .75rem;
+      font-size: 0.75rem;
       text-align: center;
       text-transform: uppercase;
       padding: 20px 30px;
@@ -32,7 +48,7 @@ $standardBorder: 1px solid $standardColor;
   #product-main {
     display: flex;
 
-    #product-images {
+    #product-image {
       display: flex;
       flex-basis: 60%;
       background-color: $lightGrey;
@@ -51,6 +67,7 @@ $standardBorder: 1px solid $standardColor;
           background-color: white;
           border: $standardBorder;
           margin-bottom: 20px;
+          cursor: pointer;
         }
       }
 
@@ -104,7 +121,7 @@ $standardBorder: 1px solid $standardColor;
         }
 
         &.group {
-          margin-bottom: .5rem;
+          margin-bottom: 0.5rem;
         }
 
         &.gapped {
@@ -130,15 +147,21 @@ $standardBorder: 1px solid $standardColor;
         justify-content: flex-end;
 
         .selected-check {
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          background-color: white;
-          border: $standardBorder;
-          width: 18px;
-          height: 18px;
-          border-radius: 18px;
-          font-size: .75rem;
+          display: none;
+        }
+
+        &.selected {
+          .selected-check {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: white;
+            border: $standardBorder;
+            width: 18px;
+            height: 18px;
+            border-radius: 18px;
+            font-size: 0.75rem;
+          }
         }
       }
 
@@ -167,7 +190,7 @@ $standardBorder: 1px solid $standardColor;
     }
 
     p {
-      font-size: .8rem;
+      font-size: 0.8rem;
       font-weight: 300;
     }
 

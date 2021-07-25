@@ -8,7 +8,8 @@ module.exports = {
       jsx: true,
       modules: true,
       spread: true,
-      restParams: true
+      restParams: true,
+      experimentalObjectRestSpread: true
     },
     sourceType: 'module'
   },
@@ -16,8 +17,6 @@ module.exports = {
     /* Indentation */
     'no-mixed-spaces-and-tabs': 2,
     'indent': [2, 2],
-    /* Variable cames */
-    'camelcase': 2,
     /* Language constructs */
     'curly': 2,
     'eqeqeq': [2, 'smart'],

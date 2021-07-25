@@ -2,6 +2,8 @@ import React from 'react';
 import { AiOutlineArrowLeft, AiOutlineArrowRight, AiOutlineCheck, AiOutlineStar } from 'react-icons/ai';
 import { MdFullscreen } from 'react-icons/md';
 import API from './ProductOverviewAPIUtils.js';
+import _ from 'lodash';
+import helpers from '../../helpers.js';
 
 import Stars from '../Stars/Stars.jsx';
 import CustomSelect from './CustomSelect.jsx';
@@ -15,12 +17,19 @@ class ProductOverview extends React.Component {
 
     this.state = {
       product: {},
-      productStyles: {}
+      productStyles: {},
+      selectedStyle: '',
+      selectedSku: '',
+      reviews: [],
+      images: [],
+      currentImageUrl: ''
     };
+
+    this.onChange = this.onChange.bind(this);
   }
 
-  componentDidMount() {
-    API.getProduct(this.props.productId)
+  async componentDidMount() {
+    await API.getProduct(this.props.productId)
       .then(response => {
         this.setState({
           product: response
@@ -30,18 +39,83 @@ class ProductOverview extends React.Component {
         console.error(err);
       });
 
-    API.getProductStyles(this.props.productId)
+    await API.getProductStyles(this.props.productId)
       .then(response => {
+        let defaultStyle = response.results.find(result => result['default?'] === true);
+        let skus = _.map(defaultStyle.skus, (sku, key) => {
+          sku.sku_id = key;
+          return sku;
+        });
+
         this.setState({
-          productStyles: response
+          productStyles: response,
+          selectedStyle: defaultStyle,
+          selectedSku: skus[0],
+          images: defaultStyle.photos,
+          currentImageUrl: defaultStyle.photos[0].url
         });
       })
       .catch(err => {
         console.error(err);
       });
+
+    await API.getReviews(this.props.productId)
+      .then(response => {
+        this.setState({
+          reviews: response
+        });
+      })
+      .catch(err => {
+        console.error(err);
+      });
+
+    console.log(this.state);
+  }
+
+  onChange(key, val) {
+    this.setState({
+      [key]: val
+    });
+  }
+
+  changeSku(skuId) {
+    let sku = _.map(this.state.selectedStyle.skus, (sku, key) => {
+      sku.sku_id = key;
+      return sku;
+    })
+      .find(sku => sku.sku_id === skuId);
+
+    this.setState({
+      selectedSku: sku
+    });
+  }
+
+  changeStyle(styleId) {
+    let style = this.state.productStyles.results.find(result => result.style_id === styleId);
+    let skus = _.map(style.skus, (sku, key) => {
+      sku.sku_id = key;
+      return sku;
+    });
+
+    this.setState({
+      selectedStyle: style,
+      selectedSku: skus[0],
+      images: [...style.photos],
+      currentImageUrl: style.photos[0].url
+    });
+
+    console.log(this.state.images);
   }
 
   render() {
+    let price;
+
+    if (!this.state.selectedStyle.sale_price) {
+      price = <p>${this.state.selectedStyle.original_price}</p>;
+    } else {
+      price = <p className="canceled-price"><span>${this.state.selectedStyle.original_price}</span><span>${this.state.selectedStyle.sale_price}5678</span></p>;
+    }
+
     return (
       <div id="product-overview">
         <div id="announcement-banner">
@@ -49,13 +123,16 @@ class ProductOverview extends React.Component {
         </div>
 
         <div id="product-main">
-          <div id="product-images">
+          <div id="product-image" className="bg-image" style={{ backgroundImage: `url(${this.state.currentImageUrl})` }}>
             <div id="image-list">
-              <div className="image"></div>
-              <div className="image"></div>
-              <div className="image"></div>
-              <div className="image"></div>
-              <div className="image"></div>
+              {this.state.images?.map(photo => (
+                <div
+                  className="image bg-image"
+                  style={{ backgroundImage: `url(${photo.url})` }}
+                  onClick={() => { this.onChange('currentImageUrl', photo.url); }}
+                  key={photo.url}
+                ></div>
+              ))}
             </div>
 
             <div id="image-controls">
@@ -71,42 +148,50 @@ class ProductOverview extends React.Component {
           </div>
 
           <div id="product-details">
-            <div className="group horizontal">
+            <div className="group horizontal" style={{ display: this.state.reviews.count > 0 ? 'flex' : 'none' }}>
               <Stars average={3.3} />
-              <button className="underlined text">Read all reviews</button>
+              <button className="underlined text">Read all {this.state.reviews.count} reviews</button>
             </div>
 
             <div className="group">
-              <p>category</p>
-              <h1>Expanded Product Name</h1>
+              <p>{this.state.product.category}</p>
+              <h1>{this.state.product.name}</h1>
             </div>
 
             <div className="group">
-              <p>$369</p>
+              {price}
             </div>
 
             <div className="group">
-              <p><b>style &gt;</b> selected style</p>
+              <p><b>style &gt;</b>&nbsp;{this.state.selectedStyle.name}</p>
             </div>
 
             <div className="group horizontal gapped">
-              <div className="style-selector">
-                <div className="selected-check">
-                  <AiOutlineCheck />
+              {this.state.productStyles.results?.map(style => (
+                <div
+                  className={`style-selector bg-image ${this.state.selectedStyle.style_id === style.style_id ? 'selected' : ''}`}
+                  onClick={() => { this.changeStyle(style.style_id); }}
+                  style={{ backgroundImage: `url(${style.photos[0].thumbnail_url})` }}
+                  key={style.style_id}
+                >
+                  <div className="selected-check">
+                    <AiOutlineCheck />
+                  </div>
                 </div>
-              </div>
-              <div className="style-selector"></div>
-              <div className="style-selector"></div>
-              <div className="style-selector"></div>
-              <div className="style-selector"></div>
-              <div className="style-selector"></div>
-              <div className="style-selector"></div>
-              <div className="style-selector"></div>
+              ))}
             </div>
 
             <div className="group horizontal gapped stretch">
               <div className="control-wrapper">
-                <CustomSelect value={1} options={[{ value: 1, label: 'SELECT STYLE' }]} />
+                <CustomSelect
+                  value={this.state.selectedSku.sku_id || ''}
+                  options={
+                    _.map(this.state.selectedStyle.skus, (sku, key) => {
+                      return { label: sku.size, value: key };
+                    })
+                  }
+                  onChange={(e) => { this.changeSku(e.target.value); }}
+                />
               </div>
               <div className="control-wrapper">
                 <CustomSelect value={1} options={[{ value: 1, label: '1' }]} />

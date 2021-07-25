@@ -3,3 +3,4 @@ client/public/bundle.js
 *.json
 *.css
 *.scss
+.eslintrc.js
