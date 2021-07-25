@@ -22,7 +22,8 @@ class ProductOverview extends React.Component {
       selectedSku: '',
       reviews: [],
       images: [],
-      currentImageUrl: ''
+      currentImageUrl: '',
+      fullscreen: false
     };
 
     this.onChange = this.onChange.bind(this);
@@ -107,6 +108,25 @@ class ProductOverview extends React.Component {
     console.log(this.state.images);
   }
 
+  switchImage(direction) {
+    let currentInd;
+    this.state.images.forEach((image, ind) => {
+      if (image.url === this.state.currentImageUrl) {
+        currentInd = ind;
+      }
+    });
+
+    this.setState({
+      currentImageUrl: this.state.images[direction === 'next' ? 'nextItem' : 'previousItem'](currentInd).url
+    });
+  }
+
+  toggleFullScreen() {
+    this.setState({
+      fullscreen: !this.state.fullscreen
+    });
+  }
+
   render() {
     let price;
 
@@ -122,7 +142,7 @@ class ProductOverview extends React.Component {
           <p className="light"><i>Site-wide announcement message!</i> -- sale / discount <b>offer</b> -- <u>new product highlight</u></p>
         </div>
 
-        <div id="product-main">
+        <div id="product-main" className={`${this.state.fullscreen ? 'fullscreen' : ''}`}>
           <div id="product-image" className="bg-image" style={{ backgroundImage: `url(${this.state.currentImageUrl})` }}>
             <div id="image-list">
               {this.state.images?.map(photo => (
@@ -137,12 +157,21 @@ class ProductOverview extends React.Component {
 
             <div id="image-controls">
               <div id="fullscreen-toggle">
-                <MdFullscreen className="clickable" />
+                <MdFullscreen
+                  className="clickable"
+                  onClick={() => { this.toggleFullScreen(); }}
+                />
               </div>
 
               <div id="image-arrows">
-                <AiOutlineArrowLeft className="clickable" />
-                <AiOutlineArrowRight className="clickable" />
+                <AiOutlineArrowLeft
+                  className="clickable"
+                  onClick={() => this.switchImage('prev')}
+                />
+                <AiOutlineArrowRight
+                  className="clickable"
+                  onClick={() => this.switchImage('next')}
+                />
               </div>
             </div>
           </div>

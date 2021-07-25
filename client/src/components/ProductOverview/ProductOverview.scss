@@ -48,6 +48,18 @@ $standardBorder: 1px solid $standardColor;
   #product-main {
     display: flex;
 
+    &.fullscreen {
+      height: 90vh;
+
+      #product-image {
+        flex-basis: 100%;
+      }
+
+      #product-details {
+        display: none;
+      }
+    }
+
     #product-image {
       display: flex;
       flex-basis: 60%;
