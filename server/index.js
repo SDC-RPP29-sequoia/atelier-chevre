@@ -176,6 +176,37 @@ app.get('/reviews/:productId/:sortMethod', (req, res) => {
   })
     .then(response => {
       res.send(response.data);
+    })
+    .catch(err => {
+      console.log(err);
+    });
+});
+
+app.get('/products/:productId', (req, res) => {
+  axios.get(`https://app-hrsei-api.herokuapp.com/api/fec2/hr-rpp/products/${req.params.productId}`, {
+    headers: {
+      'Authorization': process.env.TOKEN
+    }
+  })
+    .then(response => {
+      res.json(response.data);
+    })
+    .catch(err => {
+      console.log(err);
+    });
+});
+
+app.get('/products/:productId/styles', (req, res) => {
+  axios.get(`https://app-hrsei-api.herokuapp.com/api/fec2/hr-rpp/products/${req.params.productId}/styles`, {
+    headers: {
+      'Authorization': process.env.TOKEN
+    }
+  })
+    .then(response => {
+      res.json(response.data);
+    })
+    .catch(err => {
+      console.log(err);
     });
 });
 
