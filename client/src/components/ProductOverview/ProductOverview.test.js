@@ -24,5 +24,7 @@ describe('ProductOverview component', () => {
 
     expect(product.name).toEqual('Slacker\'s Slacks');
     expect(productStyles.results.find(result => result.style_id === 162348).name).toEqual('Black');
+
+    return Promise.all([product, productStyles]);
   });
 });
