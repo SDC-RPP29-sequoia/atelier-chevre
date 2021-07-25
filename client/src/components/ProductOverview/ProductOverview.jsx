@@ -1,6 +1,7 @@
 import React from 'react';
 import { AiOutlineArrowLeft, AiOutlineArrowRight, AiOutlineCheck, AiOutlineStar } from 'react-icons/ai';
 import { MdFullscreen } from 'react-icons/md';
+import API from './ProductOverviewAPIUtils.js';
 
 import Stars from '../Stars/Stars.jsx';
 import CustomSelect from './CustomSelect.jsx';
@@ -11,6 +12,33 @@ import './ProductOverview.scss';
 class ProductOverview extends React.Component {
   constructor(props) {
     super(props);
+
+    this.state = {
+      product: {},
+      productStyles: {}
+    };
+  }
+
+  componentDidMount() {
+    API.getProduct(this.props.productId)
+      .then(response => {
+        this.setState({
+          product: response
+        });
+      })
+      .catch(err => {
+        console.error(err);
+      });
+
+    API.getProductStyles(this.props.productId)
+      .then(response => {
+        this.setState({
+          productStyles: response
+        });
+      })
+      .catch(err => {
+        console.error(err);
+      });
   }
 
   render() {

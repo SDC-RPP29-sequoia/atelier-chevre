@@ -2,7 +2,7 @@ import React from 'react';
 import './RatingsAndReviews.scss';
 import { AiOutlinePlus } from 'react-icons/ai';
 
-import Stars from './Stars';
+import Stars from '../Stars/Stars';
 import Sort from './Sort';
 import ReviewContent from './ReviewContent';
 import API from './ReviewsAPIUtils';
