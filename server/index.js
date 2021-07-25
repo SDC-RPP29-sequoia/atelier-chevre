@@ -168,8 +168,8 @@ app.post('/addAnswer', (req, res) => {
 });
 
 
-app.get('/getReviews', (req, res) => {
-  axios.get(`https://app-hrsei-api.herokuapp.com/api/fec2/hr-rpp/reviews?product_id=${req.query.productId}`, {
+app.get('/reviews/:productId/:sortMethod', (req, res) => {
+  axios.get(`https://app-hrsei-api.herokuapp.com/api/fec2/hr-rpp/reviews?product_id=${req.params.productId}&sort=${req.params.sortMethod}&count=500`, {
     headers: {
       'Authorization': process.env.TOKEN
     }

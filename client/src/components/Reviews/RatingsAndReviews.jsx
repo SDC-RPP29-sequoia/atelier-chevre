@@ -17,17 +17,19 @@ class RatingsAndReviews extends React.Component {
       currentProductMeta: {},
       displayedReviewsCount: 2
     };
+
+    this.getReviews = this.getReviews.bind(this);
   }
 
   componentDidMount () {
-    this.getReviews();
+    this.getReviews('relevent');
 
     // get meta data
 
   }
 
-  getReviews () {
-    API.getProductReviews(this.props.productId).then(response => {
+  getReviews (sortMethod) {
+    API.getProductReviews(this.props.productId, sortMethod).then(response => {
       this.setState({
         currentProductReviews: response.results
       });
@@ -99,7 +101,7 @@ class RatingsAndReviews extends React.Component {
 
           </div>
           <div id="reviews-col2">
-            <Sort totalReviews={totalReviews}/>
+            <Sort getReviews={this.getReviews} totalReviews={totalReviews}/>
             <div className="review-content-wrapper">
               {reviewsToDisplay}
             </div>

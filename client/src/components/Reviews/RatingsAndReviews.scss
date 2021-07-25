@@ -79,12 +79,13 @@
 
     .review-content-wrapper {
       overflow-y: auto;
-      max-height: 60vh;
+      max-height: 85vh;
     }
 
     .btn {
       margin-top: 2rem;
       margin-right: 20px;
+      margin-bottom: 80px;
       font-weight: bold;
       color: #292929;
       background-color: white;
@@ -139,4 +140,34 @@
       place-self: center center;
     }
 
+    .reviews-sort-dropdown {
+      border: none;
+      border-bottom: 1px solid;
+      font-size: 1rem;
+      font-weight: bold;
+      &:focus {
+        outline: none;
+      }
+    }
+
+    #reviews-recommended {
+      font-size: .85rem;
+      margin-bottom: 1rem;
+    }
+
+    #reviews-response {
+      background-color: lightgray;
+      font-size: .85rem;
+      padding: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    #response-header {
+      margin-bottom: 1rem;
+      font-weight: bold;
+    }
+
+    #response-content {
+      font-size: .85rem;
+    }
   }
