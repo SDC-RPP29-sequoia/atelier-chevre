@@ -1,10 +1,11 @@
 import React from 'react';
-import App from './App.jsx';
 import { shallow } from 'enzyme';
 
-describe('App component', () => {
+import QA from './QA';
+
+describe('QA component', () => {
   it('renders without crashing', () => {
-    const wrapper = shallow(<App />);
+    const wrapper = shallow(<QA />);
     expect(wrapper).toBeTruthy();
   });
 });
