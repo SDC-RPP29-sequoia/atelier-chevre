@@ -3,3 +3,4 @@ node_modules
 .rest
 client/public/bundle.js
 */*/bundle.js
+client/public/photos
