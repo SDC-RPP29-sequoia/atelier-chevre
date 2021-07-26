@@ -23,16 +23,14 @@ class RatingsAndReviews extends React.Component {
 
   componentDidMount () {
     this.getReviewData('relevent');
-
-    // get meta data
-
   }
 
-  getReviewData (sortMethod) {
-    API.getProductReviews(this.props.productId, sortMethod).then(response => {
-      this.setState({
-        currentProductReviews: response.results
-      });
+  async getReviewData (sortMethod) {
+    const reviews = await API.getProductReviews(this.props.productId, sortMethod);
+    const reviewsMeta = await API.getProductReviewsMeta(this.props.productId);
+    this.setState({
+      currentProductReviews: reviews.data.results,
+      currentProductMeta: reviewsMeta
     });
   }
 
@@ -45,13 +43,9 @@ class RatingsAndReviews extends React.Component {
   }
 
   getPercentRecommended (reviews) {
-    const percentRecommended = (reviews.reduce((recommended, review) => {
-      if (review.recommend) {
-        return recommended + 1;
-      } else {
-        return recommended;
-      }
-    }, 0) / reviews.length) * 100;
+    const { recommended } = this.state.currentProductMeta;
+    const total = parseInt(recommended.false) + parseInt(recommended.true);
+    const percentRecommended = (recommended.true / total) * 100;
 
     return percentRecommended.toFixed();
   }
