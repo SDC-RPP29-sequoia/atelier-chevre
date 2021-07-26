@@ -18,8 +18,8 @@ class QuestionsAndAnswers extends React.Component {
       currProductId: props.productId,
       questions: [],
       filteredQs: [],
-      answers: [],
       photos: [],
+      answers: {},
       productName: '',
       questionBody: '',
       questionId: '',
@@ -65,6 +65,31 @@ class QuestionsAndAnswers extends React.Component {
     })
       .then(response => {
         let questions = response.data.results;
+
+        let answers = {};
+
+        questions.forEach(q => {
+          let ansObj = {};
+          let ansArray = [];
+
+          for (let i in q.answers) {
+            ansArray.push(q.answers[i]);
+          }
+
+          ansObj.data = ansArray;
+
+          if (this.state.answers[q.question_id] && this.state.answers[q.question_id].count) {
+            ansObj.count = this.state.answers[q.question_id].count;
+          } else {
+            ansObj.count = 2;
+          }
+
+          answers[q.question_id] = ansObj;
+        });
+
+        this.setState({
+          answers
+        });
 
         if (cb) {
           cb(questions);
@@ -452,7 +477,7 @@ class QuestionsAndAnswers extends React.Component {
     for (var key in ans) {
       if (ans[key].answerer_name === 'Seller') {
         sellerAnswers.push(ans[key]);
-      } else {
+      } else if (ans[key].id) {
         answers.push(ans[key]);
       }
     }
@@ -482,8 +507,26 @@ class QuestionsAndAnswers extends React.Component {
     this.getQuestions();
   }
 
-  loadMoreAnswers() {
-    console.log('LOAD MORE ANSWERS clicked');
+  loadMoreAnswers(e) {
+    let text = e.target.parentElement.textContent;
+    let questionId = e.target.parentElement.getAttribute('question_id');
+    let originalLength = e.target.parentElement.getAttribute('original-length');
+
+    let answers = this.state.answers;
+
+    if (text === 'LOAD MORE ANSWERS') {
+      e.target.parentElement.innerHTML = '<b>COLLAPSE ANSWERS</b>';
+      answers[questionId].count = originalLength;
+    } else if (text === 'COLLAPSE ANSWERS') {
+      answers[questionId].count = 2;
+      e.target.parentElement.innerHTML = '<b>LOAD MORE ANSWERS</b>';
+    }
+
+    this.setState({
+      answers
+    });
+
+    this.getQuestions();
   }
 
   render() {
@@ -491,7 +534,7 @@ class QuestionsAndAnswers extends React.Component {
       <div className="qa" id="qa-wrapper">
         <QAHeader />
         <SearchBar searchVal={this.state.searchVal} handleChange={this.handleChange} />
-        <QAList filteredQs={this.state.filteredQs} sortAnswers={this.sortAnswers} convertDate={this.convertDate} answerHelpful={this.answerHelpful} answerReport={this.answerReport} loadMoreAnswers={this.loadMoreAnswers} questionHelpful={this.questionHelpful} addAnswer={this.addAnswer} questionReport={this.questionReport} moreAnsweredQs={this.moreAnsweredQs} addQuestion={this.addQuestion} productName={this.state.productName} questionBody={this.state.questionBody} photos={this.state.photos} uploadPhotos={this.uploadPhotos} submitAnswer={this.submitAnswer} productName={this.state.productName} submitQuestion={this.submitQuestion} />
+        <QAList filteredQs={this.state.filteredQs} sortAnswers={this.sortAnswers} convertDate={this.convertDate} answerHelpful={this.answerHelpful} answerReport={this.answerReport} loadMoreAnswers={this.loadMoreAnswers} questionHelpful={this.questionHelpful} addAnswer={this.addAnswer} questionReport={this.questionReport} moreAnsweredQs={this.moreAnsweredQs} addQuestion={this.addQuestion} productName={this.state.productName} questionBody={this.state.questionBody} photos={this.state.photos} uploadPhotos={this.uploadPhotos} submitAnswer={this.submitAnswer} productName={this.state.productName} submitQuestion={this.submitQuestion} answers={this.state.answers} answerCount={this.state.answerCount} />
         <QAButtons moreAnsweredQs={this.moreAnsweredQs} addQuestion={this.addQuestion} />
         <AnswerModal productName={this.state.productName} questionBody={this.state.questionBody} photos={this.state.photos} uploadPhotos={this.uploadPhotos} submitAnswer={this.submitAnswer} />
         <QuestionModal productName={this.state.productName} submitQuestion={this.submitQuestion} />
