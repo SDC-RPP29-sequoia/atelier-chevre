@@ -18,17 +18,17 @@ class RatingsAndReviews extends React.Component {
       displayedReviewsCount: 2
     };
 
-    this.getReviews = this.getReviews.bind(this);
+    this.getReviewData = this.getReviewData.bind(this);
   }
 
   componentDidMount () {
-    this.getReviews('relevent');
+    this.getReviewData('relevent');
 
     // get meta data
 
   }
 
-  getReviews (sortMethod) {
+  getReviewData (sortMethod) {
     API.getProductReviews(this.props.productId, sortMethod).then(response => {
       this.setState({
         currentProductReviews: response.results
