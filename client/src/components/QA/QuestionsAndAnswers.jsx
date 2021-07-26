@@ -105,6 +105,16 @@ class QuestionsAndAnswers extends React.Component {
           questions,
           filteredQs: questions
         });
+
+        let qs = document.getElementsByClassName('load-more-answers');
+
+        for (let i = 0; i < qs.length; i++) {
+          let length = qs[i].attributes['original-length'].value;
+
+          if (length <= 2) {
+            qs[i].style.display = 'none';
+          }
+        }
       })
       .catch(err => {
         console.log('axios get error', err);
