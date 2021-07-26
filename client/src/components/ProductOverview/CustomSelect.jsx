@@ -5,7 +5,8 @@ import { styled } from '@material-ui/core/styles';
 const StyledSelect = styled(Select)({
   border: 'none',
   borderRadius: '0px',
-  fontWeight: '700'
+  fontWeight: '700',
+  color: '#454545'
 });
 
 const CustomSelect = (props) => {
@@ -19,7 +20,7 @@ const CustomSelect = (props) => {
         inputProps={{ 'aria-label': 'Without label' }}
       >
         {props.options?.map(option => (
-          <MenuItem value={option.value}>{option.label}</MenuItem>
+          <MenuItem value={option.value} key={option.value}>{option.label}</MenuItem>
         ))}
       </StyledSelect>
     </FormControl>

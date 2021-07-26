@@ -26,4 +26,16 @@ export default {
         });
     });
   },
+
+  getReviews(id) {
+    return new Promise((resolve, reject) => {
+      axios.get(`${url}/getReviews`, { params: { productId: id } })
+        .then(response => {
+          resolve(response.data);
+        })
+        .catch(err => {
+          reject(err);
+        });
+    });
+  }
 };
