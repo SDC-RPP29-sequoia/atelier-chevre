@@ -2,8 +2,6 @@ const express = require('express');
 const app = express();
 require('dotenv').config();
 const axios = require('axios');
-
-const request = require('request');
 const bodyParser = require('body-parser');
 const multer = require('multer');
 
@@ -20,150 +18,153 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(express.static(__dirname + '/../client/public'));
 
-app.post('/uploadPhotos', (req, res) => {
-  upload(req, res, (err) => {
-    if (err) {
-      console.log('err', err);
-      res.sendStatus(500);
-    }
-    res.send(req.file);
-  });
-});
+// app.post('/uploadPhotos', (req, res) => {
+//   upload(req, res, (err) => {
+//     if (err) {
+//       console.log('err', err);
+//       res.sendStatus(500);
+//     }
+//     res.send(req.file);
+//   });
+// QUESTIONS & ANSWERS
+app.get('/questions', (req, res) => {
+  let num = Number(req.query.product_id);
+  let url = `https://app-hrsei-api.herokuapp.com/api/fec2/hr-rpp/qa/questions?product_id=${num}&page=1&count=100`;
 
-app.post('/questions', (req, res) => {
-  let url = `https://app-hrsei-api.herokuapp.com/api/fec2/hr-rpp/qa/questions?product_id=${req.body.productId}&page=1&count=100`;
-
-  request({
-    method: 'GET',
-    url,
+  axios.get(url, {
     headers: {
       Authorization: process.env.TOKEN
     }
-  }, (err, response, body) => {
-    if (err) {
-      console.log('get q err', err);
+  })
+    .then(response => {
+      res.json(response.data);
+    })
+    .catch(err => {
+      console.log('err', err);
+    });
+});
+
+app.post('/questions', (req, res) => {
+  let data = req.body.data;
+  let url = 'https://app-hrsei-api.herokuapp.com/api/fec2/hr-rpp/qa/questions';
+
+  axios.post(url, data, {
+    headers: {
+      Authorization: process.env.TOKEN
     }
-
-    let data = JSON.parse(body);
-
-    res.json(data);
-  });
+  })
+    .then(response => {
+      res.send(response.data);
+    })
+    .catch(err => {
+      console.log('err', err);
+    });
 });
 
 app.post('/answerHelpful', (req, res) => {
   let answerId = req.body.answerId;
   let url = `https://app-hrsei-api.herokuapp.com/api/fec2/hr-rpp/qa/answers/${answerId}/helpful`;
 
-  request({
+  axios({
     method: 'PUT',
     url,
     headers: {
       Authorization: process.env.TOKEN
     }
-  }, (err, response, body) => {
-    if (err) {
-      console.log('a helpful err', err);
-    }
-
-    res.send(body);
-  });
+  })
+    .then(response => {
+      res.send(response.data);
+    })
+    .catch(err => {
+      console.log(err);
+    });
 });
 
 app.post('/questionHelpful', (req, res) => {
   let questionId = req.body.questionId;
   let url = `https://app-hrsei-api.herokuapp.com/api/fec2/hr-rpp/qa/questions/${questionId}/helpful`;
 
-  request({
+  axios({
     method: 'PUT',
     url,
     headers: {
       Authorization: process.env.TOKEN
     }
-  }, (err, response, body) => {
-    if (err) {
-      console.log('q helpful err', err);
-    }
-
-    res.send(body);
-  });
+  })
+    .then(response => {
+      res.send(response.data);
+    })
+    .catch(err => {
+      console.log(err);
+    });
 });
 
 app.post('/reportQuestion', (req, res) => {
   let questionId = req.body.questionId;
   let url = `https://app-hrsei-api.herokuapp.com/api/fec2/hr-rpp/qa/questions/${questionId}/report`;
 
-  request({
+  axios({
     method: 'PUT',
     url,
     headers: {
       Authorization: process.env.TOKEN
     }
-  }, (err, response, body) => {
-    if (err) {
-      console.log('report question err', err);
-    }
-
-    res.send(body);
-  });
+  })
+    .then(response => {
+      res.send(response.data);
+    })
+    .catch(err => {
+      console.log(err);
+    });
 });
 
 app.post('/reportAnswer', (req, res) => {
   let answerId = req.body.answerId;
   let url = `https://app-hrsei-api.herokuapp.com/api/fec2/hr-rpp/qa/answers/${answerId}/report`;
 
-  request({
+  axios({
     method: 'PUT',
     url,
     headers: {
       Authorization: process.env.TOKEN
     }
-  }, (err, response, body) => {
-    if (err) {
-      console.log('report answer err', err);
-    }
-
-    res.send(body);
-  });
-});
-
-app.post('/addQuestion', (req, res) => {
-  let json = req.body.data;
-  let url = 'https://app-hrsei-api.herokuapp.com/api/fec2/hr-rpp/qa/questions';
-
-  request({
-    method: 'POST',
-    url,
-    headers: {
-      Authorization: process.env.TOKEN
-    },
-    json
-  }, (err, response, body) => {
-    if (err) {
-      console.log('add question err', err);
-    }
-
-    res.send(body);
-  });
+  })
+    .then(response => {
+      res.send(response.data);
+    })
+    .catch(err => {
+      console.log(err);
+    });
 });
 
 app.post('/addAnswer', (req, res) => {
   let questionId = req.body.questionId;
-  let json = req.body.data;
+  let data = req.body.data;
   let url = `https://app-hrsei-api.herokuapp.com/api/fec2/hr-rpp/qa/questions/${questionId}/answers`;
 
-  request({
+  axios({
     method: 'POST',
     url,
+    data,
     headers: {
       Authorization: process.env.TOKEN
-    },
-    json
-  }, (err, response, body) => {
-    if (err) {
-      console.log('add answer err', err);
     }
+  })
+    .then(response => {
+      res.send(response.data);
+    })
+    .catch(err => {
+      console.log(err);
+    });
+});
 
-    res.send(body);
+app.post('/QAPhotos', (req, res) => {
+  upload(req, res, (err) => {
+    if (err) {
+      console.log('err', err);
+      res.sendStatus(500);
+    }
+    res.send(req.file);
   });
 });
 
@@ -182,33 +183,6 @@ app.get('/reviews/:productId/:sortMethod', (req, res) => {
     });
 });
 
-app.get('/products/:productId', (req, res) => {
-  axios.get(`https://app-hrsei-api.herokuapp.com/api/fec2/hr-rpp/products/${req.params.productId}`, {
-    headers: {
-      'Authorization': process.env.TOKEN
-    }
-  })
-    .then(response => {
-      res.json(response.data);
-    })
-    .catch(err => {
-      console.log(err);
-    });
-});
-
-app.get('/products/:productId/styles', (req, res) => {
-  axios.get(`https://app-hrsei-api.herokuapp.com/api/fec2/hr-rpp/products/${req.params.productId}/styles`, {
-    headers: {
-      'Authorization': process.env.TOKEN
-    }
-  })
-    .then(response => {
-      res.json(response.data);
-    })
-    .catch(err => {
-      console.log(err);
-    });
-});
 
 app.listen(process.env.PORT, () => {
   console.log('App listening on port ', process.env.PORT);

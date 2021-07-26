@@ -10,12 +10,19 @@ describe('ProductOverview component', () => {
   let wrapper, instance;
 
   beforeEach(() => {
-    wrapper = shallow(<ProductOverview productId={productIdTest} />);
+    wrapper = shallow(<ProductOverview productId="28215" />);
     instance = wrapper.instance();
   });
 
   it('renders without crashing', done => {
     expect(wrapper).toBeTruthy();
+    done();
+  });
+
+  it('renders each section of the overview', done => {
+    expect(wrapper.find('#announcement-banner')).toHaveLength(1);
+    expect(wrapper.find('#product-main')).toHaveLength(1);
+    expect(wrapper.find('#product-extra')).toHaveLength(1);
     done();
   });
 
