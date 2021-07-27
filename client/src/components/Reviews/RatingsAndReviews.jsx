@@ -7,6 +7,7 @@ import Sort from './Sort';
 import ReviewContent from './ReviewContent';
 import RatingsBreakdown from './RatingsBreakdown';
 import FilteredStatus from './FilteredStatus';
+import ProductBreakdown from './ProductBreakdown';
 import API from './ReviewsAPIUtils';
 
 class RatingsAndReviews extends React.Component {
@@ -136,6 +137,7 @@ class RatingsAndReviews extends React.Component {
             {filtered === true &&
               <FilteredStatus filterReviews={this.state.filterReviews} clearAllFilters={this.clearAllFilters}/>
             }
+            <ProductBreakdown currentProductMeta={this.state.currentProductMeta}/>
           </div>
           <div id="reviews-col2">
             <Sort getReviewData={this.getReviewData} totalReviews={totalReviews}/>
