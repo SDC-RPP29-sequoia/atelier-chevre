@@ -10,13 +10,11 @@ import QuestionModal from './QuestionModal';
 class QAList extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-
-    };
   }
 
   render() {
     let allAnswers = this.props.answers;
+    // console.log('all answers', allAnswers);
 
     return (
       <div id="qa-list">{this.props.filteredQs.map((q, i) => {

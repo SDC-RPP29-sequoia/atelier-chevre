@@ -20,6 +20,7 @@ class QuestionsAndAnswers extends React.Component {
       filteredQs: [],
       photos: [],
       answers: {},
+      filteredAs: {},
       productName: '',
       questionBody: '',
       questionId: '',
@@ -88,7 +89,8 @@ class QuestionsAndAnswers extends React.Component {
         });
 
         this.setState({
-          answers
+          answers,
+          filteredAs: answers
         });
 
         if (cb) {
@@ -99,21 +101,28 @@ class QuestionsAndAnswers extends React.Component {
           return b.question_helpfulness - a.question_helpfulness;
         });
 
-        questions = questions.slice(0, this.state.count);
+        let filteredQs = questions.slice(0, this.state.count);
 
         this.setState({
           questions,
-          filteredQs: questions
+          filteredQs
         });
 
-        let qs = document.getElementsByClassName('load-more-answers');
+        let displayedAnswers = document.getElementsByClassName('load-more-answers');
 
-        for (let i = 0; i < qs.length; i++) {
-          let length = qs[i].attributes['original-length'].value;
+        for (let i = 0; i < displayedAnswers.length; i++) {
+          let length = displayedAnswers[i].attributes['original-length'].value;
 
           if (length <= 2) {
-            qs[i].style.display = 'none';
+            displayedAnswers[i].style.display = 'none';
           }
+        }
+
+        let displayedQuestions = document.getElementsByClassName('question');
+        let moreAnsweredQs = document.getElementById('more-answered-qs');
+
+        if (displayedQuestions.length === this.state.originalLength) {
+          moreAnsweredQs.style.display = 'none';
         }
       })
       .catch(err => {
@@ -452,14 +461,22 @@ class QuestionsAndAnswers extends React.Component {
 
     let filteredQs = questions.filter(q => {
       let question = q.question_body.toLowerCase();
-      let answer = JSON.stringify(q.answers).toLowerCase();
+      let answers = '';
 
-      return question.includes(text) || answer.includes(text);
+      for (let key in q.answers) {
+        answers += q.answers[key].body;
+      }
+
+      answers = answers.toLowerCase();
+
+      return question.includes(text) || answers.includes(text);
     });
+
+    console.log('filteredQs', filteredQs);
 
     if (!text || text === '' || text.length < 2) {
       this.setState({
-        filteredQs: questions
+        filteredQs: filteredQs.slice(0, 2)
       });
     }
 
@@ -509,10 +526,6 @@ class QuestionsAndAnswers extends React.Component {
     this.setState({
       count: this.state.count + 2
     });
-
-    if (this.state.count >= this.state.originalLength) {
-      e.target.style.display = 'none';
-    }
 
     this.getQuestions();
   }
