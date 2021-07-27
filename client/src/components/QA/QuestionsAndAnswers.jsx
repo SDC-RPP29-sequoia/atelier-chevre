@@ -472,18 +472,50 @@ class QuestionsAndAnswers extends React.Component {
       return question.includes(text) || answers.includes(text);
     });
 
-    console.log('filteredQs', filteredQs);
+    let originalAnswers = this.state.answers;
+    let filteredAs = Object.assign({}, originalAnswers);
+
+    let questionKeys = filteredQs.map(q => {
+      return q.question_id;
+    });
+
+    for (let key in filteredAs) {
+      if (!questionKeys.includes(Number(key))) {
+        filteredAs[key] = null;
+      }
+
+      if (filteredAs[key]) {
+        let newData = [];
+        for (let i = 0; i < filteredAs[key].data.length; i++) {
+          if (filteredAs[key].data[i].body.toLowerCase().includes(text)) {
+            newData.push(filteredAs[key].data[i]);
+          }
+        }
+        filteredAs[key].count = 100;
+        filteredAs[key].data = newData;
+      }
+    }
 
     if (!text || text === '' || text.length < 2) {
       this.setState({
-        filteredQs: filteredQs.slice(0, 2)
+        filteredQs: questions.slice(0, 2),
+        filteredAs: originalAnswers
       });
+      this.getQuestions();
     }
 
     if (text.length > 2) {
       this.setState({
-        filteredQs
-      });
+        filteredQs,
+        filteredAs
+      }, this.hideLoadMoreAnswers);
+    }
+  }
+
+  hideLoadMoreAnswers() {
+    let loadMoreAnswers = document.getElementsByClassName('load-more-answers');
+    for (let i = 0; i < loadMoreAnswers.length; i++) {
+      loadMoreAnswers[i].style.display = 'none';
     }
   }
 
@@ -557,7 +589,7 @@ class QuestionsAndAnswers extends React.Component {
       <div className="qa" id="qa-wrapper">
         <QAHeader />
         <SearchBar searchVal={this.state.searchVal} handleChange={this.handleChange} />
-        <QAList filteredQs={this.state.filteredQs} sortAnswers={this.sortAnswers} convertDate={this.convertDate} answerHelpful={this.answerHelpful} answerReport={this.answerReport} loadMoreAnswers={this.loadMoreAnswers} questionHelpful={this.questionHelpful} addAnswer={this.addAnswer} questionReport={this.questionReport} moreAnsweredQs={this.moreAnsweredQs} addQuestion={this.addQuestion} productName={this.state.productName} questionBody={this.state.questionBody} photos={this.state.photos} uploadPhotos={this.uploadPhotos} submitAnswer={this.submitAnswer} productName={this.state.productName} submitQuestion={this.submitQuestion} answers={this.state.answers} answerCount={this.state.answerCount} />
+        <QAList filteredQs={this.state.filteredQs} sortAnswers={this.sortAnswers} convertDate={this.convertDate} answerHelpful={this.answerHelpful} answerReport={this.answerReport} loadMoreAnswers={this.loadMoreAnswers} questionHelpful={this.questionHelpful} addAnswer={this.addAnswer} questionReport={this.questionReport} moreAnsweredQs={this.moreAnsweredQs} addQuestion={this.addQuestion} productName={this.state.productName} questionBody={this.state.questionBody} photos={this.state.photos} uploadPhotos={this.uploadPhotos} submitAnswer={this.submitAnswer} productName={this.state.productName} submitQuestion={this.submitQuestion} answers={this.state.filteredAs} answerCount={this.state.answerCount} />
         <QAButtons moreAnsweredQs={this.moreAnsweredQs} addQuestion={this.addQuestion} />
         <AnswerModal productName={this.state.productName} questionBody={this.state.questionBody} photos={this.state.photos} uploadPhotos={this.uploadPhotos} submitAnswer={this.submitAnswer} />
         <QuestionModal productName={this.state.productName} submitQuestion={this.submitQuestion} />

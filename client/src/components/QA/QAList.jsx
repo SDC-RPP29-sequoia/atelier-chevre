@@ -14,7 +14,6 @@ class QAList extends React.Component {
 
   render() {
     let allAnswers = this.props.answers;
-    // console.log('all answers', allAnswers);
 
     return (
       <div id="qa-list">{this.props.filteredQs.map((q, i) => {
