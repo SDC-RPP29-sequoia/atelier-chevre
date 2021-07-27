@@ -20,7 +20,8 @@ class RatingsAndReviews extends React.Component {
       currentProductMeta: {},
       displayedReviewsCount: 2,
       filterReviews: [0, 0, 0, 0, 0],
-      imageURL: ''
+      imageURL: '',
+      currentSortMethod: 'relevence'
     };
 
     this.getReviewData = this.getReviewData.bind(this);
@@ -33,7 +34,7 @@ class RatingsAndReviews extends React.Component {
   }
 
   componentDidMount () {
-    this.getReviewData('relevent');
+    this.getReviewData('relevence');
   }
 
   getReviewsToDisplay(filtered) {
@@ -61,7 +62,8 @@ class RatingsAndReviews extends React.Component {
     const reviewsMeta = await API.getProductReviewsMeta(this.props.productId);
     this.setState({
       currentProductReviews: reviews.data.results,
-      currentProductMeta: reviewsMeta
+      currentProductMeta: reviewsMeta,
+      currentSortMethod: sortMethod
     });
   }
 
@@ -109,9 +111,12 @@ class RatingsAndReviews extends React.Component {
   }
 
   async handleHelpfulClick (reviewId) {
-    // determine if user already clicked this review
-    await API.sendHelpful(reviewId);
-    this.getReviewData();
+    try {
+      const response = await API.sendHelpful(reviewId);
+      this.getReviewData(this.state.currentSortMethod);
+    } catch (err) {
+      console.log(err.message);
+    }
   }
 
   handleStarsNumberClick (stars) {

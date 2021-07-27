@@ -17,6 +17,9 @@ export default {
       .then(res => {
         return res;
       })
-      .catch(err => console.log(err.message));
+      .catch(err => {
+        alert('You have already marked this review as Helpful');
+        return err;
+      });
   }
 };

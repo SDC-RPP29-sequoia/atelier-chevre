@@ -4,6 +4,7 @@ require('dotenv').config();
 const axios = require('axios');
 const bodyParser = require('body-parser');
 const multer = require('multer');
+const cookieParser = require('cookie-parser');
 
 const storage = multer.diskStorage({
   destination: __dirname + '/../client/public/photos',
@@ -188,15 +189,36 @@ app.get('/reviews/:productId/', (req, res) => {
     });
 });
 
-app.put('/reviews/:reviewId', (req, res) => {
-  axios.put(`https://app-hrsei-api.herokuapp.com/api/fec2/hr-rpp/reviews/${req.params.reviewId}/helpful`, {}, {
-    headers: {
-      'Authorization': process.env.TOKEN
+app.put('/reviews/:reviewId', cookieParser(), (req, res) => {
+  console.log('req:', req.cookies.helpful);
+  if (req.cookies.helpful === undefined) {
+    axios.put(`https://app-hrsei-api.herokuapp.com/api/fec2/hr-rpp/reviews/${req.params.reviewId}/helpful`, {}, {
+      headers: {
+        'Authorization': process.env.TOKEN
+      }
+    })
+      .then(response => {
+        res.cookie('helpful', JSON.stringify([`${[req.params.reviewId]}`]));
+        res.status(204).send('request complete');
+      });
+  } else {
+    const helpfulClicked = JSON.parse(req.cookies.helpful);
+    if (helpfulClicked.includes(req.params.reviewId)) {
+      res.status(304).send('helful already clicked for this review');
+    } else {
+      axios.put(`https://app-hrsei-api.herokuapp.com/api/fec2/hr-rpp/reviews/${req.params.reviewId}/helpful`, {}, {
+        headers: {
+          'Authorization': process.env.TOKEN
+        }
+      })
+        .then(response => {
+          const helpfulSend = [...helpfulClicked, req.params.reviewId];
+          res.cookie('helpful', JSON.stringify(helpfulSend));
+          res.status(204).send('request complete');
+        });
     }
-  })
-    .then(response => {
-      res.status(204).send('request complete');
-    });
+  }
+
 });
 
 app.get('/products/:productId', (req, res) => {
