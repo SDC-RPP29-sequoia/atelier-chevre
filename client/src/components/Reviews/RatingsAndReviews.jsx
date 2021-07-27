@@ -92,10 +92,12 @@ class RatingsAndReviews extends React.Component {
     });
   }
 
-  closeImage (url) {
-    this.setState({
-      imageURL: ''
-    });
+  closeImage (id) {
+    if (id === 'reviews-fullscreen-image-wrapper' || id === 'close-image') {
+      this.setState({
+        imageURL: ''
+      });
+    }
   }
 
   handleMoreReviewsClick () {
