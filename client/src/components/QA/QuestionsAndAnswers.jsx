@@ -452,59 +452,59 @@ class QuestionsAndAnswers extends React.Component {
   }
 
   handleChange(e) {
+    let originalAnswers = Object.assign({}, this.state.answers);
+
     this.setState({
       searchVal: e.target.value
     });
 
-    let text = this.state.searchVal;
+    let text = e.target.value;
     let questions = this.state.questions;
 
-    let filteredQs = questions.filter(q => {
-      let question = q.question_body.toLowerCase();
-      let answers = '';
-
-      for (let key in q.answers) {
-        answers += q.answers[key].body;
-      }
-
-      answers = answers.toLowerCase();
-
-      return question.includes(text) || answers.includes(text);
-    });
-
-    let originalAnswers = this.state.answers;
-    let filteredAs = Object.assign({}, originalAnswers);
-
-    let questionKeys = filteredQs.map(q => {
-      return q.question_id;
-    });
-
-    for (let key in filteredAs) {
-      if (!questionKeys.includes(Number(key))) {
-        filteredAs[key] = null;
-      }
-
-      if (filteredAs[key]) {
-        let newData = [];
-        for (let i = 0; i < filteredAs[key].data.length; i++) {
-          if (filteredAs[key].data[i].body.toLowerCase().includes(text)) {
-            newData.push(filteredAs[key].data[i]);
-          }
-        }
-        filteredAs[key].count = 100;
-        filteredAs[key].data = newData;
-      }
-    }
-
     if (!text || text === '' || text.length < 2) {
-      this.setState({
-        filteredQs: questions.slice(0, 2),
-        filteredAs: originalAnswers
-      });
+      // this.setState({
+      //   filteredQs: questions.slice(0, 2),
+      //   filteredAs: originalAnswers
+      // });
       this.getQuestions();
-    }
+    } else if (text.length > 2) {
+      let filteredQs = questions.filter(q => {
+        let question = q.question_body.toLowerCase();
+        let answers = '';
 
-    if (text.length > 2) {
+        for (let key in q.answers) {
+          answers += q.answers[key].body;
+        }
+
+        answers = answers.toLowerCase();
+
+        return question.includes(text) || answers.includes(text);
+      });
+
+      let filteredAs = Object.assign({}, originalAnswers);
+
+      let questionKeys = filteredQs.map(q => {
+        return q.question_id;
+      });
+
+      for (let key in filteredAs) {
+        if (filteredAs[key]) {
+          let newData = [];
+
+          for (let i = 0; i < filteredAs[key].data.length; i++) {
+            if (filteredAs[key].data[i].body.toLowerCase().includes(text)) {
+              newData.push(filteredAs[key].data[i]);
+            }
+
+            if (questionKeys.includes(Number(key)) && !newData.includes(filteredAs[key].data[i])) {
+              newData.push(filteredAs[key].data[i]);
+            }
+          }
+          filteredAs[key].count = 100;
+          filteredAs[key].data = newData;
+        }
+      }
+
       this.setState({
         filteredQs,
         filteredAs
