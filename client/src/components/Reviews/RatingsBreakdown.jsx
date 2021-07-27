@@ -5,10 +5,6 @@ class RatingsBreakdown extends React.Component {
     super(props);
   }
 
-  handleStarsNumberClick (stars) {
-    console.log(stars);
-  }
-
   render() {
     const { reviews, totalReviews, percentRecommended} = this.props;
     const reviewCounter = {
@@ -23,38 +19,36 @@ class RatingsBreakdown extends React.Component {
       reviewCounter[review.rating]++;
     });
 
-    let columnOne = [];
-    let columnTwo = [];
-    let columnThree = [];
-    let numberOfStars = '';
+    let breakdownRow = [];
+    let breakdownRows = [];
+    let ratingsRow = '';
+    let j = 1;
 
     for (let i = 5; i > 0; i--) {
       const percentOfReviews = (reviewCounter[i] / totalReviews) * 100;
       const width = {
         width: `${percentOfReviews}%`
       };
+
+      breakdownRow.push(<div key={i}><span className="reviews-number">{i} Stars</span></div>);
+      breakdownRow.push(<div key={(i + j) * 6} className="light-bar"><div style={width}className="dark-bar"></div></div>);
+      breakdownRow.push(<div key={(i + j) * 12} className="review-label">{reviewCounter[i]}</div>);
+
       if (percentOfReviews !== 0) {
-        numberOfStars = <div onClick={() => this.handleStarsNumberClick(i)} key={i}><span className="reviews-number-link">{i} Stars</span></div>;
+        ratingsRow = <div onClick={() => this.props.handleStarsNumberClick(i)} className="ratings-breakdown-row reviews-number-link">{breakdownRow}</div>;
       } else {
-        numberOfStars = <div key={i}><span className="reviews-number-nolink">{i} Stars</span></div>;
+        ratingsRow = <div className="ratings-breakdown-row reviews-number-nolink">{breakdownRow}</div>;
       }
-      columnOne.push(numberOfStars);
-      columnTwo.push( <div key={i} className="light-bar"><div style={width}className="dark-bar"></div></div>);
-      columnThree.push(<div key={i} className="review-label">{reviewCounter[i]}</div>);
+
+      breakdownRows.push(ratingsRow);
+      breakdownRow = [];
+      j++;
     }
 
     return (
       <div>
         <div id="ratings-breakdown-wrapper">
-          <div className="ratings-breakdown-column">
-            {columnOne}
-          </div>
-          <div className="ratings-breakdown-column">
-            {columnTwo}
-          </div>
-          <div className="ratings-breakdown-column">
-            {columnThree}
-          </div>
+          {breakdownRows}
         </div>
         <div id="percent-recommended">{percentRecommended}% of reviews recommend this product</div>
       </div>

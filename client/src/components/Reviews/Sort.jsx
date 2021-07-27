@@ -2,10 +2,10 @@ import React from 'react';
 import API from './ReviewsAPIUtils';
 import './RatingsAndReviews.scss';
 
-const Sort = ({getReviews, totalReviews}) => {
+const Sort = ({getReviewData, totalReviews}) => {
 
   const handleSelected = (event) => {
-    getReviews(event.target.value);
+    getReviewData(event.target.value);
   };
 
   const dropDownList = (

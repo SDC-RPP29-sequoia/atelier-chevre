@@ -79,7 +79,7 @@
 
     .review-content-wrapper {
       overflow-y: auto;
-      max-height: 85vh;
+      max-height: 75vh;
     }
 
     .btn {
@@ -103,24 +103,25 @@
     #ratings-breakdown-wrapper {
       margin-top: 30px;
       display: grid;
-      grid-template-columns: 60px 185px 1fr;
+      grid-template-rows: repeat(5, 1fr);
 
-      .reviews-number-link {
-        font-size: .85rem;
-        text-decoration: underline;
-        cursor: pointer;
-      }
-
-      .reviews-number-nolink {
+      .reviews-number {
         font-size: .85rem;
       }
     }
 
-    .ratings-breakdown-column {
+    .ratings-breakdown-row {
       display: grid;
+      height: 1.75rem;
       align-items: center;
-      grid-template-rows: repeat(5, 1fr);
-      height: 130px;
+      grid-template-columns: 55px 200px 1fr;
+    }
+
+    .reviews-number-link {
+      text-decoration: underline;
+      &:hover {
+        background-color: lightgray;
+      }
     }
 
     .light-bar {
@@ -148,6 +149,20 @@
       &:focus {
         outline: none;
       }
+    }
+
+    .filters-used {
+      font-size: .85rem;
+      margin-top: 1rem;
+    }
+
+    .clear-filters {
+      text-decoration: underline;
+      margin-top: 1rem;;
+    }
+
+    .filter-title {
+      margin-top: 5px;
     }
 
     #reviews-recommended {

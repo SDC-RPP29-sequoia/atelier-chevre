@@ -6,6 +6,7 @@ import Stars from '../Stars/Stars';
 import Sort from './Sort';
 import ReviewContent from './ReviewContent';
 import RatingsBreakdown from './RatingsBreakdown';
+import FilteredStatus from './FilteredStatus';
 import API from './ReviewsAPIUtils';
 
 class RatingsAndReviews extends React.Component {
@@ -15,14 +16,37 @@ class RatingsAndReviews extends React.Component {
     this.state = {
       currentProductReviews: [],
       currentProductMeta: {},
-      displayedReviewsCount: 2
+      displayedReviewsCount: 2,
+      filterReviews: [0, 0, 0, 0, 0]
     };
 
     this.getReviewData = this.getReviewData.bind(this);
+    this.handleStarsNumberClick = this.handleStarsNumberClick.bind(this);
+    this.clearAllFilters = this.clearAllFilters.bind(this);
   }
 
   componentDidMount () {
     this.getReviewData('relevent');
+  }
+
+  getReviewsToDisplay(filtered) {
+    let reviewHolder = [];
+    let reviews, compareLength;
+
+    if (filtered) {
+      this.state.currentProductReviews.forEach(review => {
+        if (this.state.filterReviews[review.rating - 1]) {
+          reviewHolder.push(review);
+        }
+      });
+      reviews = reviewHolder.slice(0, this.state.displayedReviewsCount);
+      compareLength = reviewHolder.length;
+    } else {
+      reviews = this.state.currentProductReviews.slice(0, this.state.displayedReviewsCount);
+      compareLength = this.state.currentProductReviews.length;
+    }
+
+    return [reviews, compareLength];
   }
 
   async getReviewData (sortMethod) {
@@ -50,6 +74,12 @@ class RatingsAndReviews extends React.Component {
     return percentRecommended.toFixed();
   }
 
+  clearAllFilters () {
+    this.setState({
+      filterReviews: [0, 0, 0, 0, 0]
+    });
+  }
+
   handleMoreReviewsClick () {
     const newCount = this.state.displayedReviewsCount + 2;
     this.setState({
@@ -57,6 +87,14 @@ class RatingsAndReviews extends React.Component {
     });
   }
 
+  handleStarsNumberClick (stars) {
+    const filters = [...this.state.filterReviews];
+    filters[stars - 1] === 0 ? filters[stars - 1] = 1 : filters[stars - 1] = 0;
+    this.setState({
+      filterReviews: filters,
+      displayedReviewsCount: 2
+    });
+  }
 
   render () {
     if (this.state.currentProductReviews.length === 0) {
@@ -76,8 +114,11 @@ class RatingsAndReviews extends React.Component {
     const averageRating = this.getAverageRating(this.state.currentProductReviews);
     const percentRecommended = this.getPercentRecommended(this.state.currentProductReviews);
     const totalReviews = this.state.currentProductReviews.length;
-    const displayedReviews = this.state.currentProductReviews.slice(0, this.state.displayedReviewsCount);
-    const reviewsToDisplay = displayedReviews.map(review => {
+    const filtered = this.state.filterReviews.includes(1);
+    const [ displayedReviews, compareLength ] = this.getReviewsToDisplay(filtered);
+
+
+    let reviewsToDisplay = displayedReviews.map(review => {
       return <ReviewContent key={review.review_id} review={review} />;
     });
 
@@ -91,15 +132,17 @@ class RatingsAndReviews extends React.Component {
               <div className="large-avg-review">{averageRating}</div>
               <div id="avg-stars-container"><Stars average={averageRating} /></div>
             </div>
-            <RatingsBreakdown percentRecommended={percentRecommended} reviews={this.state.currentProductReviews} totalReviews={totalReviews}/>
-
+            <RatingsBreakdown handleStarsNumberClick={this.handleStarsNumberClick} percentRecommended={percentRecommended} reviews={this.state.currentProductReviews} totalReviews={totalReviews}/>
+            {filtered === true &&
+              <FilteredStatus filterReviews={this.state.filterReviews} clearAllFilters={this.clearAllFilters}/>
+            }
           </div>
           <div id="reviews-col2">
-            <Sort getReviews={this.getReviews} totalReviews={totalReviews}/>
+            <Sort getReviewData={this.getReviewData} totalReviews={totalReviews}/>
             <div className="review-content-wrapper">
               {reviewsToDisplay}
             </div>
-            {this.state.displayedReviewsCount < this.state.currentProductReviews.length &&
+            {this.state.displayedReviewsCount < compareLength &&
               <button className="btn" onClick={() => this.handleMoreReviewsClick()}>MORE REVIEWS</button>
             }
             <button className="btn">ADD A REVIEW <span className="plus-icon">+</span></button>
