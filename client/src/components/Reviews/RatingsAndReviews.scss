@@ -193,4 +193,43 @@
       width: 100%;
       background-color: lightgray;
     }
+
+    .reviews-thumbnail {
+      max-height: 75px;
+      max-width: 75px;
+      margin: 15px;
+    }
+
+    #reviews-fullscreen-image-wrapper {
+      display: grid;
+      grid-template-rows: auto;
+      height: 100%;
+      width: 100%;
+      position: fixed;
+      padding: 50px;
+      z-index: 1;
+      left: 0;
+      top: 0;
+      background-color: rgb(0,0,0);
+      background-color: rgba(0,0,0, 0.9);
+      overflow-x: auto;
+    }
+
+    #reviews-image-holder {
+      display: grid;
+      place-self: center center;
+    }
+
+    #close-image {
+      font-size: 2rem;
+      color: ghostwhite;
+      place-self: start;
+    }
+
+    #ratings-image {
+      place-self: center center;
+      padding-bottom: 50px;
+      padding-right: 50px;
+      margin-top: 20px;
+    }
   }

@@ -3,8 +3,11 @@ import Stars from '../Stars/Stars';
 import './RatingsAndReviews.scss';
 import { GrCheckmark } from 'react-icons/gr';
 
-const ReviewContent = ({review}) => {
+const ReviewContent = ({review, displayImage}) => {
   const date = new Date(review.date);
+  const photos = review.photos.map(photo => {
+    return <img onClick={() => displayImage(photo.url)} className="reviews-thumbnail" key={photo.id} src={photo.url}></img>;
+  });
 
   return (
     <div className="review-content">
@@ -14,6 +17,11 @@ const ReviewContent = ({review}) => {
       </div>
       <div className="review-summary">{review.summary}</div>
       <div className="review-body">{review.body}</div>
+      {review.photos.length > 0 &&
+        <div className="review-photos-thumbnails">
+          {photos}
+        </div>
+      }
       {review.recommend &&
         <div id="reviews-recommended"><GrCheckmark /> I recommend this product</div>
       }

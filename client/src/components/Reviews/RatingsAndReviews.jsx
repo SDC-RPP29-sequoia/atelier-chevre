@@ -8,6 +8,7 @@ import ReviewContent from './ReviewContent';
 import RatingsBreakdown from './RatingsBreakdown';
 import FilteredStatus from './FilteredStatus';
 import ProductBreakdown from './ProductBreakdown';
+import ReviewsModal from './ReviewsModal';
 import API from './ReviewsAPIUtils';
 
 class RatingsAndReviews extends React.Component {
@@ -18,12 +19,16 @@ class RatingsAndReviews extends React.Component {
       currentProductReviews: [],
       currentProductMeta: {},
       displayedReviewsCount: 2,
-      filterReviews: [0, 0, 0, 0, 0]
+      filterReviews: [0, 0, 0, 0, 0],
+      imageURL: ''
     };
 
     this.getReviewData = this.getReviewData.bind(this);
     this.handleStarsNumberClick = this.handleStarsNumberClick.bind(this);
     this.clearAllFilters = this.clearAllFilters.bind(this);
+    this.displayImage = this.displayImage.bind(this);
+    this.closeImage = this.closeImage.bind(this);
+
   }
 
   componentDidMount () {
@@ -81,6 +86,18 @@ class RatingsAndReviews extends React.Component {
     });
   }
 
+  displayImage (url) {
+    this.setState({
+      imageURL: url
+    });
+  }
+
+  closeImage (url) {
+    this.setState({
+      imageURL: ''
+    });
+  }
+
   handleMoreReviewsClick () {
     const newCount = this.state.displayedReviewsCount + 2;
     this.setState({
@@ -120,12 +137,15 @@ class RatingsAndReviews extends React.Component {
 
 
     let reviewsToDisplay = displayedReviews.map(review => {
-      return <ReviewContent key={review.review_id} review={review} />;
+      return <ReviewContent displayImage={this.displayImage} key={review.review_id} review={review} />;
     });
 
 
     return (
       <div id="reviews-section">
+        {this.state.imageURL.length > 0 &&
+          <ReviewsModal closeImage={this.closeImage} imageURL={this.state.imageURL}/>
+        }
         <div id="review-section-title">RATINGS AND REVIEWS</div>
         <div id="reviews-wrapper">
           <div id="reviews-col1">
