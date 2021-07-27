@@ -28,6 +28,7 @@ class RatingsAndReviews extends React.Component {
     this.clearAllFilters = this.clearAllFilters.bind(this);
     this.displayImage = this.displayImage.bind(this);
     this.closeImage = this.closeImage.bind(this);
+    this.handleHelpfulClick = this.handleHelpfulClick.bind(this);
 
   }
 
@@ -107,6 +108,12 @@ class RatingsAndReviews extends React.Component {
     });
   }
 
+  async handleHelpfulClick (reviewId) {
+    // determine if user already clicked this review
+    await API.sendHelpful(reviewId);
+    this.getReviewData();
+  }
+
   handleStarsNumberClick (stars) {
     const filters = [...this.state.filterReviews];
     filters[stars - 1] === 0 ? filters[stars - 1] = 1 : filters[stars - 1] = 0;
@@ -139,7 +146,7 @@ class RatingsAndReviews extends React.Component {
 
 
     let reviewsToDisplay = displayedReviews.map(review => {
-      return <ReviewContent displayImage={this.displayImage} key={review.review_id} review={review} />;
+      return <ReviewContent handleHelpfulClick={this.handleHelpfulClick} displayImage={this.displayImage} key={review.review_id} review={review} />;
     });
 
 

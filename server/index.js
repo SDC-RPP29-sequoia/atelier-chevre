@@ -188,6 +188,17 @@ app.get('/reviews/:productId/', (req, res) => {
     });
 });
 
+app.put('/reviews/:reviewId', (req, res) => {
+  axios.put(`https://app-hrsei-api.herokuapp.com/api/fec2/hr-rpp/reviews/${req.params.reviewId}/helpful`, {}, {
+    headers: {
+      'Authorization': process.env.TOKEN
+    }
+  })
+    .then(response => {
+      res.status(204).send('request complete');
+    });
+});
+
 app.get('/products/:productId', (req, res) => {
   axios.get(`https://app-hrsei-api.herokuapp.com/api/fec2/hr-rpp/products/${req.params.productId}`, {
     headers: {

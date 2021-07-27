@@ -1,9 +1,10 @@
 import React from 'react';
 import Stars from '../Stars/Stars';
+import API from './ReviewsAPIUtils';
 import './RatingsAndReviews.scss';
 import { GrCheckmark } from 'react-icons/gr';
 
-const ReviewContent = ({review, displayImage}) => {
+const ReviewContent = ({review, displayImage, handleHelpfulClick}) => {
   const date = new Date(review.date);
   const photos = review.photos.map(photo => {
     return <img onClick={() => displayImage(photo.url)} className="reviews-thumbnail" key={photo.id} src={photo.url}></img>;
@@ -31,7 +32,7 @@ const ReviewContent = ({review, displayImage}) => {
           <div id="response-content">{review.response}</div>
         </div>
       }
-      <div className="helpful">Helpful? Yes({review.helpfulness})  |  Report</div>
+      <div className="helpful">Helpful? <span onClick={() => handleHelpfulClick(review.review_id)}>Yes({review.helpfulness})</span>  |  Report</div>
     </div>
   );
 };
