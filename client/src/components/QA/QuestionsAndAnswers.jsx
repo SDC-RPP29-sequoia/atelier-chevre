@@ -134,7 +134,7 @@ class QuestionsAndAnswers extends React.Component {
     let clicked = e.target.getAttribute('clicked');
 
     if (clicked === 'true') {
-      alert('You cannot vote more than once!');
+      alert('You have already marked this as helpful');
       return;
     }
 
@@ -179,7 +179,7 @@ class QuestionsAndAnswers extends React.Component {
     let clicked = e.target.getAttribute('clicked');
 
     if (clicked === 'true') {
-      alert('You cannot vote more than once!');
+      alert('You have already marked this as helpful');
       return;
     }
 
@@ -462,10 +462,6 @@ class QuestionsAndAnswers extends React.Component {
     let questions = this.state.questions;
 
     if (!text || text === '' || text.length < 2) {
-      // this.setState({
-      //   filteredQs: questions.slice(0, 2),
-      //   filteredAs: originalAnswers
-      // });
       this.getQuestions();
     } else if (text.length > 2) {
       let filteredQs = questions.filter(q => {

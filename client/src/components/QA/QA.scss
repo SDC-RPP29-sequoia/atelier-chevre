@@ -43,6 +43,16 @@
     grid-template-columns: 70% 30%;
   }
 
+  #qa-list {
+    overflow-y: auto;
+    max-height: 75vh;
+  }
+
+  .answer-wrapper {
+    overflow-y: auto;
+    max-height: 50vh;
+  }
+
   .question {
     grid-column: 1 / span 1;
     grid-row: 1 / span 1;
