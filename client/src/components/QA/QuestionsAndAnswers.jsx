@@ -40,8 +40,6 @@ class QuestionsAndAnswers extends React.Component {
     this.submitQuestion = this.submitQuestion.bind(this);
     this.uploadPhotos = this.uploadPhotos.bind(this);
     this.handleChange = this.handleChange.bind(this);
-    this.convertDate = this.convertDate.bind(this);
-    this.sortAnswers = this.sortAnswers.bind(this);
     this.moreAnsweredQs = this.moreAnsweredQs.bind(this);
     this.loadMoreAnswers = this.loadMoreAnswers.bind(this);
   }
@@ -517,41 +515,6 @@ class QuestionsAndAnswers extends React.Component {
     }
   }
 
-  convertDate(date) {
-    let ISOdate = new Date(date);
-    let month = ISOdate.toLocaleString('default', { month: 'long'});
-    let day = ISOdate.getDate();
-    let year = ISOdate.getFullYear();
-    let newDate = `${month} ${day}, ${year}`;
-
-    return newDate;
-  }
-
-  sortAnswers(ans) {
-    let answers = [];
-    let sellerAnswers = [];
-
-    for (var key in ans) {
-      if (ans[key].answerer_name === 'Seller') {
-        sellerAnswers.push(ans[key]);
-      } else if (ans[key].id) {
-        answers.push(ans[key]);
-      }
-    }
-
-    answers.sort((a, b) => {
-      return b.helpfulness - a.helpfulness;
-    });
-
-    sellerAnswers.sort((a, b) => {
-      return b.helpfulness - a.helpfulness;
-    });
-
-    answers = sellerAnswers.concat(answers);
-
-    return answers;
-  }
-
   moreAnsweredQs(e) {
     this.setState({
       count: this.state.count + 2
@@ -593,7 +556,7 @@ class QuestionsAndAnswers extends React.Component {
       <div className="qa" id="qa-wrapper">
         <QAHeader />
         <SearchBar searchVal={this.state.searchVal} handleChange={this.handleChange} />
-        <QAList filteredQs={this.state.filteredQs} sortAnswers={this.sortAnswers} convertDate={this.convertDate} answerHelpful={this.answerHelpful} answerReport={this.answerReport} loadMoreAnswers={this.loadMoreAnswers} questionHelpful={this.questionHelpful} addAnswer={this.addAnswer} questionReport={this.questionReport} moreAnsweredQs={this.moreAnsweredQs} addQuestion={this.addQuestion} productName={this.state.productName} questionBody={this.state.questionBody} photos={this.state.photos} uploadPhotos={this.uploadPhotos} submitAnswer={this.submitAnswer} productName={this.state.productName} submitQuestion={this.submitQuestion} answers={this.state.filteredAs} answerCount={this.state.answerCount} />
+        <QAList filteredQs={this.state.filteredQs} answerHelpful={this.answerHelpful} answerReport={this.answerReport} loadMoreAnswers={this.loadMoreAnswers} questionHelpful={this.questionHelpful} addAnswer={this.addAnswer} questionReport={this.questionReport} moreAnsweredQs={this.moreAnsweredQs} addQuestion={this.addQuestion} productName={this.state.productName} questionBody={this.state.questionBody} photos={this.state.photos} uploadPhotos={this.uploadPhotos} submitAnswer={this.submitAnswer} productName={this.state.productName} submitQuestion={this.submitQuestion} answers={this.state.filteredAs} answerCount={this.state.answerCount} />
         <QAButtons moreAnsweredQs={this.moreAnsweredQs} addQuestion={this.addQuestion} />
         <AnswerModal productName={this.state.productName} questionBody={this.state.questionBody} photos={this.state.photos} uploadPhotos={this.uploadPhotos} submitAnswer={this.submitAnswer} />
         <QuestionModal productName={this.state.productName} submitQuestion={this.submitQuestion} />

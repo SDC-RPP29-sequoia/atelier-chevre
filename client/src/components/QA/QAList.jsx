@@ -10,14 +10,57 @@ import QuestionModal from './QuestionModal';
 class QAList extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+
+    };
+
+    this.sortAnswers = this.sortAnswers.bind(this);
+    this.convertDate = this.convertDate.bind(this);
+  }
+
+  sortAnswers(ans) {
+    let answers = [];
+    let sellerAnswers = [];
+
+    for (var key in ans) {
+      if (ans[key].answerer_name === 'Seller') {
+        sellerAnswers.push(ans[key]);
+      } else if (ans[key].id) {
+        answers.push(ans[key]);
+      }
+    }
+
+    answers.sort((a, b) => {
+      return b.helpfulness - a.helpfulness;
+    });
+
+    sellerAnswers.sort((a, b) => {
+      return b.helpfulness - a.helpfulness;
+    });
+
+    answers = sellerAnswers.concat(answers);
+
+    return answers;
+  }
+
+  convertDate(date) {
+    let ISOdate = new Date(date);
+    let month = ISOdate.toLocaleString('default', { month: 'long'});
+    let day = ISOdate.getDate();
+    let year = ISOdate.getFullYear();
+    let newDate = `${month} ${day}, ${year}`;
+
+    return newDate;
   }
 
   render() {
     let allAnswers = this.props.answers;
 
+    console.log(allAnswers, this.props.filteredQs);
+
     return (
       <div id="qa-list">{this.props.filteredQs.map((q, i) => {
-        let answers = this.props.sortAnswers(allAnswers[q.question_id].data);
+        let answers = this.sortAnswers(allAnswers[q.question_id].data);
         let originalLength = answers.length;
 
         let count = allAnswers[q.question_id].count;
@@ -28,7 +71,7 @@ class QAList extends React.Component {
           <div key={q.question_date + i} className="qa" id="list">
             <div className="question"><b>Q: {q.question_body}</b></div>
             <div className="answer-wrapper">{answers.map(a => {
-              let date = this.props.convertDate(a.date);
+              let date = this.convertDate(a.date);
               let aName = a.answerer_name;
 
               if (aName === 'Seller') {
