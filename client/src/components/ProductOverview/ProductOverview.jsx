@@ -197,14 +197,16 @@ class ProductOverview extends React.Component {
 
             <div className="group horizontal gapped">
               {this.state.productStyles.results?.map(style => (
-                <div
-                  className={`style-selector bg-image ${this.state.selectedStyle.style_id === style.style_id ? 'selected' : ''}`}
-                  onClick={() => { this.changeStyle(style.style_id); }}
-                  style={{ backgroundImage: `url(${style.photos[0].thumbnail_url})` }}
-                  key={style.style_id}
-                >
-                  <div className="selected-check">
-                    <AiOutlineCheck />
+                <div className="style-selector-wrapper">
+                  <div
+                    className={`style-selector bg-image ${this.state.selectedStyle.style_id === style.style_id ? 'selected' : ''}`}
+                    onClick={() => { this.changeStyle(style.style_id); }}
+                    style={{ backgroundImage: `url(${style.photos[0].thumbnail_url})` }}
+                    key={style.style_id}
+                  >
+                    <div className="selected-check">
+                      <AiOutlineCheck />
+                    </div>
                   </div>
                 </div>
               ))}
