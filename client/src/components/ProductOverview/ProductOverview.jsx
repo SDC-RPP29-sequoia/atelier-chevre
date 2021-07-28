@@ -22,14 +22,19 @@ class ProductOverview extends React.Component {
       product: {},
       productStyles: {},
       selectedStyle: '',
-      selectedSku: '',
+      selectedSku: null,
       reviews: [],
       images: [],
       currentImageUrl: '',
-      fullscreen: false
+      fullscreen: false,
+      selectedQuantity: ''
     };
 
     this.onChange = this.onChange.bind(this);
+    this.changeSku = this.changeSku.bind(this);
+    this.changeStyle = this.changeStyle.bind(this);
+    this.switchImage = this.switchImage.bind(this);
+    this.toggleFullScreen = this.toggleFullScreen.bind(this);
   }
 
   async componentDidMount() {
@@ -54,7 +59,7 @@ class ProductOverview extends React.Component {
         this.setState({
           productStyles: response,
           selectedStyle: defaultStyle,
-          selectedSku: skus[0],
+          selectedSku: null,
           images: defaultStyle.photos,
           currentImageUrl: defaultStyle.photos[0].url
         });
@@ -103,7 +108,7 @@ class ProductOverview extends React.Component {
 
     this.setState({
       selectedStyle: style,
-      selectedSku: skus[0],
+      selectedSku: null,
       images: [...style.photos],
       currentImageUrl: style.photos[0].url
     });
@@ -131,8 +136,6 @@ class ProductOverview extends React.Component {
   }
 
   render() {
-
-
     return (
       <div id="product-overview">
         <div id="announcement-banner">
@@ -141,7 +144,7 @@ class ProductOverview extends React.Component {
 
         <div id="product-main" className={`${this.state.fullscreen ? 'fullscreen' : ''}`}>
           <ProductImage currentImageUrl={this.state.currentImageUrl} images={this.state.images} toggleFullScreen={this.toggleFullScreen} switchImage={this.switchImage} onChange={this.onChange} />
-          <ProductDetails reviews={this.state.reviews} product={this.state.product} productStyles={this.state.productStyles} selectedSku={this.state.selectedSku} selectedStyle={this.state.selectedStyle} changeSku={this.changeSku} productStyles={this.state.productStyles} changeStyle={this.changeStyle} />
+          <ProductDetails reviews={this.state.reviews} product={this.state.product} productStyles={this.state.productStyles} selectedSku={this.state.selectedSku} selectedStyle={this.state.selectedStyle} changeSku={this.changeSku} productStyles={this.state.productStyles} changeStyle={this.changeStyle} selectedQuantity={this.state.selectedQuantity} />
         </div>
 
         <div id="product-extra">

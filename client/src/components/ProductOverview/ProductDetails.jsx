@@ -4,15 +4,21 @@ import Stars from '../Stars/Stars.jsx';
 import CustomSelect from './CustomSelect.jsx';
 
 
-
 const ProductDetails = (props) => {
-  let price;
+  let price, sizes;
 
   if (!props.selectedStyle.sale_price) {
     price = <p>${props.selectedStyle.original_price}</p>;
   } else {
     price = <p className="canceled-price"><span>${props.selectedStyle.original_price}</span><span>${props.selectedStyle.sale_price}5678</span></p>;
   }
+
+  sizes = _.filter(_.map(props.selectedStyle.skus, (sku, key) => {
+    return { label: sku.size, value: key, quantity: sku.quantity };
+  }), size => size.quantity > 0);
+
+  sizes.unshift({ label: 'SELECT SIZE', value: '' });
+
 
   return (
     <div id="product-details">
@@ -53,18 +59,25 @@ const ProductDetails = (props) => {
 
       <div className="group horizontal gapped stretch">
         <div className="control-wrapper">
+          <div style={{ display: sizes.length > 1 ? 'block' : 'none' }}>
+            <CustomSelect
+              value={props.selectedSku?.sku_id || ''}
+              options={sizes}
+              onChange={(e) => { props.changeSku(e.target.value); }}
+            />
+          </div>
+          <p style={{ display: sizes.length < 1 ? 'block' : 'none' }} ><b>OUT OF STOCK</b></p>
+        </div>
+        <div className="control-wrapper">
           <CustomSelect
-            value={props.selectedSku.sku_id || ''}
+            value={props.selectedQuantity || ''}
             options={
               _.map(props.selectedStyle.skus, (sku, key) => {
                 return { label: sku.size, value: key };
               })
             }
-            onChange={(e) => { props.changeSku(e.target.value); }}
+            onChange={(e) => { props.onChange('selectedQuantity', e.target.value); }}
           />
-        </div>
-        <div className="control-wrapper">
-          <CustomSelect value={1} options={[{ value: 1, label: '1' }]} />
         </div>
       </div>
 

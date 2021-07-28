@@ -191,6 +191,10 @@ $standardBorder: 1px solid $standardColor;
         height: 50px;
         display: flex;
         align-items: center;
+
+        & > * {
+          width: 100%;
+        }
       }
     }
   }
