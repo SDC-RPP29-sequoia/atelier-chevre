@@ -60,7 +60,6 @@ class QAList extends React.Component {
       <div id="qa-list">{this.props.filteredQs.map((q, i) => {
         let answers = this.sortAnswers(allAnswers[q.question_id].data);
         let originalLength = answers.length;
-
         let count = allAnswers[q.question_id].count;
 
         answers = answers.slice(0, count);
@@ -77,12 +76,12 @@ class QAList extends React.Component {
               }
 
               return (
-                <AnswerContainer key={a.id} body={a.body} photos={a.photos} aName={aName} date={date} answerHelpful={this.props.answerHelpful} answer_id={a.id} helpfulness={a.helpfulness} answerReport={this.props.answerReport} />
+                <AnswerContainer key={a.id} body={a.body} photos={a.photos} aName={aName} date={date} markHelpful={this.props.markHelpful} answer_id={a.id} helpfulness={a.helpfulness} report={this.props.report} />
               );
             })}
             <LoadMoreAnswers loadMoreAnswers={this.props.loadMoreAnswers} question_id={q.question_id} originalLength={originalLength} />
             </div>
-            <QHelpfulAddAnswer questionHelpful={this.props.questionHelpful} addAnswer={this.props.addAnswer} questionReport={this.props.questionReport} question_id={q.question_id} question_helpfulness={q.question_helpfulness} question_id={q.question_id} question_body={q.question_body} />
+            <QHelpfulAddAnswer markHelpful={this.props.markHelpful} addAnswer={this.props.addAnswer} report={this.props.report} question_id={q.question_id} question_helpfulness={q.question_helpfulness} question_id={q.question_id} question_body={q.question_body} />
           </div>
         );
       })}

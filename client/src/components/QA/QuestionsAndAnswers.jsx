@@ -30,18 +30,20 @@ class QuestionsAndAnswers extends React.Component {
       originalLength: null
     };
 
-    this.questionHelpful = this.questionHelpful.bind(this);
-    this.questionReport = this.questionReport.bind(this);
-    this.answerHelpful = this.answerHelpful.bind(this);
-    this.answerReport = this.answerReport.bind(this);
+    this.retrieveSortQAs = this.retrieveSortQAs.bind(this);
+    this.displayButtons = this.displayButtons.bind(this);
+    this.markHelpful = this.markHelpful.bind(this);
+    this.report = this.report.bind(this);
     this.addAnswer = this.addAnswer.bind(this);
     this.addQuestion = this.addQuestion.bind(this);
-    this.submitAnswer = this.submitAnswer.bind(this);
-    this.submitQuestion = this.submitQuestion.bind(this);
+    this.openModal = this.openModal.bind(this);
     this.uploadPhotos = this.uploadPhotos.bind(this);
-    this.handleChange = this.handleChange.bind(this);
     this.moreAnsweredQs = this.moreAnsweredQs.bind(this);
     this.loadMoreAnswers = this.loadMoreAnswers.bind(this);
+
+    this.submitAnswer = this.submitAnswer.bind(this);
+    this.submitQuestion = this.submitQuestion.bind(this);
+    this.handleChange = this.handleChange.bind(this);
   }
 
   componentDidMount() {
@@ -67,71 +69,80 @@ class QuestionsAndAnswers extends React.Component {
       .then(response => {
         let questions = response.data.results;
 
-        let answers = {};
-
-        questions.forEach(q => {
-          let ansObj = {};
-          let ansArray = [];
-
-          for (let i in q.answers) {
-            ansArray.push(q.answers[i]);
-          }
-
-          ansObj.data = ansArray;
-
-          if (this.state.answers[q.question_id] && this.state.answers[q.question_id].count) {
-            ansObj.count = this.state.answers[q.question_id].count;
-          } else {
-            ansObj.count = 2;
-          }
-
-          answers[q.question_id] = ansObj;
-        });
-
-        this.setState({
-          answers,
-          filteredAs: answers
-        });
-
         if (cb) {
           cb(questions);
         }
 
-        questions.sort((a, b) => {
-          return b.question_helpfulness - a.question_helpfulness;
-        });
-
-        let filteredQs = questions.slice(0, this.state.count);
-
-        this.setState({
-          questions,
-          filteredQs
-        });
-
-        let displayedAnswers = document.getElementsByClassName('load-more-answers');
-
-        for (let i = 0; i < displayedAnswers.length; i++) {
-          let length = displayedAnswers[i].attributes['original-length'].value;
-
-          if (length <= 2) {
-            displayedAnswers[i].style.display = 'none';
-          }
-        }
-
-        let displayedQuestions = document.getElementsByClassName('question');
-        let moreAnsweredQs = document.getElementById('more-answered-qs');
-
-        if (displayedQuestions.length === this.state.originalLength) {
-          moreAnsweredQs.style.display = 'none';
-        }
+        this.retrieveSortQAs(questions);
+        this.displayButtons();
       })
       .catch(err => {
         console.log('axios get error', err);
       });
   }
 
-  answerHelpful(e) {
+  retrieveSortQAs(questions) {
+    let answers = {};
+
+    questions.forEach(q => {
+      let ansObj = {};
+      let ansArray = [];
+
+      for (let i in q.answers) {
+        ansArray.push(q.answers[i]);
+      }
+
+      ansObj.data = ansArray;
+
+      if (this.state.answers[q.question_id] && this.state.answers[q.question_id].count) {
+        ansObj.count = this.state.answers[q.question_id].count;
+      } else {
+        ansObj.count = 2;
+      }
+
+      answers[q.question_id] = ansObj;
+    });
+
+    this.setState({
+      answers,
+      filteredAs: answers
+    });
+
+    questions.sort((a, b) => {
+      return b.question_helpfulness - a.question_helpfulness;
+    });
+
+    let filteredQs = questions.slice(0, this.state.count);
+
+    this.setState({
+      questions,
+      filteredQs
+    });
+  }
+
+  displayButtons() {
+    let displayedAnswers = document.getElementsByClassName('load-more-answers');
+
+    for (let i = 0; i < displayedAnswers.length; i++) {
+      let length = displayedAnswers[i].attributes['original-length'].value;
+
+      if (length <= 2) {
+        displayedAnswers[i].style.display = 'none';
+      }
+    }
+
+    let displayedQuestions = document.getElementsByClassName('question');
+    let moreAnsweredQs = document.getElementById('more-answered-qs');
+
+    if (displayedQuestions.length === this.state.originalLength) {
+      moreAnsweredQs.style.display = 'none';
+    }
+  }
+
+  markHelpful(e) {
     let clicked = e.target.getAttribute('clicked');
+
+    let url, data;
 
     if (clicked === 'true') {
       alert('You have already marked this as helpful');
@@ -139,84 +150,55 @@ class QuestionsAndAnswers extends React.Component {
     }
 
     e.target.setAttribute('clicked', 'true');
-    let answerId = e.target.getAttribute('answer_id');
 
-    axios({
-      method: 'POST',
-      url: '/answerHelpful',
-      data: {
-        answerId
-      }
-    })
-      .then(response => {
-        this.getQuestions();
-      })
-      .catch(err => {
-        console.log('a helpful axios error', err);
-      });
-  }
-
-  answerReport(e) {
-    let answerId = e.target.getAttribute('answer_id');
-    e.target.innerHTML = 'Reported';
-
-    axios({
-      method: 'POST',
-      url: '/reportAnswer',
-      data: {
-        answerId
-      }
-    })
-      .then(response => {
-
-      })
-      .catch(err => {
-        console.log('report a axios error', err);
-      });
-  }
-
-  questionHelpful(e) {
-    let clicked = e.target.getAttribute('clicked');
-
-    if (clicked === 'true') {
-      alert('You have already marked this as helpful');
-      return;
+    if (e.target.className === 'answer-helpful') {
+      url = '/answerHelpful';
+      let answerId = e.target.getAttribute('answer_id');
+      data = { answerId };
+    } else if (e.target.className === 'question-helpful') {
+      url = '/questionHelpful';
+      let questionId = e.target.getAttribute('question_id');
+      data = { questionId };
     }
 
-    e.target.setAttribute('clicked', 'true');
-    let questionId = e.target.getAttribute('question_id');
-
     axios({
       method: 'POST',
-      url: '/questionHelpful',
-      data: {
-        questionId
-      }
+      url,
+      data
     })
       .then(response => {
         this.getQuestions();
       })
       .catch(err => {
-        console.log('q helpful axios error', err);
+        console.log('mark helpful axios error', err);
       });
   }
 
-  questionReport(e) {
-    let questionId = e.target.getAttribute('question_id');
+  report(e) {
     e.target.innerHTML = 'Reported';
+
+    let url, data;
+
+    if (e.target.className === 'report-question') {
+      url = '/reportQuestion';
+      let questionId = e.target.getAttribute('question_id');
+      data = { questionId };
+    } else if (e.target.className === 'report-answer') {
+      url = 'reportAnswer';
+      let answerId = e.target.getAttribute('answer_id');
+      data = { answerId };
+    }
 
     axios({
       method: 'POST',
-      url: '/reportQuestion',
-      data: {
-        questionId
-      }
+      url,
+      data
     })
       .then(response => {
 
       })
       .catch(err => {
-        console.log('report q axios error', err);
+        console.log('report axios error', err);
       });
   }
 
@@ -231,10 +213,31 @@ class QuestionsAndAnswers extends React.Component {
       questionId
     });
 
-    let modal = document.querySelector('.modal');
+    this.openModal('answer');
+  }
+
+  addQuestion(e) {
+    let productName = this.state.currProduct.name;
+
+    this.setState({
+      productName
+    });
+
+    this.openModal('question');
+  }
+
+  openModal(target) {
+    let modal;
+
+    if (target === 'question') {
+      modal = document.querySelector('.modal-q');
+    } else if (target === 'answer') {
+      modal = document.querySelector('.modal');
+    }
+
     modal.style.display = 'block';
 
-    let closeBtn = document.querySelector('.close-btn');
+    let closeBtn = document.querySelector('.modal-q .close-btn');
 
     closeBtn.onclick = () => {
       modal.style.display = 'none';
@@ -271,6 +274,43 @@ class QuestionsAndAnswers extends React.Component {
       .catch(err => {
         console.log('err', err);
       });
+  }
+
+  moreAnsweredQs() {
+    this.setState({
+      count: this.state.count + 2
+    });
+
+    this.getQuestions();
+  }
+
+  loadMoreAnswers(e) {
+    let text = e.target.parentElement.textContent;
+    let questionId = e.target.parentElement.getAttribute('question_id');
+    let originalLength = e.target.parentElement.getAttribute('original-length');
+
+    let answers = this.state.answers;
+
+    if (text === 'LOAD MORE ANSWERS') {
+      e.target.parentElement.innerHTML = '<b>COLLAPSE ANSWERS</b>';
+      answers[questionId].count = originalLength;
+    } else if (text === 'COLLAPSE ANSWERS') {
+      answers[questionId].count = 2;
+      e.target.parentElement.innerHTML = '<b>LOAD MORE ANSWERS</b>';
+    }
+
+    this.setState({
+      answers
+    });
+
+    this.getQuestions();
+  }
+
+  hideLoadMoreAnswers() {
+    let loadMoreAnswers = document.getElementsByClassName('load-more-answers');
+    for (let i = 0; i < loadMoreAnswers.length; i++) {
+      loadMoreAnswers[i].style.display = 'none';
+    }
   }
 
   submitAnswer(e) {
@@ -355,29 +395,6 @@ class QuestionsAndAnswers extends React.Component {
       });
   }
 
-  addQuestion(e) {
-    let productName = this.state.currProduct.name;
-
-    this.setState({
-      productName
-    });
-
-    let modal = document.querySelector('.modal-q');
-    modal.style.display = 'block';
-
-    let closeBtn = document.querySelector('.modal-q .close-btn');
-
-    closeBtn.onclick = () => {
-      modal.style.display = 'none';
-    };
-
-    window.onclick = (e) => {
-      if (e.target === modal) {
-        modal.style.display = 'none';
-      }
-    };
-  }
-
   submitQuestion(e) {
     e.preventDefault();
 
@@ -452,8 +469,6 @@ class QuestionsAndAnswers extends React.Component {
   }
 
   handleChange(e) {
-    let originalAnswers = Object.assign({}, this.state.answers);
-
     this.setState({
       searchVal: e.target.value
     });
@@ -477,6 +492,7 @@ class QuestionsAndAnswers extends React.Component {
         return question.includes(text) || answers.includes(text);
       });
 
+      let originalAnswers = Object.assign({}, this.state.answers);
       let filteredAs = Object.assign({}, originalAnswers);
 
       let questionKeys = filteredQs.map(q => {
@@ -508,43 +524,6 @@ class QuestionsAndAnswers extends React.Component {
     }
   }
 
-  hideLoadMoreAnswers() {
-    let loadMoreAnswers = document.getElementsByClassName('load-more-answers');
-    for (let i = 0; i < loadMoreAnswers.length; i++) {
-      loadMoreAnswers[i].style.display = 'none';
-    }
-  }
-
-  moreAnsweredQs(e) {
-    this.setState({
-      count: this.state.count + 2
-    });
-
-    this.getQuestions();
-  }
-
-  loadMoreAnswers(e) {
-    let text = e.target.parentElement.textContent;
-    let questionId = e.target.parentElement.getAttribute('question_id');
-    let originalLength = e.target.parentElement.getAttribute('original-length');
-
-    let answers = this.state.answers;
-
-    if (text === 'LOAD MORE ANSWERS') {
-      e.target.parentElement.innerHTML = '<b>COLLAPSE ANSWERS</b>';
-      answers[questionId].count = originalLength;
-    } else if (text === 'COLLAPSE ANSWERS') {
-      answers[questionId].count = 2;
-      e.target.parentElement.innerHTML = '<b>LOAD MORE ANSWERS</b>';
-    }
-
-    this.setState({
-      answers
-    });
-
-    this.getQuestions();
-  }
-
   render() {
     if (!this.state.isLoaded) {
       return (
@@ -556,7 +535,7 @@ class QuestionsAndAnswers extends React.Component {
       <div className="qa" id="qa-wrapper">
         <QAHeader />
         <SearchBar searchVal={this.state.searchVal} handleChange={this.handleChange} />
-        <QAList filteredQs={this.state.filteredQs} answerHelpful={this.answerHelpful} answerReport={this.answerReport} loadMoreAnswers={this.loadMoreAnswers} questionHelpful={this.questionHelpful} addAnswer={this.addAnswer} questionReport={this.questionReport} moreAnsweredQs={this.moreAnsweredQs} addQuestion={this.addQuestion} productName={this.state.productName} questionBody={this.state.questionBody} photos={this.state.photos} uploadPhotos={this.uploadPhotos} submitAnswer={this.submitAnswer} productName={this.state.productName} submitQuestion={this.submitQuestion} answers={this.state.filteredAs} answerCount={this.state.answerCount} />
+        <QAList filteredQs={this.state.filteredQs} markHelpful={this.markHelpful} report={this.report} loadMoreAnswers={this.loadMoreAnswers} addAnswer={this.addAnswer} moreAnsweredQs={this.moreAnsweredQs} addQuestion={this.addQuestion} productName={this.state.productName} questionBody={this.state.questionBody} photos={this.state.photos} uploadPhotos={this.uploadPhotos} submitAnswer={this.submitAnswer} productName={this.state.productName} submitQuestion={this.submitQuestion} answers={this.state.filteredAs} answerCount={this.state.answerCount} />
         <QAButtons moreAnsweredQs={this.moreAnsweredQs} addQuestion={this.addQuestion} />
         <AnswerModal productName={this.state.productName} questionBody={this.state.questionBody} photos={this.state.photos} uploadPhotos={this.uploadPhotos} submitAnswer={this.submitAnswer} />
         <QuestionModal productName={this.state.productName} submitQuestion={this.submitQuestion} />

@@ -1,5 +1,4 @@
 import React from 'react';
-
 import SignatureHelpfulReport from './SignatureHelpfulReport';
 
 const AnswerContainer = (props) => {
@@ -12,7 +11,7 @@ const AnswerContainer = (props) => {
         );
       })}
       </div>
-      <SignatureHelpfulReport aName={props.aName} date={props.date} answerHelpful={props.answerHelpful} answer_id={props.answer_id} helpfulness={props.helpfulness} answerReport={props.answerReport} />
+      <SignatureHelpfulReport aName={props.aName} date={props.date} markHelpful={props.markHelpful} answer_id={props.answer_id} helpfulness={props.helpfulness} report={props.report} />
     </div>
   );
 };
