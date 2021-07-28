@@ -56,8 +56,6 @@ class QAList extends React.Component {
   render() {
     let allAnswers = this.props.answers;
 
-    console.log(allAnswers, this.props.filteredQs);
-
     return (
       <div id="qa-list">{this.props.filteredQs.map((q, i) => {
         let answers = this.sortAnswers(allAnswers[q.question_id].data);
