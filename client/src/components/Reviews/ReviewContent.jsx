@@ -10,6 +10,8 @@ const ReviewContent = ({review, displayImage, handleHelpfulClick}) => {
     return <img onClick={() => displayImage(photo.url)} className="reviews-thumbnail" key={photo.id} src={photo.url}></img>;
   });
 
+  let responseMissing = review.response === null || review.response === '';
+
   return (
     <div className="review-content">
       <div className="review-content-top-section">
@@ -26,7 +28,7 @@ const ReviewContent = ({review, displayImage, handleHelpfulClick}) => {
       {review.recommend &&
         <div id="reviews-recommended"><GrCheckmark /> I recommend this product</div>
       }
-      {review.response.length > 0 &&
+      {!responseMissing &&
         <div id="reviews-response">
           <div id="response-header">Response:</div>
           <div id="response-content">{review.response}</div>

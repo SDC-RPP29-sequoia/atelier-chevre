@@ -9,6 +9,7 @@ import RatingsBreakdown from './RatingsBreakdown';
 import FilteredStatus from './FilteredStatus';
 import ProductBreakdown from './ProductBreakdown';
 import ReviewsModal from './ReviewsModal';
+import NewReviewForm from './NewReviewForm';
 import API from './ReviewsAPIUtils';
 
 class RatingsAndReviews extends React.Component {
@@ -21,7 +22,8 @@ class RatingsAndReviews extends React.Component {
       displayedReviewsCount: 2,
       filterReviews: [0, 0, 0, 0, 0],
       imageURL: '',
-      currentSortMethod: 'relevence'
+      currentSortMethod: 'relevence',
+      displayForm: false
     };
 
     this.getReviewData = this.getReviewData.bind(this);
@@ -29,7 +31,9 @@ class RatingsAndReviews extends React.Component {
     this.clearAllFilters = this.clearAllFilters.bind(this);
     this.displayImage = this.displayImage.bind(this);
     this.closeImage = this.closeImage.bind(this);
+    this.closeForm = this.closeForm.bind(this);
     this.handleHelpfulClick = this.handleHelpfulClick.bind(this);
+    this.handleAddNewReview = this.handleAddNewReview.bind(this);
 
   }
 
@@ -90,6 +94,7 @@ class RatingsAndReviews extends React.Component {
   }
 
   displayImage (url) {
+    document.getElementsByTagName('body')[0].setAttribute('style', 'overflow-y: hidden');
     this.setState({
       imageURL: url
     });
@@ -97,8 +102,18 @@ class RatingsAndReviews extends React.Component {
 
   closeImage (id) {
     if (id === 'reviews-fullscreen-image-wrapper' || id === 'close-image') {
+      document.getElementsByTagName('body')[0].removeAttribute('style', 'overflow-y: hidden');
       this.setState({
         imageURL: ''
+      });
+    }
+  }
+
+  closeForm (id) {
+    if (id === 'review-form-wrapper' || id === 'close-form') {
+      document.getElementsByTagName('body')[0].removeAttribute('style', 'overflow-y: hidden');
+      this.setState({
+        displayForm: false
       });
     }
   }
@@ -107,6 +122,13 @@ class RatingsAndReviews extends React.Component {
     const newCount = this.state.displayedReviewsCount + 2;
     this.setState({
       displayedReviewsCount: newCount
+    });
+  }
+
+  handleAddNewReview () {
+    document.getElementsByTagName('body')[0].setAttribute('style', 'overflow-y: hidden');
+    this.setState({
+      displayForm: true
     });
   }
 
@@ -157,6 +179,9 @@ class RatingsAndReviews extends React.Component {
 
     return (
       <div id="reviews-section">
+        {this.state.displayForm &&
+          <NewReviewForm closeForm={this.closeForm}/>
+        }
         {this.state.imageURL.length > 0 &&
           <ReviewsModal closeImage={this.closeImage} imageURL={this.state.imageURL}/>
         }
@@ -181,7 +206,7 @@ class RatingsAndReviews extends React.Component {
             {this.state.displayedReviewsCount < compareLength &&
               <button className="btn" onClick={() => this.handleMoreReviewsClick()}>MORE REVIEWS</button>
             }
-            <button className="btn">ADD A REVIEW <span className="plus-icon">+</span></button>
+            <button className="btn" onClick={this.handleAddNewReview}>ADD A REVIEW <span className="plus-icon">+</span></button>
           </div>
         </div>
       </div>
