@@ -80,43 +80,8 @@ describe('QAList component', () => {
     }
   };
 
-  let sortAnswers = (ans) => {
-    let answers = [];
-    let sellerAnswers = [];
-
-    for (var key in ans) {
-      if (ans[key].answerer_name === 'Seller') {
-        sellerAnswers.push(ans[key]);
-      } else if (ans[key].id) {
-        answers.push(ans[key]);
-      }
-    }
-
-    answers.sort((a, b) => {
-      return b.helpfulness - a.helpfulness;
-    });
-
-    sellerAnswers.sort((a, b) => {
-      return b.helpfulness - a.helpfulness;
-    });
-
-    answers = sellerAnswers.concat(answers);
-
-    return answers;
-  };
-
-  let convertDate = (date) => {
-    let ISOdate = new Date(date);
-    let month = ISOdate.toLocaleString('default', { month: 'long'});
-    let day = ISOdate.getDate();
-    let year = ISOdate.getFullYear();
-    let newDate = `${month} ${day}, ${year}`;
-
-    return newDate;
-  };
-
   it('renders without crashing', () => {
-    const wrapper = shallow(<QAList filteredQs={filteredQs} answers={answers} sortAnswers={sortAnswers}/>);
+    const wrapper = shallow(<QAList filteredQs={filteredQs} answers={answers} />);
     expect(wrapper).toBeTruthy();
   });
 });
