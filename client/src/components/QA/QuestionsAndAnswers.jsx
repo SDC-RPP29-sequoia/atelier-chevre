@@ -14,6 +14,7 @@ class QuestionsAndAnswers extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      isLoaded: false,
       currProduct: {name: 'TEST PRODUCT NAME'},
       currProductId: props.productId,
       questions: [],
@@ -48,7 +49,8 @@ class QuestionsAndAnswers extends React.Component {
   componentDidMount() {
     this.getQuestions((result) => {
       this.setState({
-        originalLength: result.length
+        originalLength: result.length,
+        isLoaded: true
       });
 
       let moreAnsweredQs = document.getElementById('more-answered-qs');
@@ -581,6 +583,12 @@ class QuestionsAndAnswers extends React.Component {
   }
 
   render() {
+    if (!this.state.isLoaded) {
+      return (
+        <div id="loading">Loading...</div>
+      );
+    }
+
     return (
       <div className="qa" id="qa-wrapper">
         <QAHeader />
