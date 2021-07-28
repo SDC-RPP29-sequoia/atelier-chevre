@@ -41,6 +41,8 @@ class NewReviewForm extends React.Component {
       minimumReached = true;
     }
 
+    console.log(this.props);
+
     return (
       <div id="review-form-wrapper" onClick={(e) => this.props.closeForm(e.target.id)}>
         <div id="close-form">X</div>
@@ -181,10 +183,10 @@ class NewReviewForm extends React.Component {
             <div>
               <textarea className="review-text-body" minLength="50" maxLength="1000" name="body" placeholder="Why did you like the product or not?" value={this.state.body} onChange={this.handleChange}></textarea>
               {!minimumReached &&
-                <div>Miminum required characters left: {charactersLeft}</div>
+                <div className="review-form-extra-info">Miminum required characters left: {charactersLeft}</div>
               }
               {minimumReached &&
-                <div>Miminum reached</div>
+                <div className="review-form-extra-info">Miminum reached</div>
               }
             </div>
           </div>
@@ -202,7 +204,7 @@ class NewReviewForm extends React.Component {
             <label className="label">Your email?</label>
             <div>
               <input id="email" type="text" maxLength="60" placeholder="Example: jackson11@email.com!" name="email" value={this.state.email} onChange={this.handleChange} />
-              <div>For authentication reasons, you will not be emailed</div>
+              <div className="review-form-extra-info">For authentication reasons, you will not be emailed</div>
             </div>
 
           </div>

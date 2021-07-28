@@ -17,6 +17,7 @@ class RatingsAndReviews extends React.Component {
     super(props);
 
     this.state = {
+      currentProductName: '',
       currentProductReviews: [],
       currentProductMeta: {},
       displayedReviewsCount: 2,
@@ -180,7 +181,7 @@ class RatingsAndReviews extends React.Component {
     return (
       <div id="reviews-section">
         {this.state.displayForm &&
-          <NewReviewForm closeForm={this.closeForm}/>
+          <NewReviewForm currentProductName={this.state.currentProductName} closeForm={this.closeForm}/>
         }
         {this.state.imageURL.length > 0 &&
           <ReviewsModal closeImage={this.closeImage} imageURL={this.state.imageURL}/>
@@ -201,7 +202,9 @@ class RatingsAndReviews extends React.Component {
           <div id="reviews-col2">
             <Sort getReviewData={this.getReviewData} totalReviews={totalReviews}/>
             <div className="review-content-wrapper">
-              {reviewsToDisplay}
+              <div>
+                {reviewsToDisplay}
+              </div>
             </div>
             {this.state.displayedReviewsCount < compareLength &&
               <button className="btn" onClick={() => this.handleMoreReviewsClick()}>MORE REVIEWS</button>
