@@ -195,7 +195,7 @@ $standardBorder: 1px solid $standardColor;
     }
   }
 
-  #product-extra {
+  #product-extra > div {
     padding: $standardPaddingUnit * 1.5;
     display: flex;
     justify-content: center;
@@ -226,6 +226,7 @@ $standardBorder: 1px solid $standardColor;
       flex-basis: 40%;
       display: flex;
       flex-direction: column;
+      justify-content: center;
       gap: 10px;
 
       .feature {
