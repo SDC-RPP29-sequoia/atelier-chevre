@@ -5,6 +5,7 @@ class NewReviewForm extends React.Component {
     super(props);
 
     this.state = {
+      files: {length: 0},
       rating: '',
       recommend: '',
       size: '',
@@ -22,6 +23,22 @@ class NewReviewForm extends React.Component {
     this.handleChange = this.handleChange.bind(this);
   }
 
+  handleFiles () {
+    console.log('event.target.files:', event.target.files.length);
+
+    if (event.target.files.length > 5) {
+      alert('You may only upload 5 images');
+      event.target.value = '';
+      this.setState({
+        files: {length: 0}
+      });
+    } else {
+      let files = event.target.files;
+      this.setState({
+        files
+      });
+    }
+  }
 
   handleChange() {
     const target = event.target;
@@ -41,7 +58,9 @@ class NewReviewForm extends React.Component {
       minimumReached = true;
     }
 
-    console.log(this.props);
+    console.log(this.state.files.length);
+
+    const selectedFileCount = this.state.files.length;
 
     return (
       <div id="review-form-wrapper" onClick={(e) => this.props.closeForm(e.target.id)}>
@@ -190,11 +209,12 @@ class NewReviewForm extends React.Component {
               }
             </div>
           </div>
+          {selectedFileCount < 5 &&
           <div id="review-files" className="review-form-row">
             <label className="label">Upload up to 5 images:</label>
-            <input type="file" multiple />
-
+            <input type="file" multiple onChange={(e) => this.handleFiles(e)}/>
           </div>
+          }
           <div className="review-form-row">
             <label className="label">What is your nickname?</label>
             <input id="nickname" type="text" maxLength="60" placeholder="Example: jackson11!" name="nickname" value={this.state.nickname} onChange={this.handleChange} />
