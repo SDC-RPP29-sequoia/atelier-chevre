@@ -293,5 +293,25 @@
       #email {
         width: 50%;
       }
+
+      #form-star-wrapper {
+        display: grid;
+        grid-template-columns: 130px 1fr;
+        align-items: center;
+      }
+
+      .form-star {
+        text-shadow: 0 0 3px #000;
+        stroke: black;
+        stroke-width: 50;
+      }
+
+      .form-star-radio {
+        display: none;
+      }
+
+      .form-stars-text {
+        font-size: .85rem;
+      }
     }
   }

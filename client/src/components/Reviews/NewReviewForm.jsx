@@ -1,4 +1,5 @@
 import React from 'react';
+import FormStars from './FormStars';
 
 class NewReviewForm extends React.Component {
   constructor(props) {
@@ -6,7 +7,7 @@ class NewReviewForm extends React.Component {
 
     this.state = {
       files: {length: 0},
-      rating: '',
+      rating: null,
       recommend: '',
       size: '',
       width: '',
@@ -21,11 +22,10 @@ class NewReviewForm extends React.Component {
     };
 
     this.handleChange = this.handleChange.bind(this);
+    this.handleStarReviewClick = this.handleStarReviewClick.bind(this);
   }
 
   handleFiles () {
-    console.log('event.target.files:', event.target.files.length);
-
     if (event.target.files.length > 5) {
       alert('You may only upload 5 images');
       event.target.value = '';
@@ -50,6 +50,12 @@ class NewReviewForm extends React.Component {
     });
   }
 
+  handleStarReviewClick(rating) {
+    this.setState({
+      rating
+    });
+  }
+
 
   render () {
     let minimumReached = false;
@@ -68,7 +74,8 @@ class NewReviewForm extends React.Component {
         <form className="review-form">
           <div id="review-rating" className="review-form-row">
             <label className="label">Overall Rating:</label>
-            <input className="text-input" type="text" name="rating" value={this.state.rating} onChange={this.handleChange}></input>
+            {/* <input className="text-input" type="text" name="rating" value={this.state.rating} onChange={this.handleChange}></input> */}
+            <FormStars rating={this.state.rating} handleStarReviewClick={this.handleStarReviewClick}/>
           </div>
           <div id="review-recommend" className="review-form-row">
             <label className="label" onChange={this.handleChange}>Do you recommended this product?</label>
