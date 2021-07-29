@@ -6,6 +6,7 @@ class NewReviewForm extends React.Component {
     super(props);
 
     this.state = {
+      previews: null,
       files: {length: 0},
       rating: null,
       recommend: '',
@@ -26,6 +27,12 @@ class NewReviewForm extends React.Component {
   }
 
   handleFiles () {
+    const previews = [];
+    for (let key in event.target.files) {
+      if (key !== 'length' && key !== 'item') {
+        previews.push(URL.createObjectURL(event.target.files[key]));
+      }
+    }
     if (event.target.files.length > 5) {
       alert('You may only upload 5 images');
       event.target.value = '';
@@ -35,7 +42,8 @@ class NewReviewForm extends React.Component {
     } else {
       let files = event.target.files;
       this.setState({
-        files
+        files,
+        previews
       });
     }
   }
@@ -64,9 +72,15 @@ class NewReviewForm extends React.Component {
       minimumReached = true;
     }
 
-    console.log(this.state.files.length);
+    let previews;
+    if (Array.isArray(this.state.previews)) {
+      previews = this.state.previews.map((file, index) => {
+        return <img key={index} src={file} className="previews-thumbnail"/>;
+      });
+    }
 
     const selectedFileCount = this.state.files.length;
+
 
     return (
       <div id="review-form-wrapper" onClick={(e) => this.props.closeForm(e.target.id)}>
@@ -74,7 +88,6 @@ class NewReviewForm extends React.Component {
         <form className="review-form">
           <div id="review-rating" className="review-form-row">
             <label className="label">Overall Rating:</label>
-            {/* <input className="text-input" type="text" name="rating" value={this.state.rating} onChange={this.handleChange}></input> */}
             <FormStars rating={this.state.rating} handleStarReviewClick={this.handleStarReviewClick}/>
           </div>
           <div id="review-recommend" className="review-form-row">
@@ -221,6 +234,14 @@ class NewReviewForm extends React.Component {
             <label className="label">Upload up to 5 images:</label>
             <input type="file" multiple onChange={(e) => this.handleFiles(e)}/>
           </div>
+          }
+          {this.state.previews !== null &&
+            <div id="file-preview" className="review-form-row">
+              <label className="label">File Previews:</label>
+              <div>
+                {previews}
+              </div>
+            </div>
           }
           <div className="review-form-row">
             <label className="label">What is your nickname?</label>

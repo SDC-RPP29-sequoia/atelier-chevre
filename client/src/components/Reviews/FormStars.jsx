@@ -26,7 +26,7 @@ const FormStars = ({rating, handleStarReviewClick}) => {
   }
 
   const formStars = [...Array(5)].map((star, index) => {
-    return <label>
+    return <label key={index}>
       <AiFillStar
         size="24"
         color={rating >= index + 1 ? 'goldenrod' : 'white'}
