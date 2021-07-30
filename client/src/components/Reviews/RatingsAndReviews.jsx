@@ -181,7 +181,11 @@ class RatingsAndReviews extends React.Component {
     return (
       <div id="reviews-section">
         {this.state.displayForm &&
-          <NewReviewForm currentProductName={this.state.currentProductName} closeForm={this.closeForm}/>
+          <NewReviewForm
+            currentProductName={this.state.currentProductName}
+            productId={this.props.productId}
+            closeForm={this.closeForm}
+            currentProductMeta={this.state.currentProductMeta}/>
         }
         {this.state.imageURL.length > 0 &&
           <ReviewsModal closeImage={this.closeImage} imageURL={this.state.imageURL}/>

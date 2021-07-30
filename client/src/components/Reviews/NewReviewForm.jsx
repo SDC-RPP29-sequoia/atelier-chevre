@@ -1,5 +1,6 @@
 import React from 'react';
 import FormStars from './FormStars';
+import axios from 'axios';
 
 class NewReviewForm extends React.Component {
   constructor(props) {
@@ -24,6 +25,7 @@ class NewReviewForm extends React.Component {
 
     this.handleChange = this.handleChange.bind(this);
     this.handleStarReviewClick = this.handleStarReviewClick.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   handleFiles () {
@@ -64,6 +66,47 @@ class NewReviewForm extends React.Component {
     });
   }
 
+  handleSubmit () {
+    event.preventDefault();
+    const { characteristics } = this.props.currentProductMeta;
+    const characteristicIds = {};
+
+    for (let characteristic in characteristics) {
+      characteristicIds[characteristic.toLowerCase()] = `${characteristics[characteristic].id}-${this.state[characteristic.toLowerCase()]}`;
+    }
+
+    let formData = new FormData;
+    if (this.state.files.length > 0) {
+      for (let file of this.state.files) {
+        formData.append('files', file);
+      }
+    }
+
+    formData.append('product_id', this.props.productId);
+    formData.append('rating', this.state.rating);
+    formData.append('summary', this.state.summary);
+    formData.append('body', this.state.body);
+    formData.append('recommend', this.state.recommend);
+    formData.append('name', this.state.nickname);
+    formData.append('email', this.state.email);
+
+    for (let key in characteristicIds) {
+      formData.append('characteristics', characteristicIds[key]);
+    }
+
+    const config = {
+      headers: { 'content-type': 'multipart/form-data' }
+    };
+
+    axios.post('/reviews', formData, config)
+      .then(response => {
+        console.log(response.data);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  }
+
 
   render () {
     let minimumReached = false;
@@ -90,15 +133,17 @@ class NewReviewForm extends React.Component {
             <label className="label">Overall Rating:</label>
             <FormStars rating={this.state.rating} handleStarReviewClick={this.handleStarReviewClick}/>
           </div>
+
           <div id="review-recommend" className="review-form-row">
             <label className="label" onChange={this.handleChange}>Do you recommended this product?</label>
             <div>
-              <input type="radio" value="Yes" name="recommend" /> Yes
-              <input className="radio" type="radio" value="No" name="recommend"/> No
+              <input type="radio" value="Yes" name="recommend" onChange={this.handleChange}/> Yes
+              <input className="radio" type="radio" value="No" name="recommend" onChange={this.handleChange}/> No
             </div>
           </div>
+
           <div id="review-size" className="review-form-row">
-            <label className="label" onChange={this.handleChange}>Size:</label>
+            <label className="label" >Size:</label>
             <div className="attributes-wrapper">
               <div className="attributes-row">
                 <span>A size too small</span>
@@ -108,14 +153,15 @@ class NewReviewForm extends React.Component {
                 <span>A size too wide</span>
               </div>
               <div className="attributes-row">
-                <input type="radio" value="1" name="size" />
-                <input type="radio" value="2" name="size"/>
-                <input type="radio" value="3" name="size" />
-                <input type="radio" value="4" name="size"/>
-                <input type="radio" value="5" name="size"/>
+                <input type="radio" value="1" name="size" onChange={this.handleChange}/>
+                <input type="radio" value="2" name="size" onChange={this.handleChange}/>
+                <input type="radio" value="3" name="size" onChange={this.handleChange}/>
+                <input type="radio" value="4" name="size" onChange={this.handleChange}/>
+                <input type="radio" value="5" name="size" onChange={this.handleChange}/>
               </div>
             </div>
           </div>
+
           <div id="review-width" className="review-form-row">
             <label className="label" onChange={this.handleChange}>Width:</label>
             <div className="attributes-wrapper">
@@ -127,15 +173,16 @@ class NewReviewForm extends React.Component {
                 <span>Too wide</span>
               </div>
               <div className="attributes-row">
-                <input type="radio" value="1" name="width" />
-                <input type="radio" value="2" name="width"/>
-                <input type="radio" value="3" name="width" />
-                <input type="radio" value="4" name="width"/>
-                <input type="radio" value="5" name="width"/>
+                <input type="radio" value="1" name="width" onChange={this.handleChange}/>
+                <input type="radio" value="2" name="width" onChange={this.handleChange}/>
+                <input type="radio" value="3" name="width" onChange={this.handleChange}/>
+                <input type="radio" value="4" name="width" onChange={this.handleChange}/>
+                <input type="radio" value="5" name="width" onChange={this.handleChange}/>
               </div>
             </div>
 
           </div>
+
           <div id="review-comfort" className="review-form-row">
             <label className="label" onChange={this.handleChange}>Comfort:</label>
             <div className="attributes-wrapper">
@@ -147,14 +194,15 @@ class NewReviewForm extends React.Component {
                 <span>Perfect</span>
               </div>
               <div className="attributes-row">
-                <input type="radio" value="1" name="comfort" />
-                <input type="radio" value="2" name="comfort"/>
-                <input type="radio" value="3" name="comfort" />
-                <input type="radio" value="4" name="comfort"/>
-                <input type="radio" value="5" name="comfort"/>
+                <input type="radio" value="1" name="comfort" onChange={this.handleChange}/>
+                <input type="radio" value="2" name="comfort" onChange={this.handleChange}/>
+                <input type="radio" value="3" name="comfort" onChange={this.handleChange}/>
+                <input type="radio" value="4" name="comfort" onChange={this.handleChange}/>
+                <input type="radio" value="5" name="comfort" onChange={this.handleChange}/>
               </div>
             </div>
           </div>
+
           <div id="review-quality" className="review-form-row">
             <label className="label" onChange={this.handleChange}>Quality:</label>
             <div className="attributes-wrapper">
@@ -166,14 +214,15 @@ class NewReviewForm extends React.Component {
                 <span>Perfect</span>
               </div>
               <div className="attributes-row">
-                <input type="radio" value="1" name="quality" />
-                <input type="radio" value="2" name="quality"/>
-                <input type="radio" value="3" name="quality" />
-                <input type="radio" value="4" name="quality"/>
-                <input type="radio" value="5" name="quality"/>
+                <input type="radio" value="1" name="quality" onChange={this.handleChange}/>
+                <input type="radio" value="2" name="quality" onChange={this.handleChange}/>
+                <input type="radio" value="3" name="quality" onChange={this.handleChange}/>
+                <input type="radio" value="4" name="quality" onChange={this.handleChange}/>
+                <input type="radio" value="5" name="quality" onChange={this.handleChange}/>
               </div>
             </div>
           </div>
+
           <div id="review-length" className="review-form-row">
             <label className="label" onChange={this.handleChange}>Length:</label>
             <div className="attributes-wrapper">
@@ -185,14 +234,15 @@ class NewReviewForm extends React.Component {
                 <span>Runs long</span>
               </div>
               <div className="attributes-row">
-                <input type="radio" value="1" name="length" />
-                <input type="radio" value="2" name="length"/>
-                <input type="radio" value="3" name="length" />
-                <input type="radio" value="4" name="length"/>
-                <input type="radio" value="5" name="length"/>
+                <input type="radio" value="1" name="length" onChange={this.handleChange}/>
+                <input type="radio" value="2" name="length" onChange={this.handleChange}/>
+                <input type="radio" value="3" name="length" onChange={this.handleChange}/>
+                <input type="radio" value="4" name="length" onChange={this.handleChange}/>
+                <input type="radio" value="5" name="length" onChange={this.handleChange}/>
               </div>
             </div>
           </div>
+
           <div id="review-fit" className="review-form-row">
             <label className="label" onChange={this.handleChange}>Fit:</label>
             <div className="attributes-wrapper">
@@ -204,19 +254,20 @@ class NewReviewForm extends React.Component {
                 <span>Runs loose</span>
               </div>
               <div className="attributes-row">
-                <input type="radio" value="1" name="fit" />
-                <input type="radio" value="2" name="fit"/>
-                <input type="radio" value="3" name="fit" />
-                <input type="radio" value="4" name="fit"/>
-                <input type="radio" value="5" name="fit"/>
+                <input type="radio" value="1" name="fit" onChange={this.handleChange}/>
+                <input type="radio" value="2" name="fit" onChange={this.handleChange}/>
+                <input type="radio" value="3" name="fit" onChange={this.handleChange}/>
+                <input type="radio" value="4" name="fit" onChange={this.handleChange}/>
+                <input type="radio" value="5" name="fit" onChange={this.handleChange}/>
               </div>
             </div>
           </div>
+
           <div id="review-summary" className="review-form-row">
             <label className="label">Summary:</label>
             <input className="review-text" type="text" name="summary" maxLength="60" placeholder="Example: Best purchase ever!" value={this.state.summary} onChange={this.handleChange}/>
-
           </div>
+
           <div id="review-body" className="review-form-row">
             <label className="label two-column">Body:</label>
             <div>
@@ -229,12 +280,14 @@ class NewReviewForm extends React.Component {
               }
             </div>
           </div>
+
           {selectedFileCount < 5 &&
           <div id="review-files" className="review-form-row">
             <label className="label">Upload up to 5 images:</label>
             <input type="file" multiple onChange={(e) => this.handleFiles(e)}/>
           </div>
           }
+
           {this.state.previews !== null &&
             <div id="file-preview" className="review-form-row">
               <label className="label">File Previews:</label>
@@ -243,23 +296,26 @@ class NewReviewForm extends React.Component {
               </div>
             </div>
           }
+
           <div className="review-form-row">
             <label className="label">What is your nickname?</label>
             <input id="nickname" type="text" maxLength="60" placeholder="Example: jackson11!" name="nickname" value={this.state.nickname} onChange={this.handleChange} />
 
           </div>
+
           <div className="review-form-row">
             <label className="label">Your email?</label>
             <div>
               <input id="email" type="text" maxLength="60" placeholder="Example: jackson11@email.com!" name="email" value={this.state.email} onChange={this.handleChange} />
               <div className="review-form-extra-info">For authentication reasons, you will not be emailed</div>
             </div>
-
           </div>
+
           <div className="review-form-row">
             <div></div>
-            <input type="submit" className="btn" value="Submit Review" />
+            <input type="submit" className="btn" value="Submit Review" onClick={this.handleSubmit}/>
           </div>
+
         </form>
       </div>
     );

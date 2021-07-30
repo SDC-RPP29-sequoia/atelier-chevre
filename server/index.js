@@ -5,6 +5,7 @@ const axios = require('axios');
 const bodyParser = require('body-parser');
 const multer = require('multer');
 const cookieParser = require('cookie-parser');
+const imgbbUploader = require('imgbb-uploader');
 
 const storage = multer.diskStorage({
   destination: __dirname + '/../client/public/photos',
@@ -14,6 +15,7 @@ const storage = multer.diskStorage({
 });
 
 const upload = multer({ storage: storage }).single('file');
+const reviewUpload = multer();
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
@@ -219,6 +221,55 @@ app.put('/reviews/:reviewId', cookieParser(), (req, res) => {
     }
   }
 
+});
+
+app.post('/reviews', reviewUpload.any(), async (req, res) => {
+  try {
+    const characteristics = {};
+
+    req.body.characteristics.forEach(characteristic => {
+      const charData = characteristic.split('-');
+      characteristics[parseInt(charData[0])] = parseInt(charData[1]);
+    });
+
+    const data = {
+      product_id: parseInt(req.body.product_id),
+      rating: parseInt(req.body.rating),
+      summary: req.body.summary,
+      body: req.body.body,
+      recommend: req.body.recommend === 'Yes' ? true : false,
+      name: req.body.name,
+      email: req.body.email,
+      photos: [],
+      characteristics: characteristics
+    };
+    const headers = {
+      headers: {
+        Authorization: process.env.TOKEN
+      }
+    };
+
+    const files = req.files.map((file, index) => {
+      return new Promise(async (resolve, reject) => {
+        const base64string = file.buffer.toString('base64');
+        const options = {
+          apiKey: process.env.IMG_API_KEY,
+          base64string
+        };
+        const url = await imgbbUploader(options);
+        resolve(url.image.url);
+      });
+    });
+
+    const fileURLs = await Promise.all(files);
+    data.photos = fileURLs;
+
+    const response = await axios.post('https://app-hrsei-api.herokuapp.com/api/fec2/hr-rpp/reviews', data, headers);
+    console.log(response);
+    res.sendStatus(200);
+  } catch (error) {
+    console.log(error);
+  }
 });
 
 app.get('/products/:productId', (req, res) => {
