@@ -20,7 +20,8 @@ class NewReviewForm extends React.Component {
       summary: '',
       body: '',
       nickname: '',
-      email: ''
+      email: '',
+      errorsToDisplay: []
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -68,43 +69,86 @@ class NewReviewForm extends React.Component {
 
   handleSubmit () {
     event.preventDefault();
+
     const { characteristics } = this.props.currentProductMeta;
     const characteristicIds = {};
+    const characteristicChoices = [];
 
     for (let characteristic in characteristics) {
       characteristicIds[characteristic.toLowerCase()] = `${characteristics[characteristic].id}-${this.state[characteristic.toLowerCase()]}`;
+      characteristicChoices.push(characteristic.toLowerCase());
     }
 
-    let formData = new FormData;
-    if (this.state.files.length > 0) {
-      for (let file of this.state.files) {
-        formData.append('files', file);
+    const errors = [];
+
+    if (!this.state.rating) {
+      errors.push(<li>You must choose a star rating</li>);
+    }
+
+    if (this.state.recommend === '') {
+      errors.push(<li>You must choose a recommendation</li>);
+    }
+
+    characteristicChoices.forEach(choice => {
+      if (this.state[choice] === '') {
+        errors.push(<li key={choice} >You must select a value for {choice}</li>);
       }
+    });
+
+    if (!this.state.summary) {
+      errors.push(<li>You include a summary</li>);
     }
 
-    formData.append('product_id', this.props.productId);
-    formData.append('rating', this.state.rating);
-    formData.append('summary', this.state.summary);
-    formData.append('body', this.state.body);
-    formData.append('recommend', this.state.recommend);
-    formData.append('name', this.state.nickname);
-    formData.append('email', this.state.email);
-
-    for (let key in characteristicIds) {
-      formData.append('characteristics', characteristicIds[key]);
+    if (!this.state.body) {
+      errors.push(<li>You include a body</li>);
     }
 
-    const config = {
-      headers: { 'content-type': 'multipart/form-data' }
-    };
+    if (!this.state.nickname) {
+      errors.push(<li>You include a nickname</li>);
+    }
 
-    axios.post('/reviews', formData, config)
-      .then(response => {
-        console.log(response.data);
-      })
-      .catch(error => {
-        console.log(error);
+    if (!this.state.email) {
+      errors.push(<li>You include a valid email address</li>);
+    }
+
+    if (errors.length) {
+      this.setState({
+        errorsToDisplay: errors
       });
+    }
+
+    if (!errors.length) {
+      let formData = new FormData;
+      if (this.state.files.length > 0) {
+        for (let file of this.state.files) {
+          formData.append('files', file);
+        }
+      }
+
+      formData.append('product_id', this.props.productId);
+      formData.append('rating', this.state.rating);
+      formData.append('summary', this.state.summary);
+      formData.append('body', this.state.body);
+      formData.append('recommend', this.state.recommend);
+      formData.append('name', this.state.nickname);
+      formData.append('email', this.state.email);
+
+      for (let key in characteristicIds) {
+        formData.append('characteristics', characteristicIds[key]);
+      }
+
+      const config = {
+        headers: { 'content-type': 'multipart/form-data' }
+      };
+
+      axios.post('/reviews', formData, config)
+        .then(response => {
+          this.props.closeForm('close-form');
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    }
   }
 
 
@@ -310,6 +354,19 @@ class NewReviewForm extends React.Component {
               <div className="review-form-extra-info">For authentication reasons, you will not be emailed</div>
             </div>
           </div>
+
+          {this.state.errorsToDisplay.length > 0 &&
+
+            <div className="review-form-row error-wrapper">
+              <div></div>
+              <div>
+                <span>Please correct the following errors:</span>
+                <ul className="error-list">
+                  {this.state.errorsToDisplay}
+                </ul>
+              </div>
+            </div>
+          }
 
           <div className="review-form-row">
             <div></div>

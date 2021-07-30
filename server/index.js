@@ -240,7 +240,6 @@ app.post('/reviews', reviewUpload.any(), async (req, res) => {
       recommend: req.body.recommend === 'Yes' ? true : false,
       name: req.body.name,
       email: req.body.email,
-      photos: [],
       characteristics: characteristics
     };
     const headers = {
@@ -249,26 +248,28 @@ app.post('/reviews', reviewUpload.any(), async (req, res) => {
       }
     };
 
-    const files = req.files.map((file, index) => {
-      return new Promise(async (resolve, reject) => {
-        const base64string = file.buffer.toString('base64');
-        const options = {
-          apiKey: process.env.IMG_API_KEY,
-          base64string
-        };
-        const url = await imgbbUploader(options);
-        resolve(url.image.url);
+    if (req.files.length) {
+      const files = req.files.map((file, index) => {
+        return new Promise(async (resolve, reject) => {
+          const base64string = file.buffer.toString('base64');
+          const options = {
+            apiKey: process.env.IMG_API_KEY,
+            base64string
+          };
+          const url = await imgbbUploader(options);
+          resolve(url.image.url);
+        });
       });
-    });
 
-    const fileURLs = await Promise.all(files);
-    data.photos = fileURLs;
+      const fileURLs = await Promise.all(files);
+      data.photos = fileURLs;
+    }
 
     const response = await axios.post('https://app-hrsei-api.herokuapp.com/api/fec2/hr-rpp/reviews', data, headers);
-    console.log(response);
-    res.sendStatus(200);
+    console.log(response.status);
+    res.sendStatus(201);
   } catch (error) {
-    console.log(error);
+    res.send(error);
   }
 });
 
