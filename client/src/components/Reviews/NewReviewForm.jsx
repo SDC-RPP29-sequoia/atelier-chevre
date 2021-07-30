@@ -2,31 +2,84 @@ import React from 'react';
 import FormStars from './FormStars';
 import axios from 'axios';
 
+const inititalState = {
+  previews: null,
+  files: {length: 0},
+  rating: null,
+  recommend: '',
+  size: '',
+  width: '',
+  comfort: '',
+  quality: '',
+  length: '',
+  fit: '',
+  summary: '',
+  body: '',
+  nickname: '',
+  email: '',
+  errorsToDisplay: []
+};
+
 class NewReviewForm extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = {
-      previews: null,
-      files: {length: 0},
-      rating: null,
-      recommend: '',
-      size: '',
-      width: '',
-      comfort: '',
-      quality: '',
-      length: '',
-      fit: '',
-      summary: '',
-      body: '',
-      nickname: '',
-      email: '',
-      errorsToDisplay: []
-    };
+    this.state = inititalState;
 
     this.handleChange = this.handleChange.bind(this);
     this.handleStarReviewClick = this.handleStarReviewClick.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  validateEmail (email) {
+    const regexp = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return regexp.test(email);
+  }
+
+  validateForm (characteristicChoices) {
+    const errors = [];
+
+    if (!this.state.rating) {
+      errors.push(<li>You must choose a star rating</li>);
+    }
+
+    if (this.state.recommend === '') {
+      errors.push(<li>You must choose a recommendation</li>);
+    }
+
+    characteristicChoices.forEach(choice => {
+      if (this.state[choice] === '') {
+        errors.push(<li key={choice} >You must select a value for {choice}</li>);
+      }
+    });
+
+    if (!this.state.summary) {
+      errors.push(<li>You must include a summary</li>);
+    }
+
+    if (!this.state.body) {
+      errors.push(<li>You must include a body</li>);
+    }
+
+    if (this.state.body.length < 50) {
+      errors.push(<li>You must include at least 50 characters in your review</li>);
+    }
+
+    if (!this.state.nickname) {
+      errors.push(<li>You must include a nickname</li>);
+    }
+
+    if (!this.state.email || !this.validateEmail(this.state.email)) {
+      errors.push(<li>You must include a valid email address</li>);
+    }
+
+    if (errors.length) {
+      this.setState({
+        errorsToDisplay: errors
+      });
+    }
+
+    return !errors.length;
   }
 
   handleFiles () {
@@ -79,45 +132,9 @@ class NewReviewForm extends React.Component {
       characteristicChoices.push(characteristic.toLowerCase());
     }
 
-    const errors = [];
 
-    if (!this.state.rating) {
-      errors.push(<li>You must choose a star rating</li>);
-    }
 
-    if (this.state.recommend === '') {
-      errors.push(<li>You must choose a recommendation</li>);
-    }
-
-    characteristicChoices.forEach(choice => {
-      if (this.state[choice] === '') {
-        errors.push(<li key={choice} >You must select a value for {choice}</li>);
-      }
-    });
-
-    if (!this.state.summary) {
-      errors.push(<li>You include a summary</li>);
-    }
-
-    if (!this.state.body) {
-      errors.push(<li>You include a body</li>);
-    }
-
-    if (!this.state.nickname) {
-      errors.push(<li>You include a nickname</li>);
-    }
-
-    if (!this.state.email) {
-      errors.push(<li>You include a valid email address</li>);
-    }
-
-    if (errors.length) {
-      this.setState({
-        errorsToDisplay: errors
-      });
-    }
-
-    if (!errors.length) {
+    if (this.validateForm(characteristicChoices)) {
       let formData = new FormData;
       if (this.state.files.length > 0) {
         for (let file of this.state.files) {
@@ -143,6 +160,7 @@ class NewReviewForm extends React.Component {
 
       axios.post('/reviews', formData, config)
         .then(response => {
+          this.setState(inititalState);
           this.props.closeForm('close-form');
         })
         .catch(error => {
