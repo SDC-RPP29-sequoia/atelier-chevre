@@ -115,6 +115,7 @@ class RatingsAndReviews extends React.Component {
   closeForm (id) {
     if (id === 'review-form-wrapper' || id === 'close-form') {
       document.getElementsByTagName('body')[0].removeAttribute('style', 'overflow-y: hidden');
+      this.getReviewData(this.state.currentSortMethod);
       this.setState({
         displayForm: false
       });
