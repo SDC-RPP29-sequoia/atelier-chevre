@@ -191,7 +191,12 @@ class NewReviewForm extends React.Component {
     return (
       <div id="review-form-wrapper" onClick={(e) => this.props.closeForm(e.target.id)}>
         <div id="close-form">X</div>
+
         <form className="review-form">
+          <div className="review-form-row">
+            <div></div>
+            <h3 >WRITE YOUR REVIEW</h3>
+          </div>
           <div id="review-rating" className="review-form-row">
             <label className="label">Overall Rating:</label>
             <FormStars rating={this.state.rating} handleStarReviewClick={this.handleStarReviewClick}/>
@@ -362,7 +367,10 @@ class NewReviewForm extends React.Component {
 
           <div className="review-form-row">
             <label className="label">What is your nickname?</label>
-            <input id="nickname" type="text" maxLength="60" placeholder="Example: jackson11!" name="nickname" value={this.state.nickname} onChange={this.handleChange} />
+            <div>
+              <input id="nickname" type="text" maxLength="60" placeholder="Example: jackson11!" name="nickname" value={this.state.nickname} onChange={this.handleChange} />
+              <div className="review-form-extra-info">For privacy reasons, do not include your full name or email address</div>
+            </div>
 
           </div>
 
