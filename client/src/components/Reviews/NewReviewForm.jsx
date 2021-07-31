@@ -1,6 +1,7 @@
 import React from 'react';
 import FormStars from './FormStars';
 import axios from 'axios';
+import API from './ReviewsAPIUtils';
 
 const inititalState = {
   previews: null,
@@ -158,7 +159,7 @@ class NewReviewForm extends React.Component {
         headers: { 'content-type': 'multipart/form-data' }
       };
 
-      axios.post('/reviews', formData, config)
+      API.submitReview(formData, config)
         .then(response => {
           this.setState(inititalState);
           this.props.closeForm('close-form');

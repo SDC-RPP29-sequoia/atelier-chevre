@@ -5,7 +5,8 @@ const axios = require('axios');
 const bodyParser = require('body-parser');
 const multer = require('multer');
 const cookieParser = require('cookie-parser');
-const imgbbUploader = require('imgbb-uploader');
+
+const reviewsRouter = require('./routes/reviewsRoutes');
 
 const storage = multer.diskStorage({
   destination: __dirname + '/../client/public/photos',
@@ -14,12 +15,12 @@ const storage = multer.diskStorage({
   }
 });
 
-const upload = multer({ storage: storage }).single('file');
-const reviewUpload = multer();
-
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(express.static(__dirname + '/../client/public'));
+
+// REVIEWS ROUTES
+app.use('/api/reviews', reviewsRouter);
 
 // QUESTIONS & ANSWERS
 app.get('/questions', (req, res) => {
@@ -163,115 +164,8 @@ app.post('/QAPhotos', (req, res) => {
   });
 });
 
-app.get('/reviews/:productId/:sortMethod', (req, res) => {
-  axios.get(`https://app-hrsei-api.herokuapp.com/api/fec2/hr-rpp/reviews?product_id=${req.params.productId}&sort=${req.params.sortMethod}&count=500`, {
-    headers: {
-      'Authorization': process.env.TOKEN
-    }
-  })
-    .then(response => {
-      res.send(response.data);
-    })
-    .catch(err => {
-      console.log(err);
-    });
-});
 
-app.get('/reviews/:productId/', (req, res) => {
-  axios.get(`https://app-hrsei-api.herokuapp.com/api/fec2/hr-rpp/reviews/meta?product_id=${req.params.productId}`, {
-    headers: {
-      'Authorization': process.env.TOKEN
-    }
-  })
-    .then(response => {
-      res.send(response.data);
-    })
-    .catch(err => {
-      console.log(err);
-    });
-});
 
-app.put('/reviews/:reviewId', cookieParser(), (req, res) => {
-  console.log('req:', req.cookies.helpful);
-  if (req.cookies.helpful === undefined) {
-    axios.put(`https://app-hrsei-api.herokuapp.com/api/fec2/hr-rpp/reviews/${req.params.reviewId}/helpful`, {}, {
-      headers: {
-        'Authorization': process.env.TOKEN
-      }
-    })
-      .then(response => {
-        res.cookie('helpful', JSON.stringify([`${[req.params.reviewId]}`]));
-        res.status(204).send('request complete');
-      });
-  } else {
-    const helpfulClicked = JSON.parse(req.cookies.helpful);
-    if (helpfulClicked.includes(req.params.reviewId)) {
-      res.status(304).send('helful already clicked for this review');
-    } else {
-      axios.put(`https://app-hrsei-api.herokuapp.com/api/fec2/hr-rpp/reviews/${req.params.reviewId}/helpful`, {}, {
-        headers: {
-          'Authorization': process.env.TOKEN
-        }
-      })
-        .then(response => {
-          const helpfulSend = [...helpfulClicked, req.params.reviewId];
-          res.cookie('helpful', JSON.stringify(helpfulSend));
-          res.status(204).send('request complete');
-        });
-    }
-  }
-
-});
-
-app.post('/reviews', reviewUpload.any(), async (req, res) => {
-  try {
-    const characteristics = {};
-
-    req.body.characteristics.forEach(characteristic => {
-      const charData = characteristic.split('-');
-      characteristics[parseInt(charData[0])] = parseInt(charData[1]);
-    });
-
-    const data = {
-      product_id: parseInt(req.body.product_id),
-      rating: parseInt(req.body.rating),
-      summary: req.body.summary,
-      body: req.body.body,
-      recommend: req.body.recommend === 'Yes' ? true : false,
-      name: req.body.name,
-      email: req.body.email,
-      characteristics: characteristics
-    };
-    const headers = {
-      headers: {
-        Authorization: process.env.TOKEN
-      }
-    };
-
-    if (req.files.length) {
-      const files = req.files.map((file, index) => {
-        return new Promise(async (resolve, reject) => {
-          const base64string = file.buffer.toString('base64');
-          const options = {
-            apiKey: process.env.IMG_API_KEY,
-            base64string
-          };
-          const url = await imgbbUploader(options);
-          resolve(url.image.url);
-        });
-      });
-
-      const fileURLs = await Promise.all(files);
-      data.photos = fileURLs;
-    }
-
-    const response = await axios.post('https://app-hrsei-api.herokuapp.com/api/fec2/hr-rpp/reviews', data, headers);
-    console.log(response.status);
-    res.sendStatus(201);
-  } catch (error) {
-    res.send(error);
-  }
-});
 
 app.get('/products/:productId', (req, res) => {
   axios.get(`https://app-hrsei-api.herokuapp.com/api/fec2/hr-rpp/products/${req.params.productId}`, {
@@ -301,6 +195,7 @@ app.get('/products/:productId/styles', (req, res) => {
     });
 });
 
+// this one i don't think is getting used
 app.get('/getReviews', (req, res) => {
   axios.get(`https://app-hrsei-api.herokuapp.com/api/fec2/hr-rpp/reviews?product_id=${req.query.productId}`, {
     headers: {
