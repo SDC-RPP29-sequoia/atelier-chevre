@@ -34,6 +34,8 @@ class RatingsAndReviews extends React.Component {
     this.closeImage = this.closeImage.bind(this);
     this.closeForm = this.closeForm.bind(this);
     this.handleHelpfulClick = this.handleHelpfulClick.bind(this);
+    this.handleReportClick = this.handleReportClick.bind(this);
+
     this.handleAddNewReview = this.handleAddNewReview.bind(this);
 
   }
@@ -142,6 +144,15 @@ class RatingsAndReviews extends React.Component {
     }
   }
 
+  async handleReportClick(reviewId) {
+    try {
+      const response = await API.reportReview(reviewId);
+      this.getReviewData(this.state.currentSortMethod);
+    } catch (err) {
+      console.log(err.message);
+    }
+  }
+
   handleStarsNumberClick (stars) {
     const filters = [...this.state.filterReviews];
     filters[stars - 1] === 0 ? filters[stars - 1] = 1 : filters[stars - 1] = 0;
@@ -174,7 +185,13 @@ class RatingsAndReviews extends React.Component {
 
 
     let reviewsToDisplay = displayedReviews.map(review => {
-      return <ReviewContent handleHelpfulClick={this.handleHelpfulClick} displayImage={this.displayImage} key={review.review_id} review={review} />;
+      return <ReviewContent
+        handleHelpfulClick={this.handleHelpfulClick}
+        handleReportClick={this.handleReportClick}
+        displayImage={this.displayImage}
+        key={review.review_id}
+        review={review}
+      />;
     });
 
 

@@ -13,12 +13,22 @@ export default {
   },
 
   sendHelpful: (reviewId) => {
-    return axios.put(`/api/reviews/${reviewId}`)
+    return axios.put(`/api/reviews/${reviewId}/helpful`)
       .then(res => {
         return res;
       })
       .catch(err => {
         alert('You have already marked this review as Helpful');
+        return err;
+      });
+  },
+
+  reportReview: (reviewId) => {
+    return axios.put(`/api/reviews/${reviewId}/report`)
+      .then(res => {
+        return res;
+      })
+      .catch(err => {
         return err;
       });
   },

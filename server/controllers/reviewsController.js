@@ -33,6 +33,20 @@ const getReviews = (req, res) => {
     });
 };
 
+const reportReview = (req, res) => {
+  axios.put(`https://app-hrsei-api.herokuapp.com/api/fec2/hr-rpp/reviews/${req.params.reviewId}/report`, {}, {
+    headers: {
+      'Authorization': process.env.TOKEN
+    }
+  })
+    .then(response => {
+      res.send(response.data);
+    })
+    .catch(err => {
+      console.log(err);
+    });
+};
+
 const markReviewHelpful = (req, res) => {
   if (req.cookies.helpful === undefined) {
     axios.put(`https://app-hrsei-api.herokuapp.com/api/fec2/hr-rpp/reviews/${req.params.reviewId}/helpful`, {}, {
@@ -115,6 +129,7 @@ const postNewReview = async (req, res) => {
 module.exports = {
   getSortedReviews,
   getReviews,
+  reportReview,
   markReviewHelpful,
   postNewReview
 };

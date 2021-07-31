@@ -4,7 +4,7 @@ import API from './ReviewsAPIUtils';
 import './RatingsAndReviews.scss';
 import { GrCheckmark } from 'react-icons/gr';
 
-const ReviewContent = ({review, displayImage, handleHelpfulClick}) => {
+const ReviewContent = ({review, displayImage, handleHelpfulClick, handleReportClick}) => {
   const date = new Date(review.date);
   const photos = review.photos.map(photo => {
     return <img onClick={() => displayImage(photo.url)} className="reviews-thumbnail" key={photo.id} src={photo.url}></img>;
@@ -34,7 +34,17 @@ const ReviewContent = ({review, displayImage, handleHelpfulClick}) => {
           <div id="response-content">{review.response}</div>
         </div>
       }
-      <div className="helpful">Helpful? <span onClick={() => handleHelpfulClick(review.review_id)}>Yes({review.helpfulness})</span>  |  Report</div>
+      <div
+        className="helpful">Helpful?
+        <span
+          className="review-content-method"
+          onClick={() => handleHelpfulClick(review.review_id)}>Yes</span>
+        <span> ({review.helpfulness})</span>
+        <span className="review-content-separator">|</span>
+        <span
+          className="review-content-method review-report"
+          onClick={() => handleReportClick(review.review_id)}>Report</span>
+      </div>
     </div>
   );
 };

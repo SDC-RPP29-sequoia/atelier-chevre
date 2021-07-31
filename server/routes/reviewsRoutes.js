@@ -11,7 +11,9 @@ reviewsRouter.get('/:productId/:sortMethod', reviewsController.getSortedReviews)
 
 reviewsRouter.get('/:productId/', reviewsController.getReviews);
 
-reviewsRouter.put('/:reviewId', cookieParser(), reviewsController.markReviewHelpful);
+reviewsRouter.put('/:reviewId/report', reviewsController.reportReview);
+
+reviewsRouter.put('/:reviewId/helpful', cookieParser(), reviewsController.markReviewHelpful);
 
 reviewsRouter.post('/', upload.any(), reviewsController.postNewReview);
 

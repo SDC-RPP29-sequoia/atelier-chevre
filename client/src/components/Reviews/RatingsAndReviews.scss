@@ -48,6 +48,16 @@
         position: relative;
         top: 19px
       }
+
+      .review-content-method {
+        margin-left: 10px;
+        text-decoration: underline;
+        cursor: pointer;
+      }
+
+      .review-content-separator {
+        margin-left: 10px;
+      }
     }
 
     .review-summary {

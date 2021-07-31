@@ -159,7 +159,7 @@ class NewReviewForm extends React.Component {
         headers: { 'content-type': 'multipart/form-data' }
       };
 
-      API.submitReview(formData, config)
+      API.submitFormData(formData, config)
         .then(response => {
           this.setState(inititalState);
           this.props.closeForm('close-form');
