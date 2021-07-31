@@ -27,7 +27,7 @@ class ProductOverview extends React.Component {
       images: [],
       currentImageUrl: '',
       fullscreen: false,
-      selectedQuantity: ''
+      selectedQuantity: 0,
     };
 
     this.onChange = this.onChange.bind(this);
@@ -95,7 +95,8 @@ class ProductOverview extends React.Component {
       .find(sku => sku.sku_id === skuId);
 
     this.setState({
-      selectedSku: sku
+      selectedSku: sku,
+      selectedQuantity: sku?.quantity > 0 ? 1 : ''
     });
   }
 
@@ -112,8 +113,6 @@ class ProductOverview extends React.Component {
       images: [...style.photos],
       currentImageUrl: style.photos[0].url
     });
-
-    console.log(this.state.images);
   }
 
   switchImage(direction) {
@@ -144,7 +143,7 @@ class ProductOverview extends React.Component {
 
         <div id="product-main" className={`${this.state.fullscreen ? 'fullscreen' : ''}`}>
           <ProductImage currentImageUrl={this.state.currentImageUrl} images={this.state.images} toggleFullScreen={this.toggleFullScreen} switchImage={this.switchImage} onChange={this.onChange} />
-          <ProductDetails reviews={this.state.reviews} product={this.state.product} productStyles={this.state.productStyles} selectedSku={this.state.selectedSku} selectedStyle={this.state.selectedStyle} changeSku={this.changeSku} productStyles={this.state.productStyles} changeStyle={this.changeStyle} selectedQuantity={this.state.selectedQuantity} />
+          <ProductDetails reviews={this.state.reviews} product={this.state.product} productStyles={this.state.productStyles} selectedSku={this.state.selectedSku} onChange={this.onChange} selectedStyle={this.state.selectedStyle} changeSku={this.changeSku} productStyles={this.state.productStyles} changeStyle={this.changeStyle} selectedQuantity={this.state.selectedQuantity} />
         </div>
 
         <div id="product-extra">

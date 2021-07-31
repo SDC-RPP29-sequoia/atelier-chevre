@@ -7,6 +7,10 @@ $standardBorder: 1px solid $standardColor;
 #product-overview {
   color: $standardColor;
 
+  .red {
+    color: red;
+  }
+
   .light {
     font-weight: 200;
   }
@@ -191,6 +195,10 @@ $standardBorder: 1px solid $standardColor;
         height: 50px;
         display: flex;
         align-items: center;
+
+        &.button {
+          cursor: pointer;
+        }
 
         & > * {
           width: 100%;

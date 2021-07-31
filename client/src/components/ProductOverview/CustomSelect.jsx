@@ -11,8 +11,11 @@ const StyledSelect = styled(Select)({
 
 const CustomSelect = (props) => {
   return (
-    <FormControl style={{width: '100%'}}>
+    <FormControl style={{width: '100%'}} disabled={props.disabled}>
       <StyledSelect
+        open={props.open}
+        onOpen={props.handleOpen}
+        onClose={props.handleClose}
         value={props.value}
         onChange={props.onChange}
         displayEmpty
