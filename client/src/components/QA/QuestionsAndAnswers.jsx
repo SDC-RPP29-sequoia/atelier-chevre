@@ -40,7 +40,6 @@ class QuestionsAndAnswers extends React.Component {
     this.uploadPhotos = this.uploadPhotos.bind(this);
     this.moreAnsweredQs = this.moreAnsweredQs.bind(this);
     this.loadMoreAnswers = this.loadMoreAnswers.bind(this);
-
     this.submitAnswer = this.submitAnswer.bind(this);
     this.submitQuestion = this.submitQuestion.bind(this);
     this.handleChange = this.handleChange.bind(this);
@@ -64,7 +63,7 @@ class QuestionsAndAnswers extends React.Component {
   getQuestions(cb) {
     axios({
       method: 'GET',
-      url: `/questions/?product_id=${this.state.currProductId}&page=1&count=${this.state.count}`
+      url: `api/questions/${this.state.currProductId}`
     })
       .then(response => {
         let questions = response.data.results;
@@ -152,17 +151,17 @@ class QuestionsAndAnswers extends React.Component {
     e.target.setAttribute('clicked', 'true');
 
     if (e.target.className === 'answer-helpful') {
-      url = '/answerHelpful';
+      url = 'api/questions/answerHelpful';
       let answerId = e.target.getAttribute('answer_id');
       data = { answerId };
     } else if (e.target.className === 'question-helpful') {
-      url = '/questionHelpful';
+      url = 'api/questions/questionHelpful';
       let questionId = e.target.getAttribute('question_id');
       data = { questionId };
     }
 
     axios({
-      method: 'POST',
+      method: 'PUT',
       url,
       data
     })
@@ -180,17 +179,17 @@ class QuestionsAndAnswers extends React.Component {
     let url, data;
 
     if (e.target.className === 'report-question') {
-      url = '/reportQuestion';
+      url = 'api/questions/reportQuestion';
       let questionId = e.target.getAttribute('question_id');
       data = { questionId };
     } else if (e.target.className === 'report-answer') {
-      url = 'reportAnswer';
+      url = 'api/questions/reportAnswer';
       let answerId = e.target.getAttribute('answer_id');
       data = { answerId };
     }
 
     axios({
-      method: 'POST',
+      method: 'PUT',
       url,
       data
     })
@@ -260,20 +259,20 @@ class QuestionsAndAnswers extends React.Component {
       }
     };
 
-    axios.post('/QAPhotos', data, config)
-      .then(res => {
-        this.setState({
-          photos: [res.data, ...this.state.photos]
-        });
+    // axios.post('/QAPhotos', data, config)
+    //   .then(res => {
+    //     this.setState({
+    //       photos: [res.data, ...this.state.photos]
+    //     });
 
-        if (this.state.photos.length > 4) {
-          document.getElementById('modal-photos').style.display = 'none';
-          document.getElementById('modal-photos-label').innerHTML = 'Max 5 photos allowed';
-        }
-      })
-      .catch(err => {
-        console.log('err', err);
-      });
+    //     if (this.state.photos.length > 4) {
+    //       document.getElementById('modal-photos').style.display = 'none';
+    //       document.getElementById('modal-photos-label').innerHTML = 'Max 5 photos allowed';
+    //     }
+    //   })
+    //   .catch(err => {
+    //     console.log('err', err);
+    //   });
   }
 
   moreAnsweredQs() {
@@ -378,7 +377,7 @@ class QuestionsAndAnswers extends React.Component {
 
     axios({
       method: 'POST',
-      url: '/addAnswer',
+      url: 'api/questions/addAnswer',
       data: {
         questionId: this.state.questionId,
         data
@@ -452,7 +451,7 @@ class QuestionsAndAnswers extends React.Component {
 
     axios({
       method: 'POST',
-      url: '/questions',
+      url: 'api/questions',
       data: {
         data
       }
