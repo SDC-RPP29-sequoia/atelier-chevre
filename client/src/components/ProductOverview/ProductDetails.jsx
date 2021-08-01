@@ -31,7 +31,6 @@ const ProductDetails = (props) => {
 
   reviewAvg /= reviewCount;
 
-
   const [open, setOpen] = useState(false);
   const [helpText, setHelpText] = useState('');
 
@@ -67,7 +66,10 @@ const ProductDetails = (props) => {
     <div id="product-details">
       <div className="group horizontal" style={{ display: reviewCount > 0 ? 'flex' : 'none' }}>
         <Stars average={reviewAvg} />
-        <button className="underlined text">Read all {reviewCount} reviews</button>
+        <button
+          className="underlined text"
+          onClick={() => document.getElementById('reviews-section').scrollIntoView({ behavior: 'smooth', block: 'center' })}
+        >Read all {reviewCount} reviews</button>
       </div>
 
       <div className="group">
@@ -137,7 +139,7 @@ const ProductDetails = (props) => {
           <AiOutlineStar />
         </div>
       </div>
-    </div>
+    </div >
   );
 };
 

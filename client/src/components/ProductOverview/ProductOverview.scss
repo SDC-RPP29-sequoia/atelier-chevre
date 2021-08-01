@@ -78,13 +78,25 @@ $standardBorder: 1px solid $standardColor;
         height: 100%;
         width: 55px;
 
-        .image {
+        .alt-image {
           height: 55px;
           width: 55px;
           background-color: white;
           border: $standardBorder;
-          margin-bottom: 20px;
           cursor: pointer;
+          margin-bottom: 3px;
+        }
+
+        .bottom-line {
+          height: 4px;
+          background-color: transparent;
+          margin-bottom: 10px;
+        }
+
+        .selected {
+          .bottom-line {
+            background-color: $standardColor;
+          }
         }
       }
 

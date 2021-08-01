@@ -16,13 +16,17 @@ const ProductImage = (props) => {
   return (
     <div id="product-image" className="bg-image" style={{ backgroundImage: `url(${props.images[currentImageIndex]?.url})` }}>
       <div id="image-list">
-        {props.images?.map(photo => (
-          <div
-            className="image bg-image"
-            style={{ backgroundImage: `url(${photo.thumbnail_url})` }}
-            onClick={() => { setCurrentImageIndex(photo.url); }}
-            key={photo.url}
-          ></div>
+        {props.images?.map((photo, ind) => (
+          <div className={`${ind === currentImageIndex ? 'selected' : ''}`}>
+            <div
+              className="alt-image bg-image"
+              style={{ backgroundImage: `url(${photo.thumbnail_url})` }}
+              onClick={() => { setCurrentImageIndex(ind); }}
+              key={photo.url}
+            ></div>
+            <div className="bottom-line">
+            </div>
+          </div>
         ))}
       </div>
 
