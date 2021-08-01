@@ -43,9 +43,7 @@ const markAnswerHelpful = (req, res) => {
   let answerId = req.body.answerId;
   let url = `https://app-hrsei-api.herokuapp.com/api/fec2/hr-rpp/qa/answers/${answerId}/helpful`;
 
-  axios({
-    method: 'PUT',
-    url,
+  axios.put(url, {}, {
     headers: {
       Authorization: process.env.TOKEN
     }
@@ -62,9 +60,7 @@ const markQuestionHelpful = (req, res) => {
   let questionId = req.body.questionId;
   let url = `https://app-hrsei-api.herokuapp.com/api/fec2/hr-rpp/qa/questions/${questionId}/helpful`;
 
-  axios({
-    method: 'PUT',
-    url,
+  axios.put(url, {}, {
     headers: {
       Authorization: process.env.TOKEN
     }
@@ -81,9 +77,7 @@ const reportQuestion = (req, res) => {
   let questionId = req.body.questionId;
   let url = `https://app-hrsei-api.herokuapp.com/api/fec2/hr-rpp/qa/questions/${questionId}/report`;
 
-  axios({
-    method: 'PUT',
-    url,
+  axios.put(url, {}, {
     headers: {
       Authorization: process.env.TOKEN
     }
@@ -100,9 +94,7 @@ const reportAnswer = (req, res) => {
   let answerId = req.body.answerId;
   let url = `https://app-hrsei-api.herokuapp.com/api/fec2/hr-rpp/qa/answers/${answerId}/report`;
 
-  axios({
-    method: 'PUT',
-    url,
+  axios.put(url, {}, {
     headers: {
       Authorization: process.env.TOKEN
     }
@@ -122,10 +114,7 @@ const postAnswer = (req, res) => {
 
   console.log('server answer data', data);
 
-  axios({
-    method: 'POST',
-    url,
-    data,
+  axios.post(url, data, {
     headers: {
       Authorization: process.env.TOKEN
     }

@@ -62,10 +62,7 @@ class QuestionsAndAnswers extends React.Component {
   }
 
   getQuestions(cb) {
-    axios({
-      method: 'GET',
-      url: `api/questions/${this.state.currProductId}`
-    })
+    axios.get(`api/questions/${this.state.currProductId}`)
       .then(response => {
         let questions = response.data.results;
 
@@ -77,7 +74,7 @@ class QuestionsAndAnswers extends React.Component {
         this.displayButtons();
       })
       .catch(err => {
-        console.log('axios get error', err);
+        console.log(err);
       });
   }
 
@@ -161,16 +158,12 @@ class QuestionsAndAnswers extends React.Component {
       data = { questionId };
     }
 
-    axios({
-      method: 'PUT',
-      url,
-      data
-    })
+    axios.put(url, data)
       .then(response => {
         this.getQuestions();
       })
       .catch(err => {
-        console.log('mark helpful axios error', err);
+        console.log(err);
       });
   }
 
@@ -189,16 +182,12 @@ class QuestionsAndAnswers extends React.Component {
       data = { answerId };
     }
 
-    axios({
-      method: 'PUT',
-      url,
-      data
-    })
+    axios.put(url, data)
       .then(response => {
 
       })
       .catch(err => {
-        console.log('report axios error', err);
+        console.log(err);
       });
   }
 
@@ -374,14 +363,12 @@ class QuestionsAndAnswers extends React.Component {
 
     data.photos = pics;
 
-    axios({
-      method: 'POST',
-      url: 'api/questions/addAnswer',
-      data: {
+    axios.post('api/questions/addAnswer',
+      {
         questionId: this.state.questionId,
         data
       }
-    })
+    )
       .then(response => {
         document.getElementById('modal-answer').value = '';
         document.getElementById('modal-answer-nickname').value = '';
@@ -448,13 +435,7 @@ class QuestionsAndAnswers extends React.Component {
 
     data['product_id'] = Number(this.state.currProductId);
 
-    axios({
-      method: 'POST',
-      url: 'api/questions',
-      data: {
-        data
-      }
-    })
+    axios.post('api/questions', { data })
       .then(response => {
         document.getElementById('modal-question').value = '';
         document.getElementById('modal-question-nickname').value = '';
@@ -462,7 +443,7 @@ class QuestionsAndAnswers extends React.Component {
         this.getQuestions();
       })
       .catch(err => {
-        console.log('add q axios error', err);
+        console.log(err);
       });
   }
 
