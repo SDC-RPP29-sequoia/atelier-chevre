@@ -11,7 +11,7 @@ const ProductImage = (props) => {
   const switchImage = (direction) => {
     if (direction === 'prev') {
       setCurrentImageIndex(currentImageIndex - 1);
-      if (currentImageIndex < firstImageInd) {
+      if (currentImageIndex <= firstImageInd) {
         scroll('up');
       }
     } else {
