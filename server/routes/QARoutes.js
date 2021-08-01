@@ -6,7 +6,7 @@ const upload = multer();
 
 QARouter.get('/:productId', QAController.getQuestions);
 QARouter.post('/', QAController.postQuestion);
-QARouter.post('/addAnswer', QAController.postAnswer);
+QARouter.post('/addAnswer', upload.any(), QAController.postAnswer);
 QARouter.put('/answerHelpful', QAController.markAnswerHelpful);
 QARouter.put('/questionHelpful', QAController.markQuestionHelpful);
 QARouter.put('/reportAnswer', QAController.reportAnswer);

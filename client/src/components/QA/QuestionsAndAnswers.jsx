@@ -27,7 +27,8 @@ class QuestionsAndAnswers extends React.Component {
       questionId: '',
       searchVal: '',
       count: 2,
-      originalLength: null
+      originalLength: null,
+      files: {}
     };
 
     this.retrieveSortQAs = this.retrieveSortQAs.bind(this);
@@ -249,32 +250,6 @@ class QuestionsAndAnswers extends React.Component {
     };
   }
 
-  uploadPhotos(e) {
-    let data = new FormData();
-    data.append('file', e.target.files[0]);
-
-    let config = {
-      headers: {
-        'content-type': 'multipart/form-data'
-      }
-    };
-
-    // axios.post('/QAPhotos', data, config)
-    //   .then(res => {
-    //     this.setState({
-    //       photos: [res.data, ...this.state.photos]
-    //     });
-
-    //     if (this.state.photos.length > 4) {
-    //       document.getElementById('modal-photos').style.display = 'none';
-    //       document.getElementById('modal-photos-label').innerHTML = 'Max 5 photos allowed';
-    //     }
-    //   })
-    //   .catch(err => {
-    //     console.log('err', err);
-    //   });
-  }
-
   moreAnsweredQs() {
     this.setState({
       count: this.state.count + 2
@@ -309,6 +284,30 @@ class QuestionsAndAnswers extends React.Component {
     let loadMoreAnswers = document.getElementsByClassName('load-more-answers');
     for (let i = 0; i < loadMoreAnswers.length; i++) {
       loadMoreAnswers[i].style.display = 'none';
+    }
+  }
+
+  uploadPhotos(e) {
+    let photos = [];
+
+    for (let key in e.target.files) {
+      if (key !== 'length' && key !== 'item') {
+        photos.push(URL.createObjectURL(e.target.files[key]));
+      }
+    }
+
+    if (e.target.files.length > 5) {
+      alert('You may only upload 5 images');
+      e.target.value = '';
+      this.setState({
+        files: {length: 0}
+      });
+    } else {
+      let files = e.target.files;
+      this.setState({
+        files,
+        photos
+      });
     }
   }
 
@@ -370,7 +369,7 @@ class QuestionsAndAnswers extends React.Component {
 
     for (let i = 0; i < this.state.photos.length; i++) {
       let photo = this.state.photos[i];
-      pics.push(`http://localhost:3000/photos/${photo.filename}`);
+      pics.push(photo);
     }
 
     data.photos = pics;

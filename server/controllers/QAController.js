@@ -120,6 +120,8 @@ const postAnswer = (req, res) => {
   let data = req.body.data;
   let url = `https://app-hrsei-api.herokuapp.com/api/fec2/hr-rpp/qa/questions/${questionId}/answers`;
 
+  console.log('server answer data', data);
+
   axios({
     method: 'POST',
     url,
