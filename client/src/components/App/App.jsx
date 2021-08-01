@@ -16,7 +16,15 @@ class App extends React.Component {
     };
   }
 
+  componentDidMount () {
+    const urlSearchParams = new URLSearchParams(window.location.search);
+    const params = Object.fromEntries(urlSearchParams.entries());
+    console.log('params:', params.product_id);
+
+  }
+
   render() {
+
     return (
       <div className="wrapper">
         <Header currentProduct={this.state.currentProduct} />

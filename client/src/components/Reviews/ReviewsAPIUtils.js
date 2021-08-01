@@ -9,7 +9,7 @@ export default {
     return axios.get(`/api/reviews/${productId}`, {
     }).then(response => {
       return response.data;
-    });
+    }).catch(err => console.log(err));
   },
 
   sendHelpful: (reviewId) => {

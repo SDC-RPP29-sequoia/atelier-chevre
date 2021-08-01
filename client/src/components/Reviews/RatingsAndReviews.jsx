@@ -35,7 +35,6 @@ class RatingsAndReviews extends React.Component {
     this.closeForm = this.closeForm.bind(this);
     this.handleHelpfulClick = this.handleHelpfulClick.bind(this);
     this.handleReportClick = this.handleReportClick.bind(this);
-
     this.handleAddNewReview = this.handleAddNewReview.bind(this);
 
   }
@@ -65,13 +64,17 @@ class RatingsAndReviews extends React.Component {
   }
 
   async getReviewData (sortMethod) {
-    const reviews = await API.getProductReviews(this.props.productId, sortMethod);
-    const reviewsMeta = await API.getProductReviewsMeta(this.props.productId);
-    this.setState({
-      currentProductReviews: reviews.data.results,
-      currentProductMeta: reviewsMeta,
-      currentSortMethod: sortMethod
-    });
+    try {
+      const reviews = await API.getProductReviews(this.props.productId, sortMethod);
+      const reviewsMeta = await API.getProductReviewsMeta(this.props.productId);
+      this.setState({
+        currentProductReviews: reviews.data.results,
+        currentProductMeta: reviewsMeta,
+        currentSortMethod: sortMethod
+      });
+    } catch (err) {
+      console.log(err);
+    }
   }
 
   getAverageRating (reviews) {
@@ -229,7 +232,7 @@ class RatingsAndReviews extends React.Component {
               </div>
             </div>
             {this.state.displayedReviewsCount < compareLength &&
-              <button className="btn" onClick={() => this.handleMoreReviewsClick()}>MORE REVIEWS</button>
+              <button className="btn more-reviews" onClick={() => this.handleMoreReviewsClick()}>MORE REVIEWS</button>
             }
             <button className="btn" onClick={this.handleAddNewReview}>ADD A REVIEW <span className="plus-icon">+</span></button>
           </div>
