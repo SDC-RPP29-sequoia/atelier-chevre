@@ -226,9 +226,14 @@ class QuestionsAndAnswers extends React.Component {
 
     modal.style.display = 'block';
 
-    let closeBtn = document.querySelector('.modal-q .close-btn');
+    let closeBtn = document.querySelector('.modal .close-btn');
+    let closeBtn2 = document.querySelector('.modal-q .close-btn');
 
     closeBtn.onclick = () => {
+      modal.style.display = 'none';
+    };
+
+    closeBtn2.onclick = () => {
       modal.style.display = 'none';
     };
 
