@@ -7,6 +7,7 @@ const multer = require('multer');
 const cookieParser = require('cookie-parser');
 
 const reviewsRouter = require('./routes/reviewsRoutes');
+const productRouter = require('./routes/productRoutes');
 
 const storage = multer.diskStorage({
   destination: __dirname + '/../client/public/photos',
@@ -19,8 +20,9 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(express.static(__dirname + '/../client/public'));
 
-// REVIEWS ROUTES
+// ROUTES
 app.use('/api/reviews', reviewsRouter);
+app.use('/api/products', productRouter);
 
 // QUESTIONS & ANSWERS
 app.get('/questions', (req, res) => {
@@ -162,37 +164,6 @@ app.post('/QAPhotos', (req, res) => {
     }
     res.send(req.file);
   });
-});
-
-
-
-
-app.get('/products/:productId', (req, res) => {
-  axios.get(`https://app-hrsei-api.herokuapp.com/api/fec2/hr-rpp/products/${req.params.productId}`, {
-    headers: {
-      'Authorization': process.env.TOKEN
-    }
-  })
-    .then(response => {
-      res.json(response.data);
-    })
-    .catch(err => {
-      console.log(err);
-    });
-});
-
-app.get('/products/:productId/styles', (req, res) => {
-  axios.get(`https://app-hrsei-api.herokuapp.com/api/fec2/hr-rpp/products/${req.params.productId}/styles`, {
-    headers: {
-      'Authorization': process.env.TOKEN
-    }
-  })
-    .then(response => {
-      res.json(response.data);
-    })
-    .catch(err => {
-      console.log(err);
-    });
 });
 
 // this one i don't think is getting used

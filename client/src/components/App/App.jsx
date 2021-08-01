@@ -12,17 +12,26 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      currentProduct: {}
+      currentProduct: {},
+      bag: []
     };
+
+    this.addToBag = this.addToBag.bind(this);
+  }
+
+  addToBag(item) {
+    this.setState({
+      bag: [...this.state.bag, item]
+    });
   }
 
   render() {
     return (
       <div className="wrapper">
         <Header currentProduct={this.state.currentProduct} />
-        <ProductOverview productId="28212" />
-        <QuestionsAndAnswers productId="28213" />
-        <RatingsAndReviews productId="28229"/>
+        <ProductOverview productId="28216" addToBag={this.addToBag} />
+        <QuestionsAndAnswers productId="28212" />
+        <RatingsAndReviews productId="28212"/>
       </div>
     );
   }
