@@ -29,8 +29,9 @@ export default {
 
   getReviews(id) {
     return new Promise((resolve, reject) => {
-      axios.get(`${url}/getReviews`, { params: { productId: id } })
+      axios.get(`${url}/api/reviews/${id}`)
         .then(response => {
+          console.log(response);
           resolve(response.data);
         })
         .catch(err => {

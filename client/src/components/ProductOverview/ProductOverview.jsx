@@ -23,9 +23,8 @@ class ProductOverview extends React.Component {
       productStyles: {},
       selectedStyle: '',
       selectedSku: null,
-      reviews: [],
+      reviews: {},
       images: [],
-      currentImageUrl: '',
       fullscreen: false,
       selectedQuantity: 0,
     };
@@ -33,7 +32,6 @@ class ProductOverview extends React.Component {
     this.onChange = this.onChange.bind(this);
     this.changeSku = this.changeSku.bind(this);
     this.changeStyle = this.changeStyle.bind(this);
-    this.switchImage = this.switchImage.bind(this);
     this.toggleFullScreen = this.toggleFullScreen.bind(this);
   }
 
@@ -111,20 +109,8 @@ class ProductOverview extends React.Component {
       selectedStyle: style,
       selectedSku: null,
       images: [...style.photos],
-      currentImageUrl: style.photos[0].url
-    });
-  }
-
-  switchImage(direction) {
-    let currentInd;
-    this.state.images.forEach((image, ind) => {
-      if (image.url === this.state.currentImageUrl) {
-        currentInd = ind;
-      }
-    });
-
-    this.setState({
-      currentImageUrl: this.state.images[direction === 'next' ? 'nextItem' : 'previousItem'](currentInd).url
+      currentImageUrl: style.photos[0].url,
+      selectedQuantity: 0
     });
   }
 
@@ -143,7 +129,7 @@ class ProductOverview extends React.Component {
 
         <div id="product-main" className={`${this.state.fullscreen ? 'fullscreen' : ''}`}>
           <ProductImage currentImageUrl={this.state.currentImageUrl} images={this.state.images} toggleFullScreen={this.toggleFullScreen} switchImage={this.switchImage} onChange={this.onChange} />
-          <ProductDetails reviews={this.state.reviews} product={this.state.product} productStyles={this.state.productStyles} selectedSku={this.state.selectedSku} onChange={this.onChange} selectedStyle={this.state.selectedStyle} changeSku={this.changeSku} productStyles={this.state.productStyles} changeStyle={this.changeStyle} selectedQuantity={this.state.selectedQuantity} />
+          <ProductDetails addToBag={this.props.addToBag} reviews={this.state.reviews} product={this.state.product} productStyles={this.state.productStyles} selectedSku={this.state.selectedSku} onChange={this.onChange} selectedStyle={this.state.selectedStyle} changeSku={this.changeSku} productStyles={this.state.productStyles} changeStyle={this.changeStyle} selectedQuantity={this.state.selectedQuantity} />
         </div>
 
         <div id="product-extra">

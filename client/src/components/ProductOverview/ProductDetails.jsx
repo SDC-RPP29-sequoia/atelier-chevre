@@ -7,6 +7,8 @@ import helpers from '../../helpers.js';
 
 const ProductDetails = (props) => {
   let price, sizes;
+  let reviewCount = 0;
+  let reviewAvg = 0;
 
   if (!props.selectedStyle.sale_price) {
     price = <p>${props.selectedStyle.original_price}</p>;
@@ -20,15 +22,25 @@ const ProductDetails = (props) => {
 
   sizes.unshift({ label: 'SELECT SIZE', value: '' });
 
+  _.forEach(props.reviews.ratings, (numRatings, rating) => {
+    for (let i = 0; i < parseInt(numRatings); i++) {
+      reviewAvg += parseInt(rating);
+      reviewCount++;
+    }
+  });
+
+  reviewAvg /= reviewCount;
+
 
   const [open, setOpen] = useState(false);
   const [helpText, setHelpText] = useState('');
 
-  const handleOpen = () => {
+  const handleOpen = (e) => {
     setOpen(true);
   };
 
-  const handleClose = () => {
+  const handleClose = (e) => {
+    e.stopPropagation();
     setOpen(false);
   };
 
@@ -48,14 +60,14 @@ const ProductDetails = (props) => {
 
     setHelpText(ht);
 
-    console.log(sku, quantity);
+    props.addToBag({ sku, quantity });
   };
 
   return (
     <div id="product-details">
-      <div className="group horizontal" style={{ display: props.reviews.count > 0 ? 'flex' : 'none' }}>
-        <Stars average={3.3} />
-        <button className="underlined text">Read all {props.reviews.count} reviews</button>
+      <div className="group horizontal" style={{ display: reviewCount > 0 ? 'flex' : 'none' }}>
+        <Stars average={reviewAvg} />
+        <button className="underlined text">Read all {reviewCount} reviews</button>
       </div>
 
       <div className="group">
@@ -87,19 +99,21 @@ const ProductDetails = (props) => {
         ))}
       </div>
 
+      <div id="help-text" className="red">{helpText}</div>
+
       <div className="group horizontal gapped stretch">
         <div className="control-wrapper">
-          <div style={{ display: sizes.length > 1 ? 'block' : 'none' }}>
+          <div style={{ display: sizes.length > 1 ? 'block' : 'none' }} onClick={handleOpen}>
             <CustomSelect
+              handleOpen={handleOpen}
+              handleClose={handleClose}
               open={open}
-              onOpen={handleOpen}
-              onClose={handleClose}
               value={props.selectedSku?.sku_id || ''}
               options={sizes}
-              onChange={(e) => { props.changeSku(e.target.value); handleClose(); }}
+              onChange={(e) => { props.changeSku(e.target.value); }}
             />
           </div>
-          <p style={{ display: sizes.length < 1 ? 'block' : 'none' }} ><b>OUT OF STOCK</b></p>
+          <p style={{ display: sizes.length < 1 ? 'block' : 'none' }}><b>OUT OF STOCK</b></p>
         </div>
         <div className="control-wrapper">
           <CustomSelect
@@ -117,14 +131,12 @@ const ProductDetails = (props) => {
 
       <div className="group horizontal gapped stretch">
         <div className="control-wrapper button" onClick={handleAddToBag}>
-          <p><b>ADD TO CART</b></p>
+          <p style={{ display: props.selectedSku?.quantity ? 'flex' : 'none' }}><b>ADD TO CART</b></p>
         </div>
         <div className="control-wrapper">
           <AiOutlineStar />
         </div>
       </div>
-
-      <div id="help-text" className="red">{helpText}</div>
     </div>
   );
 };
