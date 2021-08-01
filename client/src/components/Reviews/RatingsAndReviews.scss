@@ -48,6 +48,24 @@
         position: relative;
         top: 19px
       }
+
+      .review-content-method {
+        margin-left: 10px;
+        text-decoration: underline;
+        cursor: pointer;
+      }
+
+      .review-content-separator {
+        margin-left: 10px;
+      }
+
+      .review-show-more {
+        font-size: .85em;
+        margin-bottom: 2rem;
+        cursor: pointer;
+        text-decoration: underline;
+        color: #797979;
+      }
     }
 
     .review-summary {
@@ -79,10 +97,10 @@
 
     .review-content-wrapper {
       overflow-y: auto;
-      max-height: 75vh;
+      height: 75vh;
     }
 
-    .btn {
+    .btn, .review-form-row > .btn {
       margin-top: 2rem;
       margin-right: 20px;
       margin-bottom: 80px;
@@ -98,6 +116,10 @@
       &:active {
         background-color: lightslategrey;
       }
+    }
+
+    .review-form-row > .btn {
+      width: 175px;
     }
 
     #ratings-breakdown-wrapper {
@@ -194,13 +216,13 @@
       background-color: lightgray;
     }
 
-    .reviews-thumbnail {
+    .reviews-thumbnail, .previews-thumbnail {
       max-height: 75px;
       max-width: 75px;
       margin: 15px;
     }
 
-    #reviews-fullscreen-image-wrapper {
+    #reviews-fullscreen-image-wrapper, #review-form-wrapper {
       display: grid;
       grid-template-rows: auto;
       height: 100%;
@@ -220,7 +242,7 @@
       place-self: center center;
     }
 
-    #close-image {
+    #close-image, #close-form {
       font-size: 2rem;
       color: ghostwhite;
       place-self: start;
@@ -232,5 +254,93 @@
       padding-bottom: 50px;
       padding-right: 50px;
       margin-top: 20px;
+    }
+
+    .review-form {
+      background-color: white;
+
+      input {
+        padding: 5px;
+      }
+
+      .review-form-row {
+        margin: 20px 0;
+        display: grid;
+        grid-template-columns: 1fr 3fr ;
+        grid-gap: 10px;
+      }
+
+      .review-form-extra-info {
+        font-size: .85rem;
+      }
+
+      .attributes-row {
+        display: grid;
+        width: 75%;
+        font-size: .85rem;
+        grid-template-columns: repeat(5, 1fr);
+        justify-items: center;
+      }
+
+      .radio {
+        margin-left: 1rem;
+      }
+
+      .label {
+        place-self: start end;
+        font-weight: bold;
+      }
+
+      .review-text {
+        width: 85%;
+      }
+
+      .review-text-body {
+        width: 85%;
+        height: 6rem;
+      }
+
+      .text-input {
+        place-self: start;
+      }
+
+      #nickname {
+        width: 25%;
+      }
+
+      #email {
+        width: 50%;
+      }
+
+      #form-star-wrapper {
+        display: grid;
+        grid-template-columns: 130px 1fr;
+        align-items: center;
+      }
+
+      .form-star {
+        text-shadow: 0 0 3px #000;
+        stroke: black;
+        stroke-width: 50;
+      }
+
+      .form-star-radio {
+        display: none;
+      }
+
+      .form-stars-text {
+        font-size: .85rem;
+      }
+
+      .error-wrapper {
+        color: red;
+      }
+
+      .error-list {
+        margin-left: 2rem;
+        margin-top: 1rem;
+      }
+
+
     }
   }

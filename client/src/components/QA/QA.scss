@@ -3,8 +3,9 @@
   background: white;
   display: flex;
   flex-direction: column;
-  flex-wrap: no-wrap;
+  // flex-wrap: no-wrap;
   align-content: space-around;
+  padding: 0 80px;
 
   /* HEADER */
   #QAHeader {
@@ -24,6 +25,10 @@
     color: black;
     font-weight: bold;
     padding-left: 5px;
+    padding-right: 5px;
+    background: url('https://upload.wikimedia.org/wikipedia/commons/5/55/Magnifying_glass_icon.svg') no-repeat right;
+    background-size: 20px 20px;
+    background-position: 97%;
   }
 
   #search img {
@@ -41,6 +46,16 @@
   #list {
     display: grid;
     grid-template-columns: 70% 30%;
+  }
+
+  #qa-list {
+    overflow-y: auto;
+    max-height: 75vh;
+  }
+
+  .answer-wrapper {
+    overflow-y: auto;
+    max-height: 50vh;
   }
 
   .question {
@@ -82,6 +97,23 @@
 
   .answer-photo-thumbnail {
     margin-right: 0.5rem;
+    cursor: pointer;
+  }
+
+  .answer-helpful {
+    cursor: pointer;
+  }
+
+  .report-answer {
+    cursor: pointer;
+  }
+
+  .question-helpful {
+    cursor: pointer;
+  }
+
+  .report-question {
+    cursor: pointer;
   }
 
   .signature-helpful-report {
@@ -111,6 +143,7 @@
     color: rgb(121, 121, 121);
     font-size: .7rem;
     margin-bottom: 1rem;
+
   }
 
   .load-more-answers {
@@ -118,14 +151,19 @@
     font-size: .7rem;
     margin-bottom: 1rem;
     margin-left: 1.4rem;
+    cursor: pointer;
   }
 
   /* BUTTONS */
   #buttons {
-    margin-top: -30px;
+    margin-top: -20px;
     display: flex;
     flex-direction: row-reverse;
     justify-content: flex-end;
+  }
+
+  #buttons button {
+    cursor: pointer;
   }
 
   #more-answered-qs {
@@ -197,7 +235,49 @@
     color: black;
     padding: 20px;
     margin: auto;
-    width: 75%;
+    width: 50%;
+    border: 1px solid gray;
+  }
+
+  .modal-content input[type=text] {
+    width: 40%;
+  }
+
+  .modal-content button {
+    margin-top: 2rem;
+    margin-right: 20px;
+    font-weight: bold;
+    color: #292929;
+    background-color: white;
+    border: 1px solid #292929;
+    border-radius: 0;
+    padding: 1.5em 2em;
+    &:hover {
+      background-color: lightgray;
+    }
+    &:active {
+      background-color: lightslategrey;
+    }
+  }
+
+  .modal-content p {
+    font-weight: bold;
+    padding-bottom: 10px;
+  }
+
+
+  .modal-content .subtitle {
+    padding-bottom: 10px;
+  }
+
+  .modal-content textarea {
+    font-family: inherit;
+    width: 50%;
+    vertical-align: middle;
+    margin-bottom: 10px;
+    background: none;
+    overflow: auto;
+    padding: 10px;
   }
 
   .close-btn {
@@ -205,18 +285,25 @@
     color: lightgray;
     font-size: 24px;
     font-weight: bold;
+    cursor: pointer;
   }
 
   .close-btn:hover {
     color: darkgray;
   }
 
-  #add-answer {
+  .add-answer {
+    display: flex;
+    flex-direction: column;
+    cursor: pointer;
+  }
+
+  #add-question {
     display: flex;
     flex-direction: column;
   }
 
-  #add-question {
+  #add-answer {
     display: flex;
     flex-direction: column;
   }
