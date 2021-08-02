@@ -1,4 +1,5 @@
 import React from 'react';
+import { VscTriangleDown } from 'react-icons/vsc';
 
 const ProductBreakdown = ({currentProductMeta}) => {
 
@@ -6,14 +7,40 @@ const ProductBreakdown = ({currentProductMeta}) => {
   const charsToPercent = {};
 
   const convertToPercent = (value) => {
-    return (value / 5) * 100;
+    return ((value / 5) * 100) - 5;
   };
 
   for (let characteristic in characteristics) {
     const value = characteristics[characteristic].value;
-    charsToPercent[characteristic] = convertToPercent(value);
+    charsToPercent[characteristic.toLowerCase()] = convertToPercent(value);
   }
 
+  const sizePostion = {
+    left: charsToPercent.size + '%'
+  };
+
+  const widthPostion = {
+    left: charsToPercent.width + '%'
+  };
+
+  const comfortPostion = {
+    left: charsToPercent.comfort + '%'
+  };
+
+  const qualityPostion = {
+    left: charsToPercent.quality + '%'
+  };
+
+  const lengthPostion = {
+    left: charsToPercent.length + '%'
+  };
+
+  const fitPostion = {
+    left: charsToPercent.fit + '%'
+  };
+
+
+  console.log('charsToPercent:', charsToPercent);
   return (
     <div id="product-breakdown-wrapper">
       {characteristics.hasOwnProperty('Size') &&
@@ -30,12 +57,16 @@ const ProductBreakdown = ({currentProductMeta}) => {
         <div className="breakdown-characteristic" id="breakdown-comfort">
           <div className="breakdown-title">Comfort</div>
           <div className="breakdown-scale">
-            <div id="breakdown-comfort-icon-wrapper">
-              {/* <div id="breakdown-comfort-icon"></div> */}
+            <div className="breakdown-icon-wrapper">
               <div className="breakdown-bar-wrapper-2">
                 <div className="breakdown-bar"></div>
                 <div className="breakdown-bar"></div>
                 <div className="breakdown-bar"></div>
+              </div>
+              <div id="breakdown-comfort-icon-holder">
+                <div id="breakdown-comfort-icon" style={comfortPostion}>
+                  <VscTriangleDown size={25}/>
+                </div>
               </div>
             </div>
           </div>
@@ -47,7 +78,7 @@ const ProductBreakdown = ({currentProductMeta}) => {
       }
       {characteristics.hasOwnProperty('Quality') &&
         <div className="breakdown-characteristic" id="breakdown-quality">
-          <div>Quality</div>
+
         </div>
       }
       {characteristics.hasOwnProperty('Length') &&
