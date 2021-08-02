@@ -31,7 +31,7 @@ class App extends React.Component {
         <Header currentProduct={this.state.currentProduct} />
         <ProductOverview productId="28216" addToBag={this.addToBag} />
         <QuestionsAndAnswers productId="28212" />
-        <RatingsAndReviews productId="28212"/>
+        <RatingsAndReviews productId="28215"/>
       </div>
     );
   }
