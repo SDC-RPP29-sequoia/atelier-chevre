@@ -107,24 +107,49 @@ const reportAnswer = (req, res) => {
     });
 };
 
-const postAnswer = (req, res) => {
-  let questionId = req.body.questionId;
-  let data = req.body.data;
-  let url = `https://app-hrsei-api.herokuapp.com/api/fec2/hr-rpp/qa/questions/${questionId}/answers`;
+const postAnswer = async (req, res) => {
+  try {
+    let questionId = req.body.questionId;
+    let url = `https://app-hrsei-api.herokuapp.com/api/fec2/hr-rpp/qa/questions/${questionId}/answers`;
 
-  console.log('server answer data', data);
+    let data = {
+      body: req.body.body,
+      name: req.body.name,
+      email: req.body.email
+    };
 
-  axios.post(url, data, {
-    headers: {
-      Authorization: process.env.TOKEN
+    if (req.files.length) {
+      let files = req.files.map((file, i) => {
+        return new Promise(async (resolve, reject) => {
+          let base64string = file.buffer.toString('base64');
+          let options = {
+            apiKey: process.env.IMG_API_KEY,
+            base64string
+          };
+
+          let url = await imgbbUploader(options);
+          resolve(url.image.url);
+        });
+      });
+
+      let fileUrls = await Promise.all(files);
+      data.photos = fileUrls;
     }
-  })
-    .then(response => {
-      res.send(response.data);
+
+    axios.post(url, data, {
+      headers: {
+        Authorization: process.env.TOKEN
+      }
     })
-    .catch(err => {
-      console.log(err);
-    });
+      .then(response => {
+        res.send(response.data);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  } catch (error) {
+    res.send(error);
+  }
 };
 
 module.exports = {

@@ -352,28 +352,9 @@ class QuestionsAndAnswers extends React.Component {
 
     let formElement = document.querySelector('#add-answer');
     let formData = new FormData(formElement);
+    formData.append('questionId', this.state.questionId);
 
-    let data = {};
-
-    for (let [key, value] of formData) {
-      data[key] = value;
-    }
-
-    let pics = [];
-
-    for (let i = 0; i < this.state.photos.length; i++) {
-      let photo = this.state.photos[i];
-      pics.push(photo);
-    }
-
-    data.photos = pics;
-
-    axios.post('api/questions/addAnswer',
-      {
-        questionId: this.state.questionId,
-        data
-      }
-    )
+    axios.post('api/questions/addAnswer', formData)
       .then(response => {
         document.getElementById('modal-answer').value = '';
         document.getElementById('modal-answer-nickname').value = '';
