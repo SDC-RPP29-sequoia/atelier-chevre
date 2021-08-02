@@ -1,11 +1,15 @@
 $standardPaddingUnit: 2rem;
 $lightGrey: #ebebeb;
-$styleSelectorDiameter: 60px;
+$styleSelectorDiameter: 75px;
 $standardColor: #454545;
 $standardBorder: 1px solid $standardColor;
 
 #product-overview {
   color: $standardColor;
+
+  .red {
+    color: red;
+  }
 
   .light {
     font-weight: 200;
@@ -52,34 +56,66 @@ $standardBorder: 1px solid $standardColor;
       height: 90vh;
 
       #product-image {
-        flex-basis: 100%;
+        width: 100%;
       }
 
       #product-details {
+        width: 0px;
         display: none;
       }
     }
 
     #product-image {
       display: flex;
-      flex-basis: 60%;
       background-color: $lightGrey;
-      min-height: 600px;
+      min-height: 650px;
       padding: $standardPaddingUnit;
+      flex: 1 0 60%;
 
       #image-list {
         display: flex;
         flex-direction: column;
-        height: 100%;
-        width: 55px;
+        justify-content: center;
 
-        .image {
-          height: 55px;
+        .image-alt-scroll {
+          display: flex;
+          justify-content: center;
+          font-size: 1.5rem;
+
+          &.up {
+            margin-bottom: 10px;
+          }
+        }
+
+        #images {
+          display: flex;
+          flex-direction: column;
+          height: 100%;
           width: 55px;
-          background-color: white;
-          border: $standardBorder;
-          margin-bottom: 20px;
-          cursor: pointer;
+          max-height: 72px * 7;
+          overflow-y: hidden;
+          scroll-behavior: smooth;
+
+          .alt-image {
+            height: 55px;
+            width: 55px;
+            background-color: white;
+            border: $standardBorder;
+            cursor: pointer;
+            margin-bottom: 3px;
+          }
+
+          .bottom-line {
+            height: 4px;
+            background-color: transparent;
+            margin-bottom: 10px;
+          }
+
+          .selected {
+            .bottom-line {
+              background-color: $standardColor;
+            }
+          }
         }
       }
 
@@ -110,7 +146,7 @@ $standardBorder: 1px solid $standardColor;
     }
 
     #product-details {
-      flex-basis: 40%;
+      flex: 0 1 40%;
       padding: $standardPaddingUnit;
       display: flex;
       flex-direction: column;
@@ -134,6 +170,13 @@ $standardBorder: 1px solid $standardColor;
 
         &.group {
           margin-bottom: 0.5rem;
+
+          .style-selector-wrapper {
+            width: calc(25% - 1rem);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+          }
         }
 
         &.gapped {
@@ -183,11 +226,19 @@ $standardBorder: 1px solid $standardColor;
         height: 50px;
         display: flex;
         align-items: center;
+
+        &.button {
+          cursor: pointer;
+        }
+
+        & > * {
+          width: 100%;
+        }
       }
     }
   }
 
-  #product-extra {
+  #product-extra > div {
     padding: $standardPaddingUnit * 1.5;
     display: flex;
     justify-content: center;
@@ -218,6 +269,7 @@ $standardBorder: 1px solid $standardColor;
       flex-basis: 40%;
       display: flex;
       flex-direction: column;
+      justify-content: center;
       gap: 10px;
 
       .feature {
