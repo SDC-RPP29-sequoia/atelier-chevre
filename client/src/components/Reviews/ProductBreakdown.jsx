@@ -12,7 +12,9 @@ const ProductBreakdown = ({currentProductMeta}) => {
 
   for (let characteristic in characteristics) {
     const value = characteristics[characteristic].value;
-    charsToPercent[characteristic.toLowerCase()] = convertToPercent(value);
+    if (value) {
+      charsToPercent[characteristic.toLowerCase()] = convertToPercent(value);
+    }
   }
 
   const sizePostion = {
@@ -39,21 +41,57 @@ const ProductBreakdown = ({currentProductMeta}) => {
     left: charsToPercent.fit + '%'
   };
 
-
-  console.log('charsToPercent:', charsToPercent);
   return (
     <div id="product-breakdown-wrapper">
-      {characteristics.hasOwnProperty('Size') &&
-        <div className="breakdown-characteristic" id="breakdown-size">Size
-          <div>Size</div>
-          <div></div>
-          <div></div>
+      {charsToPercent.hasOwnProperty('size') &&
+        <div className="breakdown-characteristic" id="breakdown-size">
+          <div className="breakdown-title">Size</div>
+          <div className="breakdown-scale">
+            <div className="breakdown-icon-wrapper">
+              <div className="breakdown-bar-wrapper-3">
+                <div className="breakdown-bar"></div>
+                <div className="breakdown-bar"></div>
+                <div className="breakdown-bar"></div>
+              </div>
+              <div className="breakdown-icon-holder">
+                <div className="breakdown-icon" style={sizePostion}>
+                  <VscTriangleDown size={25}/>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="breakdown-meaning-3">
+            <span>Too Small</span>
+            <span className="breakdown-middle">Perfect</span>
+            <span className="breakdown-last">Too Wide</span>
+          </div>
         </div>
       }
-      {characteristics.hasOwnProperty('Width') &&
-        <div className="breakdown-characteristic" id="breakdown-width">Width</div>
+      {charsToPercent.hasOwnProperty('width') &&
+        <div className="breakdown-characteristic" id="breakdown-width">
+          <div className="breakdown-title">Width</div>
+          <div className="breakdown-scale">
+            <div className="breakdown-icon-wrapper">
+              <div className="breakdown-bar-wrapper-2">
+                <div className="breakdown-bar"></div>
+                <div className="breakdown-bar"></div>
+                <div className="breakdown-bar"></div>
+              </div>
+              <div className="breakdown-icon-holder">
+                <div className="breakdown-icon" style={widthPostion}>
+                  <VscTriangleDown size={25}/>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="breakdown-meaning-3">
+            <span>Too Narrow</span>
+            <span className="breakdown-middle">Perfect</span>
+            <span className="breakdown-last">Too Wide</span>
+          </div>
+        </div>
       }
-      {characteristics.hasOwnProperty('Comfort') &&
+      {charsToPercent.hasOwnProperty('comfort') &&
         <div className="breakdown-characteristic" id="breakdown-comfort">
           <div className="breakdown-title">Comfort</div>
           <div className="breakdown-scale">
@@ -63,29 +101,89 @@ const ProductBreakdown = ({currentProductMeta}) => {
                 <div className="breakdown-bar"></div>
                 <div className="breakdown-bar"></div>
               </div>
-              <div id="breakdown-comfort-icon-holder">
-                <div id="breakdown-comfort-icon" style={comfortPostion}>
+              <div className="breakdown-icon-holder">
+                <div className="breakdown-icon" style={comfortPostion}>
                   <VscTriangleDown size={25}/>
                 </div>
               </div>
             </div>
           </div>
-          <div className="breakdown-meaning">
+          <div className="breakdown-meaning-2">
             <span>Uncomfortable</span>
             <span className="breakdown-last">Perfect</span>
           </div>
         </div>
       }
-      {characteristics.hasOwnProperty('Quality') &&
+      {charsToPercent.hasOwnProperty('quality') &&
         <div className="breakdown-characteristic" id="breakdown-quality">
-
+          <div className="breakdown-title">Quality</div>
+          <div className="breakdown-scale">
+            <div className="breakdown-icon-wrapper">
+              <div className="breakdown-bar-wrapper-2">
+                <div className="breakdown-bar"></div>
+                <div className="breakdown-bar"></div>
+                <div className="breakdown-bar"></div>
+              </div>
+              <div className="breakdown-icon-holder">
+                <div className="breakdown-icon" style={qualityPostion}>
+                  <VscTriangleDown size={25}/>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="breakdown-meaning-2">
+            <span>Uncomfortable</span>
+            <span className="breakdown-last">Perfect</span>
+          </div>
         </div>
       }
-      {characteristics.hasOwnProperty('Length') &&
-        <div className="breakdown-characteristic" id="breakdown-Length">Length</div>
+      {charsToPercent.hasOwnProperty('length') &&
+      <div className="breakdown-characteristic" id="breakdown-Length">
+        <div className="breakdown-title">Length</div>
+        <div className="breakdown-scale">
+          <div className="breakdown-icon-wrapper">
+            <div className="breakdown-bar-wrapper-3">
+              <div className="breakdown-bar"></div>
+              <div className="breakdown-bar"></div>
+              <div className="breakdown-bar"></div>
+            </div>
+            <div className="breakdown-icon-holder">
+              <div className="breakdown-icon" style={lengthPostion}>
+                <VscTriangleDown size={25}/>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="breakdown-meaning-3">
+          <span>Runs Short</span>
+          <span className="breakdown-middle">Perfect</span>
+          <span className="breakdown-last">Runs Long</span>
+        </div>
+      </div>
       }
-      {characteristics.hasOwnProperty('Fit') &&
-        <div className="breakdown-characteristic" id="breakdown-Fit">Fit</div>
+      {charsToPercent.hasOwnProperty('fit') &&
+        <div className="breakdown-characteristic" id="breakdown-Fit">
+          <div className="breakdown-title">Fit</div>
+          <div className="breakdown-scale">
+            <div className="breakdown-icon-wrapper">
+              <div className="breakdown-bar-wrapper-3">
+                <div className="breakdown-bar"></div>
+                <div className="breakdown-bar"></div>
+                <div className="breakdown-bar"></div>
+              </div>
+              <div className="breakdown-icon-holder">
+                <div className="breakdown-icon" style={fitPostion}>
+                  <VscTriangleDown size={25}/>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="breakdown-meaning-3">
+            <span>Runs Tight</span>
+            <span className="breakdown-middle">Perfect</span>
+            <span className="breakdown-last">Runs Loose</span>
+          </div>
+        </div>
       }
     </div>
   );

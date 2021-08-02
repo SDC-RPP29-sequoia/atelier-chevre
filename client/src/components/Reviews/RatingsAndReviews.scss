@@ -212,16 +212,25 @@
       margin-top: 2rem;
       width: 100%;
       font-size: .85rem;
-      border: 1px dotted red;
 
-      .breakdown-meaning {
+      .breakdown-meaning-2 {
         display: grid;
         grid-template-columns: 1fr 1fr;
         font-size: .7rem;
       }
 
+      .breakdown-meaning-3 {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        font-size: .7rem;
+      }
+
       .breakdown-comfort-icon {
         margin-bottom: 1rem;
+      }
+
+      .breakdown-middle {
+        place-self: center;
       }
 
       .breakdown-last {
@@ -236,15 +245,16 @@
         grid-template-areas: "overlap";
       }
 
-      #breakdown-comfort-icon-holder {
+      .breakdown-icon-holder {
         grid-area: overlap;
         width: 100%
       }
 
-      #breakdown-comfort-icon {
+      .breakdown-icon {
         position: relative;
         width: 20px;
       }
+
 
       .breakdown-bar-wrapper-2 {
         display: grid;
@@ -270,7 +280,7 @@
       }
 
       .breakdown-characteristic {
-        margin-bottom: 1rem;
+        margin-bottom: 1.5rem;
       }
 
     }
