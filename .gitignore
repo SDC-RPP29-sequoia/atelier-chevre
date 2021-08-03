@@ -4,3 +4,4 @@ node_modules
 client/public/bundle.js
 */*/bundle.js
 client/public/photos
+coverage

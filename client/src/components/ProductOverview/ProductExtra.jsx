@@ -2,7 +2,7 @@ import React from 'react';
 import { AiOutlineCheck } from 'react-icons/ai';
 
 const ProductExtra = (props) => (
-  <div>
+  <div id="product-extra">
     <div id="product-description">
       <h4 id="description-title">Product slogan or catchphrase...</h4>
       <p id="description">Spicy jalapeno bacon ipsum dolor amet burgdoggen pork belly esse bacon, bresaola strip steak ut drumstick eiusmod chicken flank ea sed. Laboris corned beef aliqua sausage pancetta ball tip rump bacon qui spare ribs nostrud. Hamburger beef incididunt, cow fugiat do prosciutto pastrami filet mignon pancetta deserunt lorem sausage <br /><br />andouille picanha. Ham cupidatat ipsum, spare ribs esse velit kielbasa magna in doner cupim. Dolore reprehenderit adipisicing ullamco.
