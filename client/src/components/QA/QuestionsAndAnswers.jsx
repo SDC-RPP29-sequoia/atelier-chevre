@@ -62,7 +62,7 @@ class QuestionsAndAnswers extends React.Component {
   }
 
   getQuestions(cb) {
-    axios.get(`api/questions/${this.state.currProductId}`)
+    axios.get(`/api/questions/${this.state.currProductId}`)
       .then(response => {
         let questions = response.data.results;
 
@@ -149,11 +149,11 @@ class QuestionsAndAnswers extends React.Component {
     e.target.setAttribute('clicked', 'true');
 
     if (e.target.className === 'answer-helpful') {
-      url = 'api/questions/answerHelpful';
+      url = '/api/questions/answerHelpful';
       let answerId = e.target.getAttribute('answer_id');
       data = { answerId };
     } else if (e.target.className === 'question-helpful') {
-      url = 'api/questions/questionHelpful';
+      url = '/api/questions/questionHelpful';
       let questionId = e.target.getAttribute('question_id');
       data = { questionId };
     }
@@ -173,11 +173,11 @@ class QuestionsAndAnswers extends React.Component {
     let url, data;
 
     if (e.target.className === 'report-question') {
-      url = 'api/questions/reportQuestion';
+      url = '/api/questions/reportQuestion';
       let questionId = e.target.getAttribute('question_id');
       data = { questionId };
     } else if (e.target.className === 'report-answer') {
-      url = 'api/questions/reportAnswer';
+      url = '/api/questions/reportAnswer';
       let answerId = e.target.getAttribute('answer_id');
       data = { answerId };
     }
@@ -354,7 +354,7 @@ class QuestionsAndAnswers extends React.Component {
     let formData = new FormData(formElement);
     formData.append('questionId', this.state.questionId);
 
-    axios.post('api/questions/addAnswer', formData)
+    axios.post('/api/questions/addAnswer', formData)
       .then(response => {
         document.getElementById('modal-answer').value = '';
         document.getElementById('modal-answer-nickname').value = '';
@@ -421,7 +421,7 @@ class QuestionsAndAnswers extends React.Component {
 
     data['product_id'] = Number(this.state.currProductId);
 
-    axios.post('api/questions', { data })
+    axios.post('/api/questions', { data })
       .then(response => {
         document.getElementById('modal-question').value = '';
         document.getElementById('modal-question-nickname').value = '';

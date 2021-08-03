@@ -26,13 +26,12 @@ export class App extends React.Component {
   }
 
   render() {
-    console.log('App props: ', this.props);
     return (
       <div className="wrapper">
         <Header currentProduct={this.state.currentProduct} />
-        <ProductOverview productId="28216" addToBag={this.addToBag} />
-        <QuestionsAndAnswers productId="28212" />
-        <RatingsAndReviews productId="28223"/>
+        <ProductOverview productId={this.props.productId} addToBag={this.addToBag} />
+        <QuestionsAndAnswers productId={this.props.productId}/>
+        <RatingsAndReviews productId={this.props.productId}/>
       </div>
     );
   }

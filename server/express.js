@@ -28,24 +28,25 @@ app.use('/api/questions', QARouter);
 app.use('/api/products', productRouter);
 
 //SSR Route
-app.get('/ssr', (req, res) => {
-  let indexHTML = fs.readFileSync( path.resolve( __dirname, '../client/public/index.html' ), {
-    encoding: 'utf8',
+app.get('/products/:id', (req, res) => {
+  const productId = req.params.id;
+  console.log('productId:', productId);
+  fs.readFile(path.resolve( __dirname, '../client/public/index.html' ), 'utf-8', (err, data) => {
+    if (err) {
+      console.log(err);
+      return res.status(500).send('Error');
+    }
+
+    let appHTML = ReactDOMServer.renderToString(<App/>);
+    res.contentType('text/html');
+    res.status(200);
+    return res.send(data.replace(
+      '<div id="app"></div>',
+      `<script>window.__PRODUCT_ID__=${JSON.stringify(productId)}</script>
+       <div id="app">${ appHTML }</div>`));
   });
 
-  let appHTML = ReactDOMServer.renderToString(<App/>);
-  const productId = 23456;
 
-  indexHTML = indexHTML.replace(
-    '<div id="app"></div>',
-
-    `<script>window.__PRODUCTID__=${JSON.stringify(productId)}</script>
-     <div id="app">${ appHTML }</div>`);
-
-  res.contentType('text/html');
-  res.status(200);
-
-  return res.send(indexHTML);
 });
 
 // this one i don't think is getting used
