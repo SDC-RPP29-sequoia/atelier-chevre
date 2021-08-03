@@ -8,7 +8,7 @@ import RatingsAndReviews from '../Reviews/RatingsAndReviews.jsx';
 import Stars from '../Stars/Stars.jsx';
 import ProductOverview from '../ProductOverview/ProductOverview.jsx';
 
-class App extends React.Component {
+export class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -26,6 +26,7 @@ class App extends React.Component {
   }
 
   render() {
+    console.log('App props: ', this.props);
     return (
       <div className="wrapper">
         <Header currentProduct={this.state.currentProduct} />
@@ -36,5 +37,3 @@ class App extends React.Component {
     );
   }
 }
-
-export default App;
