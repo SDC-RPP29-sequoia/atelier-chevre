@@ -167,11 +167,18 @@ class RatingsAndReviews extends React.Component {
     if (this.state.currentProductReviews.length === 0) {
       return (
         <div id="reviews-section">
+          {this.state.displayForm &&
+           <NewReviewForm
+             currentProductName={this.state.currentProductName}
+             productId={this.props.productId}
+             closeForm={this.closeForm}
+             currentProductMeta={this.state.currentProductMeta}/>
+          }
           <div id="review-section-title">RATINGS AND REVIEWS</div>
           <div id="reviews-wrapper">
             <div id="reviews-col1"></div>
             <div id="reviews-col2">
-              <button className="btn">ADD A REVIEW <span className="plus-icon">+</span></button>
+              <button className="btn" onClick={this.handleAddNewReview}>ADD A REVIEW <span className="plus-icon">+</span></button>
             </div>
           </div>
         </div>
