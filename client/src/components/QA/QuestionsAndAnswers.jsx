@@ -62,7 +62,7 @@ class QuestionsAndAnswers extends React.Component {
     });
   }
 
-  getQuestions(cb) {
+  getQuestions(cb, reset) {
     axios.get(`/api/questions/${this.state.currProductId}`)
       .then(response => {
         let questions = response.data.results;
@@ -71,15 +71,20 @@ class QuestionsAndAnswers extends React.Component {
           cb(questions);
         }
 
-        this.retrieveSortQAs(questions);
-        this.displayButtons();
+        if (reset) {
+          this.retrieveSortQAs(questions, true);
+          this.displayButtons();
+        } else {
+          this.retrieveSortQAs(questions);
+          this.displayButtons();
+        }
       })
       .catch(err => {
         console.log(err);
       });
   }
 
-  retrieveSortQAs(questions) {
+  retrieveSortQAs(questions, reset) {
     let answers = {};
 
     questions.forEach(q => {
@@ -92,10 +97,14 @@ class QuestionsAndAnswers extends React.Component {
 
       ansObj.data = ansArray;
 
-      if (this.state.answers[q.question_id] && this.state.answers[q.question_id].count) {
-        ansObj.count = this.state.answers[q.question_id].count;
-      } else {
+      if (reset) {
         ansObj.count = 2;
+      } else {
+        if (this.state.answers[q.question_id] && this.state.answers[q.question_id].count) {
+          ansObj.count = this.state.answers[q.question_id].count;
+        } else {
+          ansObj.count = 2;
+        }
       }
 
       answers[q.question_id] = ansObj;
@@ -110,7 +119,13 @@ class QuestionsAndAnswers extends React.Component {
       return b.question_helpfulness - a.question_helpfulness;
     });
 
-    let filteredQs = questions.slice(0, this.state.count);
+    let filteredQs;
+
+    if (reset) {
+      filteredQs = questions.slice(0, 2);
+    } else {
+      filteredQs = questions.slice(0, this.state.count);
+    }
 
     this.setState({
       questions,
@@ -363,7 +378,7 @@ class QuestionsAndAnswers extends React.Component {
         this.getQuestions();
       })
       .catch(err => {
-        console.log('submit answer axios error', err);
+        console.log(err);
       });
   }
 
@@ -459,7 +474,7 @@ class QuestionsAndAnswers extends React.Component {
     let questions = this.state.questions;
 
     if (!text || text === '' || text.length < 2) {
-      this.getQuestions();
+      this.getQuestions(null, true);
     } else if (text.length > 2) {
       let filteredQs = questions.filter(q => {
         let question = q.question_body.toLowerCase();
