@@ -1,5 +1,4 @@
 import React from 'react';
-
 import withTracker from './QATrackerHOC';
 
 const QHelpfulAddAnswer = (props) => {

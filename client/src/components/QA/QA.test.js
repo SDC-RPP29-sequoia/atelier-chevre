@@ -77,48 +77,76 @@ describe('<QuestionsAndAnswers />', () => {
     signatureHelpful = shallow(<TestableSignatureHelpfulReport />);
   });
 
-  it('wrapper renders without crashing', () => {
+  it('<QuestionsAndAnswers /> renders all elements', () => {
     expect(QA).toBeTruthy();
   });
 
-  it('header renders without crashing', () => {
+  it('<QAHeader /> renders all elements', () => {
     expect(header).toBeTruthy();
-    expect(header.find('div')).toHaveLength(1);
+    expect(header.find('#QAHeader')).toHaveLength(1);
   });
 
-  it('search bar renders without crashing', () => {
+  it('<SearchBar /> renders all elements', () => {
     expect(searchBar).toBeTruthy();
+    expect(searchBar.find('#search')).toHaveLength(1);
+    expect(searchBar.find('input')).toHaveLength(1);
   });
 
-  it('list renders without crashing', () => {
+  it('<QAList /> renders all elements provided data', () => {
     expect(list).toBeTruthy();
+    expect(list.find('#qa-list')).toHaveLength(1);
   });
 
-  it('buttons renders without crashing', () => {
+  it('<QAList /> renders provided no data', () => {
+    let faultyList = shallow(<TestableQAList />);
+
+    expect(faultyList).toBeTruthy();
+    expect(faultyList.find('#noQs')).toHaveLength(1);
+  });
+
+  it('<QAButtons /> renders all elements', () => {
     expect(buttons).toBeTruthy();
+    expect(buttons.find('#buttons')).toHaveLength(1);
+    expect(buttons.find('button')).toHaveLength(2);
   });
 
-  it('answer form renders without crashing', () => {
+  it('<AnswerModal /> renders all elements', () => {
     expect(answerForm).toBeTruthy();
+    expect(answerForm.find('.modal')).toHaveLength(1);
+    expect(answerForm.find('.modal-content')).toHaveLength(1);
+    expect(answerForm.find('form')).toHaveLength(1);
   });
 
-  it('question form renders without crashing', () => {
+  it('<QuestionModal /> renders all elements', () => {
     expect(questionForm).toBeTruthy();
+    expect(questionForm.find('.modal-q')).toHaveLength(1);
+    expect(questionForm.find('.modal-content')).toHaveLength(1);
+    expect(questionForm.find('form')).toHaveLength(1);
   });
 
-  it('answers renders without crashing', () => {
+  it('<AnswerContainer /> renders all elements', () => {
     expect(answers).toBeTruthy();
+    expect(answers.find('.answer-container')).toHaveLength(1);
   });
 
-  it('load more answers renders without crashing', () => {
+  it('<LoadMoreAnswers /> renders all elements', () => {
     expect(loadMoreAs).toBeTruthy();
+    expect(loadMoreAs.find('.load-more-answers')).toHaveLength(1);
   });
 
-  it('q helpful add answer renders without crashing', () => {
+  it('<QHelpfulAddAnswer /> renders all elements', () => {
     expect(QHelpful).toBeTruthy();
+    expect(QHelpful.find('.qhelpful-addanswer')).toHaveLength(1);
+    expect(QHelpful.find('.question-helpful')).toHaveLength(1);
+    expect(QHelpful.find('.add-answer')).toHaveLength(1);
+    expect(QHelpful.find('.report-question')).toHaveLength(1);
   });
 
-  it('signature helpful report renders without crashing', () => {
+  it('<SignatureHelpfulReport /> renders all elements', () => {
     expect(signatureHelpful).toBeTruthy();
+    expect(signatureHelpful.find('.signature-helpful-report')).toHaveLength(1);
+    expect(signatureHelpful.find('.author-date')).toHaveLength(1);
+    expect(signatureHelpful.find('.answer-helpful')).toHaveLength(1);
+    expect(signatureHelpful.find('.report-answer')).toHaveLength(1);
   });
 });
