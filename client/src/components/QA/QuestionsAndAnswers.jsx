@@ -27,8 +27,7 @@ class QuestionsAndAnswers extends React.Component {
       questionId: '',
       searchVal: '',
       count: 2,
-      originalLength: null,
-      files: {}
+      originalLength: null
     };
 
     this.retrieveSortQAs = this.retrieveSortQAs.bind(this);
@@ -62,7 +61,7 @@ class QuestionsAndAnswers extends React.Component {
   }
 
   getQuestions(cb) {
-    axios.get(`api/questions/${this.state.currProductId}`)
+    axios.get(`/api/questions/${this.state.currProductId}`)
       .then(response => {
         let questions = response.data.results;
 
@@ -149,11 +148,11 @@ class QuestionsAndAnswers extends React.Component {
     e.target.setAttribute('clicked', 'true');
 
     if (e.target.className === 'answer-helpful') {
-      url = 'api/questions/answerHelpful';
+      url = '/api/questions/answerHelpful';
       let answerId = e.target.getAttribute('answer_id');
       data = { answerId };
     } else if (e.target.className === 'question-helpful') {
-      url = 'api/questions/questionHelpful';
+      url = '/api/questions/questionHelpful';
       let questionId = e.target.getAttribute('question_id');
       data = { questionId };
     }
@@ -173,11 +172,11 @@ class QuestionsAndAnswers extends React.Component {
     let url, data;
 
     if (e.target.className === 'report-question') {
-      url = 'api/questions/reportQuestion';
+      url = '/api/questions/reportQuestion';
       let questionId = e.target.getAttribute('question_id');
       data = { questionId };
     } else if (e.target.className === 'report-answer') {
-      url = 'api/questions/reportAnswer';
+      url = '/api/questions/reportAnswer';
       let answerId = e.target.getAttribute('answer_id');
       data = { answerId };
     }
@@ -293,13 +292,8 @@ class QuestionsAndAnswers extends React.Component {
     if (e.target.files.length > 5) {
       alert('You may only upload 5 images');
       e.target.value = '';
-      this.setState({
-        files: {length: 0}
-      });
     } else {
-      let files = e.target.files;
       this.setState({
-        files,
         photos
       });
     }
@@ -311,7 +305,15 @@ class QuestionsAndAnswers extends React.Component {
     let answer = document.getElementById('modal-answer').value;
     let name = document.getElementById('modal-answer-nickname').value;
     let email = document.getElementById('modal-answer-email').value;
-    let photos = document.getElementById('modal-photos').value;
+    let photos = document.getElementById('modal-photos').files;
+
+    let photoFileNames = [];
+
+    for (let key in photos) {
+      if (key !== 'item' && key !== 'length') {
+        photoFileNames.push(photos[key].name);
+      }
+    }
 
     let tracker = {
       answer,
@@ -319,31 +321,28 @@ class QuestionsAndAnswers extends React.Component {
       email
     };
 
-    if (!answer || !name || !email || !email.includes('@')) {
-      let string = 'You must enter the following: ';
+    let regexp = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
+    let emailValid = regexp.test(email);
+
+    if (!answer || !name || !email || !emailValid) {
+      let string = 'You must enter or address the following:\n';
 
       for (let key in tracker) {
         if (!tracker[key]) {
-          string += `${key}, `;
+          string += `- ${key.slice(0, 1).toUpperCase() + key.slice(1)}\n`;
         }
       }
 
-      string = string.slice(0, -2);
-
-      let string2;
-
-      if (!email.includes('@') && email) {
-        string2 = '. Your email must also be formatted correctly';
+      if (email && !emailValid) {
+        string += '- Your email must be formatted correctly\n';
       }
 
-      if (string.length === 28) {
-        alert('Your email must be formatted correctly');
-      } else if (string2) {
-        alert(string + string2);
-      } else {
-        alert(string);
+      if (!this.photosValid(photoFileNames)) {
+        string += '- You may only upload .jpg, .jpeg, .bmp, .gif, and .png files';
       }
 
+      alert(string);
       return;
     }
 
@@ -354,7 +353,7 @@ class QuestionsAndAnswers extends React.Component {
     let formData = new FormData(formElement);
     formData.append('questionId', this.state.questionId);
 
-    axios.post('api/questions/addAnswer', formData)
+    axios.post('/api/questions/addAnswer', formData)
       .then(response => {
         document.getElementById('modal-answer').value = '';
         document.getElementById('modal-answer-nickname').value = '';
@@ -364,6 +363,29 @@ class QuestionsAndAnswers extends React.Component {
       .catch(err => {
         console.log('submit answer axios error', err);
       });
+  }
+
+  photosValid(photos) {
+    let validFileExtensions = ['.jpg', '.jpeg', '.bmp', '.png', '.gif'];
+
+    for (let i = 0; i < photos.length; i++) {
+      let fileName = photos[i];
+      let valid = false;
+
+      for (let j = 0; j < validFileExtensions.length; j++) {
+        let currExtension = validFileExtensions[j];
+        if (fileName.substr(fileName.length - currExtension.length, currExtension.length).toLowerCase() === currExtension.toLowerCase()) {
+          valid = true;
+          break;
+        }
+      }
+
+      if (!valid) {
+        return false;
+      }
+    }
+
+    return true;
   }
 
   submitQuestion(e) {
@@ -379,31 +401,24 @@ class QuestionsAndAnswers extends React.Component {
       email
     };
 
-    if (!question || !name || !email || !email.includes('@')) {
-      let string = 'You must enter the following: ';
+    let regexp = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
+    let emailValid = regexp.test(email);
+
+    if (!question || !name || !email || !emailValid) {
+      let string = 'You must enter or address the following:\n';
 
       for (let key in tracker) {
         if (!tracker[key]) {
-          string += `${key}, `;
+          string += `- ${key.slice(0, 1).toUpperCase() + key.slice(1)}\n`;
         }
       }
 
-      string = string.slice(0, -2);
-
-      let string2;
-
-      if (!email.includes('@') && email) {
-        string2 = '. Your email must also be formatted correctly';
+      if (email && !emailValid) {
+        string += '- Your email must be formatted correctly\n';
       }
 
-      if (string.length === 28) {
-        alert('Your email must be formatted correctly');
-      } else if (string2) {
-        alert(string + string2);
-      } else {
-        alert(string);
-      }
-
+      alert(string);
       return;
     }
 
@@ -421,7 +436,7 @@ class QuestionsAndAnswers extends React.Component {
 
     data['product_id'] = Number(this.state.currProductId);
 
-    axios.post('api/questions', { data })
+    axios.post('/api/questions', { data })
       .then(response => {
         document.getElementById('modal-question').value = '';
         document.getElementById('modal-question-nickname').value = '';

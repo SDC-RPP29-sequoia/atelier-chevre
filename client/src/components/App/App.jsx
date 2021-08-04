@@ -30,7 +30,7 @@ class App extends React.Component {
       <div className="wrapper">
         <Header currentProduct={this.state.currentProduct} />
         <ProductOverview productId="28216" addToBag={this.addToBag} />
-        <QuestionsAndAnswers productId="28212" />
+        <QuestionsAndAnswers productId="28213" />
         <RatingsAndReviews productId="28223"/>
       </div>
     );
