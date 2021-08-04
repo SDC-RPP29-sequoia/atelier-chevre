@@ -38,7 +38,6 @@ export default {
   },
 
   sendClickData: (clickData) => {
-    console.log('clickData:', clickData);
     return axios.post('/api/interactions/clickData', clickData);
   }
 };
