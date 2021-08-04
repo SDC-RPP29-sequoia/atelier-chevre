@@ -186,16 +186,42 @@ class QuestionsAndAnswers extends React.Component {
   report(e) {
     e.target.innerHTML = 'Reported';
 
-    let url, data;
+    let url, data, questionId, answerId;
 
     if (e.target.className === 'report-question') {
       url = '/api/questions/reportQuestion';
-      let questionId = e.target.getAttribute('question_id');
+      questionId = e.target.getAttribute('question_id');
       data = { questionId };
+
+      let filteredQs = this.state.filteredQs;
+
+      for (let i = 0; i < filteredQs.length; i++) {
+        if (filteredQs[i].question_id === Number(questionId)) {
+          filteredQs.splice(i, 1);
+        }
+      }
+
+      this.setState({
+        filteredQs
+      });
     } else if (e.target.className === 'report-answer') {
       url = '/api/questions/reportAnswer';
-      let answerId = e.target.getAttribute('answer_id');
+      answerId = e.target.getAttribute('answer_id');
       data = { answerId };
+
+      let filteredAs = this.state.filteredAs;
+
+      for (let key in filteredAs) {
+        for (let i = 0; i < filteredAs[key].data.length; i++) {
+          if (filteredAs[key].data[i].id === Number(answerId)) {
+            filteredAs[key].data.splice(i, 1);
+          }
+        }
+      }
+
+      this.setState({
+        filteredAs
+      });
     }
 
     axios.put(url, data)
@@ -532,7 +558,7 @@ class QuestionsAndAnswers extends React.Component {
       <div className="qa" id="qa-wrapper">
         <QAHeader />
         <SearchBar searchVal={this.state.searchVal} handleChange={this.handleChange} />
-        <QAList filteredQs={this.state.filteredQs} markHelpful={this.markHelpful} report={this.report} loadMoreAnswers={this.loadMoreAnswers} addAnswer={this.addAnswer} moreAnsweredQs={this.moreAnsweredQs} addQuestion={this.addQuestion} productName={this.state.productName} questionBody={this.state.questionBody} photos={this.state.photos} uploadPhotos={this.uploadPhotos} submitAnswer={this.submitAnswer} productName={this.state.productName} submitQuestion={this.submitQuestion} answers={this.state.filteredAs} answerCount={this.state.answerCount} />
+        <QAList filteredQs={this.state.filteredQs} markHelpful={this.markHelpful} report={this.report} loadMoreAnswers={this.loadMoreAnswers} addAnswer={this.addAnswer} moreAnsweredQs={this.moreAnsweredQs} addQuestion={this.addQuestion} productName={this.state.productName} questionBody={this.state.questionBody} photos={this.state.photos} uploadPhotos={this.uploadPhotos} submitAnswer={this.submitAnswer} productName={this.state.productName} submitQuestion={this.submitQuestion} answers={this.state.filteredAs} answerCount={this.state.answerCount} getQuestions={this.getQuestions}/>
         <QAButtons moreAnsweredQs={this.moreAnsweredQs} addQuestion={this.addQuestion} />
         <AnswerModal productName={this.state.productName} questionBody={this.state.questionBody} photos={this.state.photos} uploadPhotos={this.uploadPhotos} submitAnswer={this.submitAnswer} />
         <QuestionModal productName={this.state.productName} submitQuestion={this.submitQuestion} />
