@@ -166,21 +166,6 @@ app.post('/QAPhotos', (req, res) => {
   });
 });
 
-// this one i don't think is getting used
-app.get('/getReviews', (req, res) => {
-  axios.get(`https://app-hrsei-api.herokuapp.com/api/fec2/hr-rpp/reviews?product_id=${req.query.productId}`, {
-    headers: {
-      'Authorization': process.env.TOKEN
-    }
-  })
-    .then(response => {
-      res.send(response.data);
-    })
-    .catch(err => {
-      console.log(err);
-    });
-});
-
 app.listen(process.env.PORT, () => {
   console.log('App listening on port ', process.env.PORT);
 });
