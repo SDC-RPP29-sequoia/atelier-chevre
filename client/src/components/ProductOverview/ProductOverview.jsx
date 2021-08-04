@@ -133,7 +133,7 @@ class ProductOverview extends React.Component {
         </div>
 
         <div id="product-extra">
-          <ProductExtra />
+          <ProductExtra product={this.state.product}/>
         </div>
       </div>
     );
