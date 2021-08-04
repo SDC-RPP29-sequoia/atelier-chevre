@@ -3,6 +3,7 @@ import { AiOutlineCheck, AiOutlineStar } from 'react-icons/ai';
 import Stars from '../Stars/Stars.jsx';
 import CustomSelect from './CustomSelect.jsx';
 import helpers from '../../helpers.js';
+import _ from 'lodash';
 
 
 const ProductDetails = (props) => {

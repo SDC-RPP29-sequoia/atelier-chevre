@@ -34,7 +34,7 @@ const ProductImage = (props) => {
 
 
   return (
-    <div id="product-image" className="bg-image" style={{ backgroundImage: `url(${props.images[currentImageIndex]?.url})` }}>
+    <div id="product-image" className="bg-image" style={{ backgroundImage: props.images[currentImageIndex]?.url ? `url(${props.images[currentImageIndex]?.url})` : 'none' }}>
       <div id="image-list">
         <div className="image-alt-scroll up" style={{ color: firstImageInd === 0 ? 'transparent' : '#454545' }}>
           <AiOutlineUp

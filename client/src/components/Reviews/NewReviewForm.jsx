@@ -1,6 +1,5 @@
 import React from 'react';
 import FormStars from './FormStars';
-import axios from 'axios';
 import API from './ReviewsAPIUtils';
 
 const inititalState = {
