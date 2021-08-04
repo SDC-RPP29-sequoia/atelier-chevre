@@ -28,7 +28,6 @@ class NewReviewForm extends React.Component {
 
     this.handleChange = this.handleChange.bind(this);
     this.handleStarReviewClick = this.handleStarReviewClick.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   validateEmail (email) {
@@ -120,17 +119,8 @@ class NewReviewForm extends React.Component {
     });
   }
 
-  handleSubmit () {
+  handleSubmit (characteristicChoices, characteristicIds) {
     event.preventDefault();
-
-    const { characteristics } = this.props.currentProductMeta;
-    const characteristicIds = {};
-    const characteristicChoices = [];
-
-    for (let characteristic in characteristics) {
-      characteristicIds[characteristic.toLowerCase()] = `${characteristics[characteristic].id}-${this.state[characteristic.toLowerCase()]}`;
-      characteristicChoices.push(characteristic.toLowerCase());
-    }
 
 
 
@@ -171,6 +161,15 @@ class NewReviewForm extends React.Component {
 
 
   render () {
+    const { characteristics } = this.props.currentProductMeta;
+    const characteristicIds = {};
+    const characteristicChoices = [];
+
+    for (let characteristic in characteristics) {
+      characteristicIds[characteristic.toLowerCase()] = `${characteristics[characteristic].id}-${this.state[characteristic.toLowerCase()]}`;
+      characteristicChoices.push(characteristic.toLowerCase());
+    }
+
     let minimumReached = false;
     const charactersLeft = 50 - this.state.body.length;
     if (this.state.body.length >= 50) {
@@ -209,127 +208,135 @@ class NewReviewForm extends React.Component {
             </div>
           </div>
 
-          <div id="review-size" className="review-form-row">
-            <label className="label" >Size:</label>
-            <div className="attributes-wrapper">
-              <div className="attributes-row">
-                <span>A size too small</span>
-                <span>1/2 a size too small</span>
-                <span>Perfect</span>
-                <span>1/2 a size too big</span>
-                <span>A size too wide</span>
-              </div>
-              <div className="attributes-row">
-                <input type="radio" value="1" name="size" onChange={this.handleChange}/>
-                <input type="radio" value="2" name="size" onChange={this.handleChange}/>
-                <input type="radio" value="3" name="size" onChange={this.handleChange}/>
-                <input type="radio" value="4" name="size" onChange={this.handleChange}/>
-                <input type="radio" value="5" name="size" onChange={this.handleChange}/>
-              </div>
-            </div>
-          </div>
-
-          <div id="review-width" className="review-form-row">
-            <label className="label" onChange={this.handleChange}>Width:</label>
-            <div className="attributes-wrapper">
-              <div className="attributes-row">
-                <span>Too narrow</span>
-                <span>Slightly narrow</span>
-                <span>Perfect</span>
-                <span>Slightly wide</span>
-                <span>Too wide</span>
-              </div>
-              <div className="attributes-row">
-                <input type="radio" value="1" name="width" onChange={this.handleChange}/>
-                <input type="radio" value="2" name="width" onChange={this.handleChange}/>
-                <input type="radio" value="3" name="width" onChange={this.handleChange}/>
-                <input type="radio" value="4" name="width" onChange={this.handleChange}/>
-                <input type="radio" value="5" name="width" onChange={this.handleChange}/>
+          {characteristicChoices.includes('size') &&
+            <div id="review-size" className="review-form-row">
+              <label className="label" >Size:</label>
+              <div className="attributes-wrapper">
+                <div className="attributes-row">
+                  <span>A size too small</span>
+                  <span>1/2 a size too small</span>
+                  <span>Perfect</span>
+                  <span>1/2 a size too big</span>
+                  <span>A size too wide</span>
+                </div>
+                <div className="attributes-row">
+                  <input type="radio" value="1" name="size" onChange={this.handleChange}/>
+                  <input type="radio" value="2" name="size" onChange={this.handleChange}/>
+                  <input type="radio" value="3" name="size" onChange={this.handleChange}/>
+                  <input type="radio" value="4" name="size" onChange={this.handleChange}/>
+                  <input type="radio" value="5" name="size" onChange={this.handleChange}/>
+                </div>
               </div>
             </div>
+          }
 
-          </div>
-
-          <div id="review-comfort" className="review-form-row">
-            <label className="label" onChange={this.handleChange}>Comfort:</label>
-            <div className="attributes-wrapper">
-              <div className="attributes-row">
-                <span>Uncomfortable</span>
-                <span>Slightly uncomfortable</span>
-                <span>Ok</span>
-                <span>Comfortable</span>
-                <span>Perfect</span>
-              </div>
-              <div className="attributes-row">
-                <input type="radio" value="1" name="comfort" onChange={this.handleChange}/>
-                <input type="radio" value="2" name="comfort" onChange={this.handleChange}/>
-                <input type="radio" value="3" name="comfort" onChange={this.handleChange}/>
-                <input type="radio" value="4" name="comfort" onChange={this.handleChange}/>
-                <input type="radio" value="5" name="comfort" onChange={this.handleChange}/>
+          {characteristicChoices.includes('width') &&
+            <div id="review-width" className="review-form-row">
+              <label className="label" onChange={this.handleChange}>Width:</label>
+              <div className="attributes-wrapper">
+                <div className="attributes-row">
+                  <span>Too narrow</span>
+                  <span>Slightly narrow</span>
+                  <span>Perfect</span>
+                  <span>Slightly wide</span>
+                  <span>Too wide</span>
+                </div>
+                <div className="attributes-row">
+                  <input type="radio" value="1" name="width" onChange={this.handleChange}/>
+                  <input type="radio" value="2" name="width" onChange={this.handleChange}/>
+                  <input type="radio" value="3" name="width" onChange={this.handleChange}/>
+                  <input type="radio" value="4" name="width" onChange={this.handleChange}/>
+                  <input type="radio" value="5" name="width" onChange={this.handleChange}/>
+                </div>
               </div>
             </div>
-          </div>
+          }
 
-          <div id="review-quality" className="review-form-row">
-            <label className="label" onChange={this.handleChange}>Quality:</label>
-            <div className="attributes-wrapper">
-              <div className="attributes-row">
-                <span>Poor</span>
-                <span>Below average</span>
-                <span>What I expected</span>
-                <span>Pretty great</span>
-                <span>Perfect</span>
-              </div>
-              <div className="attributes-row">
-                <input type="radio" value="1" name="quality" onChange={this.handleChange}/>
-                <input type="radio" value="2" name="quality" onChange={this.handleChange}/>
-                <input type="radio" value="3" name="quality" onChange={this.handleChange}/>
-                <input type="radio" value="4" name="quality" onChange={this.handleChange}/>
-                <input type="radio" value="5" name="quality" onChange={this.handleChange}/>
+          {characteristicChoices.includes('comfort') &&
+            <div id="review-comfort" className="review-form-row">
+              <label className="label" onChange={this.handleChange}>Comfort:</label>
+              <div className="attributes-wrapper">
+                <div className="attributes-row">
+                  <span>Uncomfortable</span>
+                  <span>Slightly uncomfortable</span>
+                  <span>Ok</span>
+                  <span>Comfortable</span>
+                  <span>Perfect</span>
+                </div>
+                <div className="attributes-row">
+                  <input type="radio" value="1" name="comfort" onChange={this.handleChange}/>
+                  <input type="radio" value="2" name="comfort" onChange={this.handleChange}/>
+                  <input type="radio" value="3" name="comfort" onChange={this.handleChange}/>
+                  <input type="radio" value="4" name="comfort" onChange={this.handleChange}/>
+                  <input type="radio" value="5" name="comfort" onChange={this.handleChange}/>
+                </div>
               </div>
             </div>
-          </div>
+          }
 
-          <div id="review-length" className="review-form-row">
-            <label className="label" onChange={this.handleChange}>Length:</label>
-            <div className="attributes-wrapper">
-              <div className="attributes-row">
-                <span>Runs short</span>
-                <span>Runs slightly short</span>
-                <span>Perfect</span>
-                <span>Runs slightly long</span>
-                <span>Runs long</span>
-              </div>
-              <div className="attributes-row">
-                <input type="radio" value="1" name="length" onChange={this.handleChange}/>
-                <input type="radio" value="2" name="length" onChange={this.handleChange}/>
-                <input type="radio" value="3" name="length" onChange={this.handleChange}/>
-                <input type="radio" value="4" name="length" onChange={this.handleChange}/>
-                <input type="radio" value="5" name="length" onChange={this.handleChange}/>
+          {characteristicChoices.includes('quality') &&
+            <div id="review-quality" className="review-form-row">
+              <label className="label" onChange={this.handleChange}>Quality:</label>
+              <div className="attributes-wrapper">
+                <div className="attributes-row">
+                  <span>Poor</span>
+                  <span>Below average</span>
+                  <span>What I expected</span>
+                  <span>Pretty great</span>
+                  <span>Perfect</span>
+                </div>
+                <div className="attributes-row">
+                  <input type="radio" value="1" name="quality" onChange={this.handleChange}/>
+                  <input type="radio" value="2" name="quality" onChange={this.handleChange}/>
+                  <input type="radio" value="3" name="quality" onChange={this.handleChange}/>
+                  <input type="radio" value="4" name="quality" onChange={this.handleChange}/>
+                  <input type="radio" value="5" name="quality" onChange={this.handleChange}/>
+                </div>
               </div>
             </div>
-          </div>
-
-          <div id="review-fit" className="review-form-row">
-            <label className="label" onChange={this.handleChange}>Fit:</label>
-            <div className="attributes-wrapper">
-              <div className="attributes-row">
-                <span>Runs tight</span>
-                <span>Runs slightly short</span>
-                <span>Perfect</span>
-                <span>Runs slightly loose</span>
-                <span>Runs loose</span>
-              </div>
-              <div className="attributes-row">
-                <input type="radio" value="1" name="fit" onChange={this.handleChange}/>
-                <input type="radio" value="2" name="fit" onChange={this.handleChange}/>
-                <input type="radio" value="3" name="fit" onChange={this.handleChange}/>
-                <input type="radio" value="4" name="fit" onChange={this.handleChange}/>
-                <input type="radio" value="5" name="fit" onChange={this.handleChange}/>
+          }
+          {characteristicChoices.includes('length') &&
+            <div id="review-length" className="review-form-row">
+              <label className="label" onChange={this.handleChange}>Length:</label>
+              <div className="attributes-wrapper">
+                <div className="attributes-row">
+                  <span>Runs short</span>
+                  <span>Runs slightly short</span>
+                  <span>Perfect</span>
+                  <span>Runs slightly long</span>
+                  <span>Runs long</span>
+                </div>
+                <div className="attributes-row">
+                  <input type="radio" value="1" name="length" onChange={this.handleChange}/>
+                  <input type="radio" value="2" name="length" onChange={this.handleChange}/>
+                  <input type="radio" value="3" name="length" onChange={this.handleChange}/>
+                  <input type="radio" value="4" name="length" onChange={this.handleChange}/>
+                  <input type="radio" value="5" name="length" onChange={this.handleChange}/>
+                </div>
               </div>
             </div>
-          </div>
-
+          }
+          {characteristicChoices.includes('fit') &&
+            <div id="review-fit" className="review-form-row">
+              <label className="label" onChange={this.handleChange}>Fit:</label>
+              <div className="attributes-wrapper">
+                <div className="attributes-row">
+                  <span>Runs tight</span>
+                  <span>Runs slightly short</span>
+                  <span>Perfect</span>
+                  <span>Runs slightly loose</span>
+                  <span>Runs loose</span>
+                </div>
+                <div className="attributes-row">
+                  <input type="radio" value="1" name="fit" onChange={this.handleChange}/>
+                  <input type="radio" value="2" name="fit" onChange={this.handleChange}/>
+                  <input type="radio" value="3" name="fit" onChange={this.handleChange}/>
+                  <input type="radio" value="4" name="fit" onChange={this.handleChange}/>
+                  <input type="radio" value="5" name="fit" onChange={this.handleChange}/>
+                </div>
+              </div>
+            </div>
+          }
           <div id="review-summary" className="review-form-row">
             <label className="label">Summary:</label>
             <input className="review-text" type="text" name="summary" maxLength="60" placeholder="Example: Best purchase ever!" value={this.state.summary} onChange={this.handleChange}/>
@@ -396,7 +403,7 @@ class NewReviewForm extends React.Component {
 
           <div className="review-form-row">
             <div></div>
-            <input type="submit" className="btn" value="Submit Review" onClick={this.handleSubmit}/>
+            <input type="submit" className="btn" value="Submit Review" onClick={() => this.handleSubmit(characteristicChoices, characteristicIds)}/>
           </div>
 
         </form>

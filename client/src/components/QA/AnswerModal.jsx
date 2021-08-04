@@ -12,7 +12,7 @@ const AnswerModal = (props) => {
           <textarea id="modal-answer" name="body" maxLength="1000"></textarea>
           <div className="modal-answer-photos">{props.photos.map((photo, i) => {
             return (
-              <img src={`http://localhost:3000/photos/${photo.filename}`} width="50px" height="50px" key={i} className="answer-photo-thumbnail"></img>
+              <img src={photo} width="50px" height="50px" key={i} className="answer-photo-thumbnail"></img>
             );
           })}</div>
           <label>What is your nickname:*&nbsp;</label>
@@ -24,7 +24,7 @@ const AnswerModal = (props) => {
           <div>(For authentication reasons, you will not be emailed)</div>
           <br></br>
           <label id="modal-photos-label">Upload photos:&nbsp;</label>
-          <input type="file" id="modal-photos" name="photos" onChange={props.uploadPhotos}/>
+          <input type="file" multiple id="modal-photos" name="photos" onChange={props.uploadPhotos}/>
           <button onClick={props.submitAnswer}>Submit answer</button>
         </form>
       </div>
