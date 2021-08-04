@@ -5,7 +5,7 @@ let url = 'http://localhost:3000';
 export default {
   getProduct(id) {
     return new Promise((resolve, reject) => {
-      axios.get(`${url}/products/${id}`)
+      axios.get(`${url}/api/products/${id}`)
         .then(response => {
           resolve(response.data);
         })
@@ -17,7 +17,7 @@ export default {
 
   getProductStyles(id) {
     return new Promise((resolve, reject) => {
-      axios.get(`${url}/products/${id}/styles`)
+      axios.get(`${url}/api/products/${id}/styles`)
         .then(response => {
           resolve(response.data);
         })
@@ -29,8 +29,9 @@ export default {
 
   getReviews(id) {
     return new Promise((resolve, reject) => {
-      axios.get(`${url}/getReviews`, { params: { productId: id } })
+      axios.get(`${url}/api/reviews/${id}`)
         .then(response => {
+          console.log(response);
           resolve(response.data);
         })
         .catch(err => {

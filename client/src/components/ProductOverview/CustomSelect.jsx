@@ -11,8 +11,11 @@ const StyledSelect = styled(Select)({
 
 const CustomSelect = (props) => {
   return (
-    <FormControl style={{width: '100%'}}>
+    <FormControl style={{ width: '100%' }} disabled={props.disabled}>
       <StyledSelect
+        onOpen={props.handleOpen}
+        onClose={props.handleClose}
+        open={props.open}
         value={props.value}
         onChange={props.onChange}
         displayEmpty
@@ -20,10 +23,11 @@ const CustomSelect = (props) => {
         inputProps={{ 'aria-label': 'Without label' }}
       >
         {props.options?.map(option => (
+
           <MenuItem value={option.value} key={option.value}>{option.label}</MenuItem>
         ))}
       </StyledSelect>
-    </FormControl>
+    </FormControl >
   );
 };
 

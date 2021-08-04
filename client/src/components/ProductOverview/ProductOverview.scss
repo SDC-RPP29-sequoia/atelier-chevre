@@ -7,6 +7,10 @@ $standardBorder: 1px solid $standardColor;
 #product-overview {
   color: $standardColor;
 
+  .red {
+    color: red;
+  }
+
   .light {
     font-weight: 200;
   }
@@ -64,23 +68,54 @@ $standardBorder: 1px solid $standardColor;
     #product-image {
       display: flex;
       background-color: $lightGrey;
-      min-height: 600px;
+      min-height: 650px;
       padding: $standardPaddingUnit;
       flex: 1 0 60%;
 
       #image-list {
         display: flex;
         flex-direction: column;
-        height: 100%;
-        width: 55px;
+        justify-content: center;
 
-        .image {
-          height: 55px;
+        .image-alt-scroll {
+          display: flex;
+          justify-content: center;
+          font-size: 1.5rem;
+
+          &.up {
+            margin-bottom: 10px;
+          }
+        }
+
+        #images {
+          display: flex;
+          flex-direction: column;
+          height: 100%;
           width: 55px;
-          background-color: white;
-          border: $standardBorder;
-          margin-bottom: 20px;
-          cursor: pointer;
+          max-height: 72px * 7;
+          overflow-y: hidden;
+          scroll-behavior: smooth;
+
+          .alt-image {
+            height: 55px;
+            width: 55px;
+            background-color: white;
+            border: $standardBorder;
+            cursor: pointer;
+            margin-bottom: 3px;
+          }
+
+          .bottom-line {
+            height: 4px;
+            background-color: transparent;
+            margin-bottom: 10px;
+          }
+
+          .selected {
+            .bottom-line {
+              background-color: $standardColor;
+            }
+          }
         }
       }
 
@@ -191,11 +226,19 @@ $standardBorder: 1px solid $standardColor;
         height: 50px;
         display: flex;
         align-items: center;
+
+        &.button {
+          cursor: pointer;
+        }
+
+        & > * {
+          width: 100%;
+        }
       }
     }
   }
 
-  #product-extra {
+  #product-extra > div {
     padding: $standardPaddingUnit * 1.5;
     display: flex;
     justify-content: center;
@@ -226,6 +269,7 @@ $standardBorder: 1px solid $standardColor;
       flex-basis: 40%;
       display: flex;
       flex-direction: column;
+      justify-content: center;
       gap: 10px;
 
       .feature {

@@ -14,3 +14,17 @@ Array.prototype.previousItem = function (ind) {
     return this[ind - 1];
   }
 };
+
+export default {
+  // Creates an array starting at min and ending at max
+  range(min, max) {
+    if (max < min) { return []; }
+    let arr = [];
+
+    for (let i = min; i <= max; i++) {
+      arr.push(i);
+    }
+
+    return arr;
+  }
+};
