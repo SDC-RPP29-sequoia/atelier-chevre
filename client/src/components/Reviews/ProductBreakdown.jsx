@@ -1,10 +1,12 @@
 import React from 'react';
 import { VscTriangleDown } from 'react-icons/vsc';
+import ClickTracker from './ClickTracker';
 
-const ProductBreakdown = ({currentProductMeta}) => {
+const ProductBreakdown = ({currentProductMeta, handleTrackingClick}) => {
 
   const { characteristics } = currentProductMeta;
   const charsToPercent = {};
+  const widget = 'Ratings and Reviews';
 
   const convertToPercent = (value) => {
     return ((value / 5) * 100) - 5;
@@ -42,9 +44,9 @@ const ProductBreakdown = ({currentProductMeta}) => {
   };
 
   return (
-    <div id="product-breakdown-wrapper">
+    <div id="product-breakdown-wrapper" >
       {charsToPercent.hasOwnProperty('size') &&
-        <div className="breakdown-characteristic" id="breakdown-size">
+        <div className="breakdown-characteristic" id="breakdown-size" onClick={(e) => handleTrackingClick(e, e.currentTarget.className, widget)}>
           <div className="breakdown-title">Size</div>
           <div className="breakdown-scale">
             <div className="breakdown-icon-wrapper">
@@ -189,4 +191,4 @@ const ProductBreakdown = ({currentProductMeta}) => {
   );
 };
 
-export default ProductBreakdown;
+export default ClickTracker(ProductBreakdown);
