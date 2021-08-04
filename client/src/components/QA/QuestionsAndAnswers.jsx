@@ -8,6 +8,7 @@ import QAButtons from './QAButtons';
 import AnswerModal from './AnswerModal';
 import QuestionModal from './QuestionModal';
 
+import API from './QAAPIUtils.js';
 import withTracker from './QATrackerHOC';
 
 import './QA.scss';
@@ -63,7 +64,7 @@ class QuestionsAndAnswers extends React.Component {
   }
 
   getQuestions(cb, reset) {
-    axios.get(`/api/questions/${this.state.currProductId}`)
+    API.getQuestions(this.state.currProductId)
       .then(response => {
         let questions = response.data.results;
 
@@ -165,16 +166,14 @@ class QuestionsAndAnswers extends React.Component {
     e.target.setAttribute('clicked', 'true');
 
     if (e.target.className === 'answer-helpful') {
-      url = '/api/questions/answerHelpful';
       let answerId = e.target.getAttribute('answer_id');
       data = { answerId };
     } else if (e.target.className === 'question-helpful') {
-      url = '/api/questions/questionHelpful';
       let questionId = e.target.getAttribute('question_id');
       data = { questionId };
     }
 
-    axios.put(url, data)
+    API.markHelpful(e.target.className, data)
       .then(response => {
         this.getQuestions();
       })
@@ -189,7 +188,6 @@ class QuestionsAndAnswers extends React.Component {
     let url, data, questionId, answerId;
 
     if (e.target.className === 'report-question') {
-      url = '/api/questions/reportQuestion';
       questionId = e.target.getAttribute('question_id');
       data = { questionId };
 
@@ -205,7 +203,6 @@ class QuestionsAndAnswers extends React.Component {
         filteredQs
       });
     } else if (e.target.className === 'report-answer') {
-      url = '/api/questions/reportAnswer';
       answerId = e.target.getAttribute('answer_id');
       data = { answerId };
 
@@ -224,10 +221,7 @@ class QuestionsAndAnswers extends React.Component {
       });
     }
 
-    axios.put(url, data)
-      .then(response => {
-
-      })
+    API.report(e.target.className, data)
       .catch(err => {
         console.log(err);
       });
@@ -396,7 +390,7 @@ class QuestionsAndAnswers extends React.Component {
     let formData = new FormData(formElement);
     formData.append('questionId', this.state.questionId);
 
-    axios.post('/api/questions/addAnswer', formData)
+    API.postAnswer(formData)
       .then(response => {
         document.getElementById('modal-answer').value = '';
         document.getElementById('modal-answer-nickname').value = '';
@@ -479,7 +473,7 @@ class QuestionsAndAnswers extends React.Component {
 
     data['product_id'] = Number(this.state.currProductId);
 
-    axios.post('/api/questions', { data })
+    API.postQuestion({ data })
       .then(response => {
         document.getElementById('modal-question').value = '';
         document.getElementById('modal-question-nickname').value = '';
