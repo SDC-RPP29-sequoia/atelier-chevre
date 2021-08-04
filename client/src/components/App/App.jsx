@@ -28,7 +28,7 @@ export class App extends React.Component {
   render() {
     return (
       <div className="wrapper">
-        <Header currentProduct={this.state.currentProduct} />
+        <Header />
         <ProductOverview productId={this.props.productId} addToBag={this.addToBag} />
         <QuestionsAndAnswers productId={this.props.productId}/>
         <RatingsAndReviews productId={this.props.productId}/>

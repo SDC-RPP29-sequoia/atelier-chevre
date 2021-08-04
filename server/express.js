@@ -29,8 +29,14 @@ const { App } = require('../client/src/components/App/App.jsx');
 
 app.get('/products/:id', (req, res) => {
   const productId = req.params.id;
+
+  // FETCH API DATA
+
   const productData = {
-    productId
+    productId,
+    // reviews,
+    // questions,
+    // product stuff
   };
 
   fs.readFile(path.resolve( __dirname, '../client/public/index.html' ), 'utf-8', (err, data) => {
