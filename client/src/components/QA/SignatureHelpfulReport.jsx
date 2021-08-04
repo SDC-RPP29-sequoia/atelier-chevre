@@ -15,4 +15,6 @@ const SignatureHelpfulReport = (props) => {
   );
 };
 
+export { SignatureHelpfulReport as TestableSignatureHelpfulReport };
+
 export default withTracker(SignatureHelpfulReport);

@@ -8,4 +8,6 @@ const QAHeader = (props) => {
   );
 };
 
+export { QAHeader as TestableQAHeader };
+
 export default withTracker(QAHeader);

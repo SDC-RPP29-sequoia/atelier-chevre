@@ -13,4 +13,6 @@ const LoadMoreAnswers = (props) => {
   );
 };
 
+export { LoadMoreAnswers as TestableLoadMoreAnswers };
+
 export default withTracker(LoadMoreAnswers);

@@ -34,4 +34,6 @@ const AnswerModal = (props) => {
   );
 };
 
+export { AnswerModal as TestableAnswerModal };
+
 export default withTracker(AnswerModal);
