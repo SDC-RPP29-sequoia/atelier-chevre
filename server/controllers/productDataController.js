@@ -9,7 +9,6 @@ const { App } = require('../../client/src/components/App/App.jsx');
 
 const getProductData = async (req, res) => {
   try {
-
     const productId = req.params.productId;
     const url = 'https://app-hrsei-api.herokuapp.com/api/fec2/hr-rpp/';
     const headers = {
@@ -30,8 +29,6 @@ const getProductData = async (req, res) => {
         // questions,
         // product stuff
       };
-
-
 
       fs.readFile(path.resolve( __dirname, '../../client/public/index.html' ), 'utf-8', (err, data) => {
         if (err) {
