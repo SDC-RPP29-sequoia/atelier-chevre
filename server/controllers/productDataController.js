@@ -22,7 +22,6 @@ const getProductData = async (req, res) => {
     if (productId !== 'undefined') {
       const reviews = await axios.get(`${url}reviews?product_id=${productId}&count=500`, headers);
       const reviewsMeta = await axios.get(`${url}reviews/meta?product_id=${productId}`, headers);
-      console.log('reviewsMeta:', reviewsMeta.data);
 
       const productData = {
         productId,
@@ -49,9 +48,11 @@ const getProductData = async (req, res) => {
           `<script>window.__PRODUCT_ID__=${JSON.stringify(productData)}</script>
           <div id="app">${ appHTML }</div>`));
       });
+    } else {
+      res.end();
     }
   } catch (err) {
-    res.sendStatus(404);
+    res.end();
   }
 };
 

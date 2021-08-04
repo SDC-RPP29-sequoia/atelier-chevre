@@ -41,7 +41,10 @@ class RatingsAndReviews extends React.Component {
   }
 
   componentDidMount () {
-    this.getReviewData('relevence');
+    this.setState({
+      currentProductReviews: this.props.reviews.results,
+      currentProductMeta: this.props.reviewsMeta,
+    });
   }
 
   getReviewsToDisplay(filtered) {

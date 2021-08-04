@@ -31,7 +31,11 @@ export class App extends React.Component {
         <Header />
         <ProductOverview productId={this.props.productId} addToBag={this.addToBag} />
         <QuestionsAndAnswers productId={this.props.productId}/>
-        <RatingsAndReviews productId={this.props.productId}/>
+        <RatingsAndReviews
+          productId={this.props.productId}
+          reviews={this.props.reviews}
+          reviewsMeta={this.props.reviewsMeta}
+        />
       </div>
     );
   }

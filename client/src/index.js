@@ -3,7 +3,11 @@ import ReactDOM from 'react-dom';
 
 import { App } from './components/App/App.jsx';
 
-const { productId } = window.__PRODUCT_ID__;
+const { productId, reviews, reviewsMeta } = window.__PRODUCT_ID__;
 
-ReactDOM.hydrate(<App productId={productId}/>, document.getElementById('app'));
+ReactDOM.hydrate(<App productId={productId}
+  reviews={reviews}
+  reviewsMeta={reviewsMeta}
+
+/>, document.getElementById('app'));
 
