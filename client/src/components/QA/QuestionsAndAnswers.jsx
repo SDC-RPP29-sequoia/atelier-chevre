@@ -8,6 +8,8 @@ import QAButtons from './QAButtons';
 import AnswerModal from './AnswerModal';
 import QuestionModal from './QuestionModal';
 
+import withTracker from './QATrackerHOC';
+
 import './QA.scss';
 
 class QuestionsAndAnswers extends React.Component {
@@ -524,4 +526,4 @@ class QuestionsAndAnswers extends React.Component {
   }
 }
 
-export default QuestionsAndAnswers;
+export default withTracker(QuestionsAndAnswers);

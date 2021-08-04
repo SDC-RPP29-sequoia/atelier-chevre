@@ -7,6 +7,8 @@ import QAButtons from './QAButtons';
 import AnswerModal from './AnswerModal';
 import QuestionModal from './QuestionModal';
 
+import withTracker from './QATrackerHOC';
+
 class QAList extends React.Component {
   constructor(props) {
     super(props);
@@ -66,7 +68,7 @@ class QAList extends React.Component {
 
         return (
           <div key={q.question_date + i} className="qa" id="list">
-            <div className="question"><b>Q: {q.question_body}</b></div>
+            <div className="question" onClick={(e) => { this.props.handleTrackingClick(e, e.currentTarget.className, 'Questions & Answers'); }}><b>Q: {q.question_body}</b></div>
             <div className="answer-wrapper">{answers.map(a => {
               let date = this.convertDate(a.date);
               let aName = a.answerer_name;
@@ -90,4 +92,4 @@ class QAList extends React.Component {
   }
 }
 
-export default QAList;
+export default withTracker(QAList);
