@@ -12,12 +12,7 @@ const reviewsRouter = require('./routes/reviewsRoutes');
 const QARouter = require('./routes/QARoutes');
 const productRouter = require('./routes/productRoutes');
 
-// SSR Babel Config
-const React = require( 'react' );
-const ReactDOMServer = require( 'react-dom/server' );
-const { App } = require('../client/src/components/App/App.jsx');
-
-// Middleware
+// MIDDLEWARE
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(express.static(__dirname + '/../client/public'));
@@ -27,10 +22,17 @@ app.use('/api/reviews', reviewsRouter);
 app.use('/api/questions', QARouter);
 app.use('/api/products', productRouter);
 
-//SSR Route
+//SSR
+const React = require( 'react' );
+const ReactDOMServer = require( 'react-dom/server' );
+const { App } = require('../client/src/components/App/App.jsx');
+
 app.get('/products/:id', (req, res) => {
   const productId = req.params.id;
-  console.log('productId:', productId);
+  const productData = {
+    productId
+  };
+
   fs.readFile(path.resolve( __dirname, '../client/public/index.html' ), 'utf-8', (err, data) => {
     if (err) {
       console.log(err);
@@ -38,15 +40,14 @@ app.get('/products/:id', (req, res) => {
     }
 
     let appHTML = ReactDOMServer.renderToString(<App/>);
+
     res.contentType('text/html');
     res.status(200);
     return res.send(data.replace(
       '<div id="app"></div>',
-      `<script>window.__PRODUCT_ID__=${JSON.stringify(productId)}</script>
+      `<script>window.__PRODUCT_ID__=${JSON.stringify(productData)}</script>
        <div id="app">${ appHTML }</div>`));
   });
-
-
 });
 
 // this one i don't think is getting used
