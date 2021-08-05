@@ -19,7 +19,7 @@ const AnswerModal = (props) => {
           <textarea id="modal-answer" name="body" maxLength="1000" onClick={(e) => { props.handleTrackingClick(e, e.currentTarget.id, 'Questions & Answers'); }}></textarea>
           <div className="modal-answer-photos">{props.photos.map((photo, i) => {
             return (
-              <img src={photo} width="50px" height="50px" key={i} className="answer-photo-thumbnail" onClick={clickHandler}></img>
+              <img src={photo} width="70px" height="70px" key={i} className="answer-photo-thumbnail" onClick={clickHandler}></img>
             );
           })}</div>
           <label>What is your nickname:*&nbsp;</label>
