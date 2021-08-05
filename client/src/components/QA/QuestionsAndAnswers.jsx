@@ -21,20 +21,18 @@ class QuestionsAndAnswers extends React.Component {
       isLoaded: false,
       currProduct: {name: 'TEST PRODUCT NAME'},
       currProductId: props.productId,
+      productName: '',
       questions: [],
       filteredQs: [],
-      photos: [],
-      answers: {},
-      filteredAs: {},
-      productName: '',
       questionBody: '',
       questionId: '',
+      answers: {},
+      filteredAs: {},
+      photos: [],
       searchVal: '',
       count: 2,
       originalLength: null,
-      displayedImage: '',
-      unhighlightedAs: [],
-      unhighlightedQs: []
+      displayedImage: ''
     };
 
     this.retrieveSortQAs = this.retrieveSortQAs.bind(this);
@@ -80,11 +78,10 @@ class QuestionsAndAnswers extends React.Component {
 
         if (reset) {
           this.retrieveSortQAs(questions, true);
-          this.displayButtons();
         } else {
           this.retrieveSortQAs(questions);
-          this.displayButtons();
         }
+        this.displayButtons();
       })
       .catch(err => {
         console.log(err);
@@ -158,7 +155,8 @@ class QuestionsAndAnswers extends React.Component {
     const displayedQuestions = document.getElementsByClassName('question');
     const moreAnsweredQs = document.getElementById('more-answered-qs');
 
-    if (displayedQuestions.length === this.state.originalLength) {
+    if (displayedQuestions.length >= this.state.originalLength) {
+      console.log('hi', displayedQuestions.length, this.state.originalLength);
       moreAnsweredQs.style.display = 'none';
     }
   }
@@ -322,7 +320,7 @@ class QuestionsAndAnswers extends React.Component {
 
   moreAnsweredQs() {
     this.setState({
-      count: this.state.count + 2
+      count: this.state.count + 5
     });
 
     this.getQuestions();
@@ -575,6 +573,14 @@ class QuestionsAndAnswers extends React.Component {
     }
   }
 
+  showMoreAnsweredQs() {
+    const moreAnsweredQs = document.getElementById('more-answered-qs');
+
+    if (this.state.filteredQs.length > 2) {
+      moreAnsweredQs.style.display = 'block';
+    }
+  }
+
   handleChange(e) {
     this.setState({
       searchVal: e.target.value
@@ -587,6 +593,7 @@ class QuestionsAndAnswers extends React.Component {
       this.getQuestions(null, true);
       this.showLoadMoreAnswers();
       this.clearText();
+      this.showMoreAnsweredQs();
     } else if (text.length > 2) {
       let filteredQs = questions.filter(q => {
         let question = q.question_body.toLowerCase();
@@ -632,6 +639,7 @@ class QuestionsAndAnswers extends React.Component {
       }, () => {
         this.highlightText();
         this.hideLoadMoreAnswers();
+        this.showMoreAnsweredQs();
       });
     }
   }
