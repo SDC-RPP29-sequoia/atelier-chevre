@@ -111,7 +111,7 @@ describe('<QuestionsAndAnswers />', () => {
   it('<QAButtons /> renders all elements', () => {
     expect(buttons).toBeTruthy();
     expect(buttons.find('#buttons')).toHaveLength(1);
-    expect(buttons.find('button')).toHaveLength(2);
+    expect(buttons.find('button')).toHaveLength(1);
   });
 
   it('<AnswerModal /> renders all elements', () => {

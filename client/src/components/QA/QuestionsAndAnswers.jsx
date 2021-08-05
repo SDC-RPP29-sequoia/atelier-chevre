@@ -43,14 +43,14 @@ class QuestionsAndAnswers extends React.Component {
     this.addAnswer = this.addAnswer.bind(this);
     this.addQuestion = this.addQuestion.bind(this);
     this.openModal = this.openModal.bind(this);
-    this.uploadPhotos = this.uploadPhotos.bind(this);
     this.moreAnsweredQs = this.moreAnsweredQs.bind(this);
     this.loadMoreAnswers = this.loadMoreAnswers.bind(this);
-    this.submitAnswer = this.submitAnswer.bind(this);
-    this.submitQuestion = this.submitQuestion.bind(this);
-    this.handleChange = this.handleChange.bind(this);
     this.openThumbnail = this.openThumbnail.bind(this);
-    this.highlightText = this.highlightText.bind(this);
+    this.getQuestions = this.getQuestions.bind(this);
+    this.showLoadMoreAnswers = this.showLoadMoreAnswers.bind(this);
+    this.showMoreAnsweredQs = this.showMoreAnsweredQs.bind(this);
+    this.hideLoadMoreAnswers = this.hideLoadMoreAnswers.bind(this);
+    this.setSearchState = this.setSearchState.bind(this);
   }
 
   componentDidMount() {
@@ -235,6 +235,16 @@ class QuestionsAndAnswers extends React.Component {
       });
   }
 
+  addQuestion(e) {
+    const productName = this.state.currProduct.name;
+
+    this.setState({
+      productName
+    });
+
+    this.openModal('question');
+  }
+
   addAnswer(e) {
     const questionId = e.target.getAttribute('question_id');
     const questionBody = e.target.getAttribute('question_body');
@@ -247,28 +257,6 @@ class QuestionsAndAnswers extends React.Component {
     });
 
     this.openModal('answer');
-  }
-
-  addQuestion(e) {
-    const productName = this.state.currProduct.name;
-
-    this.setState({
-      productName
-    });
-
-    this.openModal('question');
-  }
-
-  openThumbnail(e) {
-    const displayedImage = e.target.src;
-
-    document.getElementsByTagName('body')[0].setAttribute('style', 'overflow-y: hidden');
-
-    this.setState({
-      displayedImage
-    });
-
-    this.openModal('image');
   }
 
   openModal(target) {
@@ -304,6 +292,18 @@ class QuestionsAndAnswers extends React.Component {
     };
   }
 
+  openThumbnail(e) {
+    const displayedImage = e.target.src;
+
+    document.getElementsByTagName('body')[0].setAttribute('style', 'overflow-y: hidden');
+
+    this.setState({
+      displayedImage
+    });
+
+    this.openModal('image');
+  }
+
   moreAnsweredQs() {
     this.setState({
       count: this.state.count + 5,
@@ -311,6 +311,14 @@ class QuestionsAndAnswers extends React.Component {
     });
 
     this.getQuestions();
+  }
+
+  showMoreAnsweredQs() {
+    if (this.state.questions.length >= 2) {
+      this.setState({
+        displayMoreAnsweredQs: true
+      });
+    }
   }
 
   loadMoreAnswers(e) {
@@ -349,283 +357,13 @@ class QuestionsAndAnswers extends React.Component {
     }
   }
 
-  showMoreAnsweredQs() {
-    if (this.state.questions.length >= 2) {
-      this.setState({
-        displayMoreAnsweredQs: true
-      });
-    }
-  }
-
-  uploadPhotos(e) {
-    let photos = [];
-
-    for (let key in e.target.files) {
-      if (key !== 'length' && key !== 'item') {
-        photos.push(URL.createObjectURL(e.target.files[key]));
-      }
-    }
-
-    if (e.target.files.length > 5) {
-      alert('You may only upload 5 images');
-      e.target.value = '';
-    } else {
-      this.setState({
-        photos
-      });
-    }
-  }
-
-  submitAnswer(e) {
-    e.preventDefault();
-
-    const answer = document.getElementById('modal-answer').value;
-    const name = document.getElementById('modal-answer-nickname').value;
-    const email = document.getElementById('modal-answer-email').value;
-    const photos = document.getElementById('modal-photos').files;
-
-    let photoFileNames = [];
-
-    for (let key in photos) {
-      if (key !== 'item' && key !== 'length') {
-        photoFileNames.push(photos[key].name);
-      }
-    }
-
-    let tracker = {
-      answer,
-      name,
-      email
-    };
-
-    const regexp = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-
-    const emailValid = regexp.test(email);
-
-    if (!answer || !name || !email || !emailValid) {
-      let string = 'You must enter or address the following:\n';
-
-      for (let key in tracker) {
-        if (!tracker[key]) {
-          string += `- ${key.slice(0, 1).toUpperCase() + key.slice(1)}\n`;
-        }
-      }
-
-      if (email && !emailValid) {
-        string += '- Your email must be formatted correctly\n';
-      }
-
-      if (!this.photosValid(photoFileNames)) {
-        string += '- You may only upload .jpg, .jpeg, .bmp, .gif, and .png files';
-      }
-
-      alert(string);
-      return;
-    }
-
-    let modal = document.querySelector('.modal');
-    modal.style.display = 'none';
-
-    let formElement = document.querySelector('#add-answer');
-    let formData = new FormData(formElement);
-    formData.append('questionId', this.state.questionId);
-
-    API.postAnswer(formData)
-      .then(response => {
-        document.getElementById('modal-answer').value = '';
-        document.getElementById('modal-answer-nickname').value = '';
-        document.getElementById('modal-answer-email').value = '';
-        document.getElementById('modal-photos').value = '';
-        this.setState({
-          photos: []
-        });
-        this.getQuestions();
-      })
-      .catch(err => {
-        console.log(err);
-      });
-  }
-
-  photosValid(photos) {
-    const validFileExtensions = ['.jpg', '.jpeg', '.bmp', '.png', '.gif'];
-
-    for (let i = 0; i < photos.length; i++) {
-      let fileName = photos[i];
-      let valid = false;
-
-      for (let j = 0; j < validFileExtensions.length; j++) {
-        let currExtension = validFileExtensions[j];
-        if (fileName.substr(fileName.length - currExtension.length, currExtension.length).toLowerCase() === currExtension.toLowerCase()) {
-          valid = true;
-          break;
-        }
-      }
-
-      if (!valid) {
-        return false;
-      }
-    }
-
-    return true;
-  }
-
-  submitQuestion(e) {
-    e.preventDefault();
-
-    const question = document.getElementById('modal-question').value;
-    const name = document.getElementById('modal-question-nickname').value;
-    const email = document.getElementById('modal-question-email').value;
-
-    let tracker = {
-      question,
-      name,
-      email
-    };
-
-    const regexp = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-
-    const emailValid = regexp.test(email);
-
-    if (!question || !name || !email || !emailValid) {
-      let string = 'You must enter or address the following:\n';
-
-      for (let key in tracker) {
-        if (!tracker[key]) {
-          string += `- ${key.slice(0, 1).toUpperCase() + key.slice(1)}\n`;
-        }
-      }
-
-      if (email && !emailValid) {
-        string += '- Your email must be formatted correctly\n';
-      }
-
-      alert(string);
-      return;
-    }
-
-    let modal = document.querySelector('.modal-q');
-    modal.style.display = 'none';
-
-    let formElement = document.querySelector('#add-question');
-    let formData = new FormData(formElement);
-
-    let data = {};
-
-    for (let [key, value] of formData) {
-      data[key] = value;
-    }
-
-    data['product_id'] = Number(this.state.currProductId);
-
-    API.postQuestion({ data })
-      .then(response => {
-        document.getElementById('modal-question').value = '';
-        document.getElementById('modal-question-nickname').value = '';
-        document.getElementById('modal-question-email').value = '';
-        this.getQuestions();
-      })
-      .catch(err => {
-        console.log(err);
-      });
-  }
-
-  highlightText() {
-    this.clearText();
-
-    let term = this.state.searchVal;
-    const answers = document.getElementsByClassName('answer-text');
-    const questions = document.getElementsByClassName('question-text');
-
-    for (let i = 0; i < answers.length; i++) {
-      let currText = answers[i].innerHTML;
-      let newText = currText.replace(new RegExp(term, 'gi'), (match) => `<mark>${match}</mark>`);
-
-      answers[i].innerHTML = newText;
-    }
-
-    for (let i = 0; i < questions.length; i++) {
-      let currText = questions[i].innerHTML;
-      let newText = currText.replace(new RegExp(term, 'gi'), (match) => `<mark>${match}</mark>`);
-
-      questions[i].innerHTML = newText;
-    }
-  }
-
-  clearText() {
-    const questions = document.getElementsByClassName('question-text');
-    const answers = document.getElementsByClassName('answer-text');
-    const regex = new RegExp('mark>', 'ig');
-
-    for (let i = 0; i < answers.length; i++) {
-      answers[i].innerHTML = answers[i].innerHTML.replace(regex, 'wbr>');
-    }
-
-    for (let i = 0; i < questions.length; i++) {
-      questions[i].innerHTML = questions[i].innerHTML.replace(regex, 'wbr>');
-    }
-  }
-
-  handleChange(e) {
+  setSearchState(filteredAs, filteredQs, cb) {
     this.setState({
-      searchVal: e.target.value
+      filteredAs,
+      filteredQs
+    }, () => {
+      cb();
     });
-
-    let text = e.target.value;
-    let questions = this.state.questions;
-
-    if (!text || text === '' || text.length < 2) {
-      this.getQuestions(null, true);
-      this.showLoadMoreAnswers();
-      this.showMoreAnsweredQs();
-      this.clearText();
-    } else if (text.length > 2) {
-      let filteredQs = questions.filter(q => {
-        let question = q.question_body.toLowerCase();
-        let answers = '';
-
-        for (let key in q.answers) {
-          answers += q.answers[key].body;
-        }
-
-        answers = answers.toLowerCase();
-
-        return question.includes(text) || answers.includes(text);
-      });
-
-      const originalAnswers = Object.assign({}, this.state.answers);
-      const filteredAs = Object.assign({}, originalAnswers);
-
-      let questionKeys = filteredQs.map(q => {
-        return q.question_id;
-      });
-
-      for (let key in filteredAs) {
-        if (filteredAs[key]) {
-          let newData = [];
-
-          for (let i = 0; i < filteredAs[key].data.length; i++) {
-            if (filteredAs[key].data[i].body.toLowerCase().includes(text)) {
-              newData.push(filteredAs[key].data[i]);
-            }
-
-            if (questionKeys.includes(Number(key)) && !newData.includes(filteredAs[key].data[i])) {
-              newData.push(filteredAs[key].data[i]);
-            }
-          }
-          filteredAs[key].count = 100;
-          filteredAs[key].data = newData;
-        }
-      }
-
-      this.setState({
-        filteredQs,
-        filteredAs
-      }, () => {
-        this.highlightText();
-        this.hideLoadMoreAnswers();
-        this.showMoreAnsweredQs();
-      });
-    }
   }
 
   render() {
@@ -638,11 +376,11 @@ class QuestionsAndAnswers extends React.Component {
     return (
       <div className="qa" id="qa-wrapper">
         <QAHeader />
-        <SearchBar searchVal={this.state.searchVal} handleChange={this.handleChange} />
-        <QAList filteredQs={this.state.filteredQs} markHelpful={this.markHelpful} report={this.report} loadMoreAnswers={this.loadMoreAnswers} addAnswer={this.addAnswer} moreAnsweredQs={this.moreAnsweredQs} addQuestion={this.addQuestion} productName={this.state.productName} questionBody={this.state.questionBody} photos={this.state.photos} uploadPhotos={this.uploadPhotos} submitAnswer={this.submitAnswer} productName={this.state.productName} submitQuestion={this.submitQuestion} answers={this.state.filteredAs} answerCount={this.state.answerCount} getQuestions={this.getQuestions} openThumbnail={this.openThumbnail}/>
+        <SearchBar getQuestions={this.getQuestions} showLoadMoreAnswers={this.showLoadMoreAnswers} showMoreAnsweredQs={this.showMoreAnsweredQs} hideLoadMoreAnswers={this.hideLoadMoreAnswers} questions={this.state.questions} answers={this.state.answers} setSearchState={this.setSearchState}/>
+        <QAList filteredQs={this.state.filteredQs} markHelpful={this.markHelpful} report={this.report} loadMoreAnswers={this.loadMoreAnswers} addAnswer={this.addAnswer} moreAnsweredQs={this.moreAnsweredQs} addQuestion={this.addQuestion} productName={this.state.productName} questionBody={this.state.questionBody} uploadPhotos={this.uploadPhotos} submitAnswer={this.submitAnswer} productName={this.state.productName} submitQuestion={this.submitQuestion} answers={this.state.filteredAs} answerCount={this.state.answerCount} getQuestions={this.getQuestions} openThumbnail={this.openThumbnail}/>
         <QAButtons moreAnsweredQs={this.moreAnsweredQs} addQuestion={this.addQuestion} displayMoreAnsweredQs={this.state.displayMoreAnsweredQs} />
-        <AnswerModal productName={this.state.productName} questionBody={this.state.questionBody} photos={this.state.photos} uploadPhotos={this.uploadPhotos} submitAnswer={this.submitAnswer} openThumbnail={this.openThumbnail} />
-        <QuestionModal productName={this.state.productName} submitQuestion={this.submitQuestion} />
+        <AnswerModal productName={this.state.productName} questionBody={this.state.questionBody} openThumbnail={this.openThumbnail} questionId={this.state.questionId} getQuestions={this.getQuestions} />
+        <QuestionModal productName={this.state.productName} getQuestions={this.getQuestions} currProductId={this.state.currProductId}/>
         <ThumbnailModal photo={this.state.displayedImage}/>
       </div>
     );
