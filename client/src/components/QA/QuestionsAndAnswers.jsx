@@ -32,7 +32,8 @@ class QuestionsAndAnswers extends React.Component {
       searchVal: '',
       count: 2,
       originalLength: null,
-      displayedImage: ''
+      displayedImage: '',
+      displayMoreAnsweredQs: true
     };
 
     this.retrieveSortQAs = this.retrieveSortQAs.bind(this);
@@ -59,10 +60,10 @@ class QuestionsAndAnswers extends React.Component {
         isLoaded: true
       });
 
-      const moreAnsweredQs = document.getElementById('more-answered-qs');
-
       if (result.length <= 2) {
-        moreAnsweredQs.style.display = 'none';
+        this.setState({
+          displayMoreAnsweredQs: false
+        });
       }
     });
   }
@@ -81,6 +82,7 @@ class QuestionsAndAnswers extends React.Component {
         } else {
           this.retrieveSortQAs(questions);
         }
+
         this.displayButtons();
       })
       .catch(err => {
@@ -145,18 +147,9 @@ class QuestionsAndAnswers extends React.Component {
 
       if (length <= 2) {
         displayedAnswers[i].style.display = 'none';
-      }
-
-      if (length > 2) {
+      } else if (length > 2) {
         displayedAnswers[i].style.display = 'block';
       }
-    }
-
-    const displayedQuestions = document.getElementsByClassName('question');
-    const moreAnsweredQs = document.getElementById('more-answered-qs');
-
-    if (displayedQuestions.length >= this.state.originalLength) {
-      moreAnsweredQs.style.display = 'none';
     }
   }
 
@@ -295,20 +288,14 @@ class QuestionsAndAnswers extends React.Component {
     const closeBtn2 = document.querySelector('.modal-q .close-btn');
     const closeBtn3 = document.querySelector('.modal-thumbnail .close-btn');
 
-    closeBtn.onclick = () => {
-      modal.style.display = 'none';
-      document.getElementsByTagName('body')[0].removeAttribute('style', 'overflow-y: hidden');
-    };
+    let buttons = [closeBtn, closeBtn2, closeBtn3];
 
-    closeBtn2.onclick = () => {
-      modal.style.display = 'none';
-      document.getElementsByTagName('body')[0].removeAttribute('style', 'overflow-y: hidden');
-    };
-
-    closeBtn3.onclick = () => {
-      modal.style.display = 'none';
-      document.getElementsByTagName('body')[0].removeAttribute('style', 'overflow-y: hidden');
-    };
+    buttons.forEach(button => {
+      button.onclick = () => {
+        modal.style.display = 'none';
+        document.getElementsByTagName('body')[0].removeAttribute('style', 'overflow-y: hidden');
+      };
+    });
 
     window.onclick = (e) => {
       if (e.target === modal) {
@@ -319,7 +306,8 @@ class QuestionsAndAnswers extends React.Component {
 
   moreAnsweredQs() {
     this.setState({
-      count: this.state.count + 5
+      count: this.state.count + 5,
+      displayMoreAnsweredQs: false
     });
 
     this.getQuestions();
@@ -358,6 +346,14 @@ class QuestionsAndAnswers extends React.Component {
     let loadMoreAnswers = document.getElementsByClassName('load-more-answers');
     for (let i = 0; i < loadMoreAnswers.length; i++) {
       loadMoreAnswers[i].style.display = 'block';
+    }
+  }
+
+  showMoreAnsweredQs() {
+    if (this.state.questions.length >= 2) {
+      this.setState({
+        displayMoreAnsweredQs: true
+      });
     }
   }
 
@@ -537,8 +533,8 @@ class QuestionsAndAnswers extends React.Component {
     this.clearText();
 
     let term = this.state.searchVal;
-
-    let answers = document.getElementsByClassName('answer-text');
+    const answers = document.getElementsByClassName('answer-text');
+    const questions = document.getElementsByClassName('question-text');
 
     for (let i = 0; i < answers.length; i++) {
       let currText = answers[i].innerHTML;
@@ -546,8 +542,6 @@ class QuestionsAndAnswers extends React.Component {
 
       answers[i].innerHTML = newText;
     }
-
-    let questions = document.getElementsByClassName('question-text');
 
     for (let i = 0; i < questions.length; i++) {
       let currText = questions[i].innerHTML;
@@ -558,6 +552,7 @@ class QuestionsAndAnswers extends React.Component {
   }
 
   clearText() {
+    const questions = document.getElementsByClassName('question-text');
     const answers = document.getElementsByClassName('answer-text');
     const regex = new RegExp('mark>', 'ig');
 
@@ -565,18 +560,8 @@ class QuestionsAndAnswers extends React.Component {
       answers[i].innerHTML = answers[i].innerHTML.replace(regex, 'wbr>');
     }
 
-    const questions = document.getElementsByClassName('question-text');
-
     for (let i = 0; i < questions.length; i++) {
       questions[i].innerHTML = questions[i].innerHTML.replace(regex, 'wbr>');
-    }
-  }
-
-  showMoreAnsweredQs() {
-    const moreAnsweredQs = document.getElementById('more-answered-qs');
-
-    if (this.state.filteredQs.length > 2) {
-      moreAnsweredQs.style.display = 'block';
     }
   }
 
@@ -591,8 +576,8 @@ class QuestionsAndAnswers extends React.Component {
     if (!text || text === '' || text.length < 2) {
       this.getQuestions(null, true);
       this.showLoadMoreAnswers();
-      this.clearText();
       this.showMoreAnsweredQs();
+      this.clearText();
     } else if (text.length > 2) {
       let filteredQs = questions.filter(q => {
         let question = q.question_body.toLowerCase();
@@ -655,7 +640,7 @@ class QuestionsAndAnswers extends React.Component {
         <QAHeader />
         <SearchBar searchVal={this.state.searchVal} handleChange={this.handleChange} />
         <QAList filteredQs={this.state.filteredQs} markHelpful={this.markHelpful} report={this.report} loadMoreAnswers={this.loadMoreAnswers} addAnswer={this.addAnswer} moreAnsweredQs={this.moreAnsweredQs} addQuestion={this.addQuestion} productName={this.state.productName} questionBody={this.state.questionBody} photos={this.state.photos} uploadPhotos={this.uploadPhotos} submitAnswer={this.submitAnswer} productName={this.state.productName} submitQuestion={this.submitQuestion} answers={this.state.filteredAs} answerCount={this.state.answerCount} getQuestions={this.getQuestions} openThumbnail={this.openThumbnail}/>
-        <QAButtons moreAnsweredQs={this.moreAnsweredQs} addQuestion={this.addQuestion} />
+        <QAButtons moreAnsweredQs={this.moreAnsweredQs} addQuestion={this.addQuestion} displayMoreAnsweredQs={this.state.displayMoreAnsweredQs} />
         <AnswerModal productName={this.state.productName} questionBody={this.state.questionBody} photos={this.state.photos} uploadPhotos={this.uploadPhotos} submitAnswer={this.submitAnswer} openThumbnail={this.openThumbnail} />
         <QuestionModal productName={this.state.productName} submitQuestion={this.submitQuestion} />
         <ThumbnailModal photo={this.state.displayedImage}/>

@@ -14,7 +14,7 @@ const QAButtons = (props) => {
 
   return (
     <div className="qa" id="buttons">
-      <button id="more-answered-qs" onClick={moreQsClickHandler}>MORE ANSWERED QUESTIONS</button>
+      {props.displayMoreAnsweredQs && <button id="more-answered-qs" onClick={moreQsClickHandler}>MORE ANSWERED QUESTIONS</button>}
       <button id="addq" onClick={addQClickHandler}>ADD A QUESTION +</button>
     </div>
   );

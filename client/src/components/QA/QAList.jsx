@@ -12,9 +12,6 @@ import withTracker from './QATrackerHOC';
 class QAList extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-
-    };
 
     this.sortAnswers = this.sortAnswers.bind(this);
     this.convertDate = this.convertDate.bind(this);
