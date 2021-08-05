@@ -7,6 +7,7 @@ import QAList from './QAList';
 import QAButtons from './QAButtons';
 import AnswerModal from './AnswerModal';
 import QuestionModal from './QuestionModal';
+import ThumbnailModal from './ThumbnailModal';
 
 import API from './QAAPIUtils.js';
 import withTracker from './QATrackerHOC';
@@ -30,7 +31,8 @@ class QuestionsAndAnswers extends React.Component {
       questionId: '',
       searchVal: '',
       count: 2,
-      originalLength: null
+      originalLength: null,
+      displayedImage: ''
     };
 
     this.retrieveSortQAs = this.retrieveSortQAs.bind(this);
@@ -46,6 +48,7 @@ class QuestionsAndAnswers extends React.Component {
     this.submitAnswer = this.submitAnswer.bind(this);
     this.submitQuestion = this.submitQuestion.bind(this);
     this.handleChange = this.handleChange.bind(this);
+    this.openThumbnail = this.openThumbnail.bind(this);
   }
 
   componentDidMount() {
@@ -251,6 +254,18 @@ class QuestionsAndAnswers extends React.Component {
     this.openModal('question');
   }
 
+  openThumbnail(e) {
+    let displayedImage = e.target.src;
+
+    document.getElementsByTagName('body')[0].setAttribute('style', 'overflow-y: hidden');
+
+    this.setState({
+      displayedImage
+    });
+
+    this.openModal('image');
+  }
+
   openModal(target) {
     let modal;
 
@@ -258,19 +273,29 @@ class QuestionsAndAnswers extends React.Component {
       modal = document.querySelector('.modal-q');
     } else if (target === 'answer') {
       modal = document.querySelector('.modal');
+    } else if (target === 'image') {
+      modal = document.querySelector('.modal-thumbnail');
     }
 
     modal.style.display = 'block';
 
     let closeBtn = document.querySelector('.modal .close-btn');
     let closeBtn2 = document.querySelector('.modal-q .close-btn');
+    let closeBtn3 = document.querySelector('.modal-thumbnail .close-btn');
 
     closeBtn.onclick = () => {
       modal.style.display = 'none';
+      document.getElementsByTagName('body')[0].removeAttribute('style', 'overflow-y: hidden');
     };
 
     closeBtn2.onclick = () => {
       modal.style.display = 'none';
+      document.getElementsByTagName('body')[0].removeAttribute('style', 'overflow-y: hidden');
+    };
+
+    closeBtn3.onclick = () => {
+      modal.style.display = 'none';
+      document.getElementsByTagName('body')[0].removeAttribute('style', 'overflow-y: hidden');
     };
 
     window.onclick = (e) => {
@@ -552,10 +577,11 @@ class QuestionsAndAnswers extends React.Component {
       <div className="qa" id="qa-wrapper">
         <QAHeader />
         <SearchBar searchVal={this.state.searchVal} handleChange={this.handleChange} />
-        <QAList filteredQs={this.state.filteredQs} markHelpful={this.markHelpful} report={this.report} loadMoreAnswers={this.loadMoreAnswers} addAnswer={this.addAnswer} moreAnsweredQs={this.moreAnsweredQs} addQuestion={this.addQuestion} productName={this.state.productName} questionBody={this.state.questionBody} photos={this.state.photos} uploadPhotos={this.uploadPhotos} submitAnswer={this.submitAnswer} productName={this.state.productName} submitQuestion={this.submitQuestion} answers={this.state.filteredAs} answerCount={this.state.answerCount} getQuestions={this.getQuestions}/>
+        <QAList filteredQs={this.state.filteredQs} markHelpful={this.markHelpful} report={this.report} loadMoreAnswers={this.loadMoreAnswers} addAnswer={this.addAnswer} moreAnsweredQs={this.moreAnsweredQs} addQuestion={this.addQuestion} productName={this.state.productName} questionBody={this.state.questionBody} photos={this.state.photos} uploadPhotos={this.uploadPhotos} submitAnswer={this.submitAnswer} productName={this.state.productName} submitQuestion={this.submitQuestion} answers={this.state.filteredAs} answerCount={this.state.answerCount} getQuestions={this.getQuestions} openThumbnail={this.openThumbnail}/>
         <QAButtons moreAnsweredQs={this.moreAnsweredQs} addQuestion={this.addQuestion} />
-        <AnswerModal productName={this.state.productName} questionBody={this.state.questionBody} photos={this.state.photos} uploadPhotos={this.uploadPhotos} submitAnswer={this.submitAnswer} />
+        <AnswerModal productName={this.state.productName} questionBody={this.state.questionBody} photos={this.state.photos} uploadPhotos={this.uploadPhotos} submitAnswer={this.submitAnswer} openThumbnail={this.openThumbnail} />
         <QuestionModal productName={this.state.productName} submitQuestion={this.submitQuestion} />
+        <ThumbnailModal photo={this.state.displayedImage}/>
       </div>
     );
   }

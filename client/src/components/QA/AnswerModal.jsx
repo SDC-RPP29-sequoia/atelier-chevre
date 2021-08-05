@@ -3,6 +3,11 @@ import React from 'react';
 import withTracker from './QATrackerHOC';
 
 const AnswerModal = (props) => {
+  let clickHandler = (e) => {
+    props.handleTrackingClick(e, e.currentTarget.className, 'Questions & Answers');
+    props.openThumbnail(e);
+  };
+
   return (
     <div className="modal">
       <div className="modal-content">
@@ -14,7 +19,7 @@ const AnswerModal = (props) => {
           <textarea id="modal-answer" name="body" maxLength="1000" onClick={(e) => { props.handleTrackingClick(e, e.currentTarget.id, 'Questions & Answers'); }}></textarea>
           <div className="modal-answer-photos">{props.photos.map((photo, i) => {
             return (
-              <img src={photo} width="50px" height="50px" key={i} className="answer-photo-thumbnail" onClick={(e) => { props.handleTrackingClick(e, e.currentTarget.className, 'Questions & Answers'); }}></img>
+              <img src={photo} width="50px" height="50px" key={i} className="answer-photo-thumbnail" onClick={clickHandler}></img>
             );
           })}</div>
           <label>What is your nickname:*&nbsp;</label>

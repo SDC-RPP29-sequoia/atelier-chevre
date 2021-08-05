@@ -84,7 +84,7 @@ class QAList extends React.Component {
               }
 
               return (
-                <AnswerContainer key={a.id} body={a.body} photos={a.photos} aName={aName} date={date} markHelpful={this.props.markHelpful} answer_id={a.id} helpfulness={a.helpfulness} report={this.props.report} />
+                <AnswerContainer key={a.id} body={a.body} photos={a.photos} aName={aName} date={date} markHelpful={this.props.markHelpful} answer_id={a.id} helpfulness={a.helpfulness} report={this.props.report} openThumbnail={this.props.openThumbnail} />
               );
             })}
             <LoadMoreAnswers loadMoreAnswers={this.props.loadMoreAnswers} question_id={q.question_id} originalLength={originalLength} />
