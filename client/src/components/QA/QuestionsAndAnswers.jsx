@@ -586,6 +586,7 @@ class QuestionsAndAnswers extends React.Component {
     if (!text || text === '' || text.length < 2) {
       this.getQuestions(null, true);
       this.showLoadMoreAnswers();
+      this.clearText();
     } else if (text.length > 2) {
       let filteredQs = questions.filter(q => {
         let question = q.question_body.toLowerCase();
