@@ -1,17 +1,21 @@
+/**
+ * @jest-environment jsdom
+*/
+
 import React from 'react';
 import { shallow, mount, render } from 'enzyme';
 
-import { TestableQuestionsAndAnswers} from './QuestionsAndAnswers';
-import { TestableQAHeader } from './QAHeader';
-import { TestableSearchBar } from './SearchBar';
-import { TestableQAList } from './QAList';
-import { TestableQAButtons } from './QAButtons';
-import { TestableAnswerModal } from './AnswerModal';
-import { TestableQuestionModal } from './QuestionModal';
-import { TestableAnswerContainer } from './AnswerContainer';
-import { TestableLoadMoreAnswers } from './LoadMoreAnswers';
-import { TestableQHelpfulAddAnswer } from './QHelpfulAddAnswer';
-import { TestableSignatureHelpfulReport } from './SignatureHelpfulReport';
+import QuestionsAndAnswers from './QuestionsAndAnswers';
+import QAHeader from './QAHeader';
+import SearchBar from './SearchBar';
+import QAList from './QAList';
+import QAButtons from './QAButtons';
+import AnswerModal from './AnswerModal';
+import QuestionModal from './QuestionModal';
+import AnswerContainer from './AnswerContainer';
+import LoadMoreAnswers from './LoadMoreAnswers';
+import QHelpfulAddAnswer from './QHelpfulAddAnswer';
+import SignatureHelpfulReport from './SignatureHelpfulReport';
 
 describe('<QuestionsAndAnswers />', () => {
   let QA, header, searchBar, list, buttons, answerForm, questionForm, answers, loadMoreAs, QHelpful, signatureHelpful;
@@ -64,17 +68,17 @@ describe('<QuestionsAndAnswers />', () => {
   let mockPhotos = ['photo1', 'photo2', 'photo3'];
 
   beforeEach(() => {
-    QA = shallow(<TestableQuestionsAndAnswers productId="28213"/>);
-    header = shallow(<TestableQAHeader />);
-    searchBar = shallow(<TestableSearchBar />);
-    list = shallow(<TestableQAList filteredQs={mockfilteredQs} answers={mockAnswers} />);
-    buttons = shallow(<TestableQAButtons />);
-    answerForm = shallow(<TestableAnswerModal photos={mockPhotos}/>);
-    questionForm = shallow(<TestableQuestionModal />);
-    answers = shallow(<TestableAnswerContainer photos={mockPhotos}/>);
-    loadMoreAs = shallow(<TestableLoadMoreAnswers />);
-    QHelpful = shallow(<TestableQHelpfulAddAnswer />);
-    signatureHelpful = shallow(<TestableSignatureHelpfulReport />);
+    QA = mount(<QuestionsAndAnswers productId="28213"/>);
+    header = mount(<QAHeader />);
+    searchBar = mount(<SearchBar />);
+    list = mount(<QAList filteredQs={mockfilteredQs} answers={mockAnswers} />);
+    buttons = mount(<QAButtons />);
+    answerForm = mount(<AnswerModal photos={mockPhotos}/>);
+    questionForm = mount(<QuestionModal />);
+    answers = mount(<AnswerContainer photos={mockPhotos}/>);
+    loadMoreAs = mount(<LoadMoreAnswers />);
+    QHelpful = mount(<QHelpfulAddAnswer />);
+    signatureHelpful = mount(<SignatureHelpfulReport />);
   });
 
   it('<QuestionsAndAnswers /> renders all elements', () => {
@@ -98,7 +102,7 @@ describe('<QuestionsAndAnswers />', () => {
   });
 
   it('<QAList /> renders provided no data', () => {
-    let faultyList = shallow(<TestableQAList />);
+    let faultyList = mount(<QAList />);
 
     expect(faultyList).toBeTruthy();
     expect(faultyList.find('#noQs')).toHaveLength(1);

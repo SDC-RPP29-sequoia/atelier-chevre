@@ -561,6 +561,4 @@ class QuestionsAndAnswers extends React.Component {
   }
 }
 
-export { QuestionsAndAnswers as TestableQuestionsAndAnswers };
-
 export default withTracker(QuestionsAndAnswers);

@@ -10,6 +10,4 @@ const SearchBar = (props) => {
   );
 };
 
-export { SearchBar as TestableSearchBar };
-
 export default withTracker(SearchBar);
