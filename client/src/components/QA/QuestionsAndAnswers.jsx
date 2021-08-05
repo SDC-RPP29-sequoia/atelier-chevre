@@ -146,6 +146,10 @@ class QuestionsAndAnswers extends React.Component {
       if (length <= 2) {
         displayedAnswers[i].style.display = 'none';
       }
+
+      if (length > 2) {
+        displayedAnswers[i].style.display = 'block';
+      }
     }
 
     let displayedQuestions = document.getElementsByClassName('question');
@@ -435,6 +439,10 @@ class QuestionsAndAnswers extends React.Component {
         document.getElementById('modal-answer').value = '';
         document.getElementById('modal-answer-nickname').value = '';
         document.getElementById('modal-answer-email').value = '';
+        document.getElementById('modal-photos').value = '';
+        this.setState({
+          photos: []
+        });
         this.getQuestions();
       })
       .catch(err => {
