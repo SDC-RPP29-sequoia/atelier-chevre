@@ -630,8 +630,8 @@ class QuestionsAndAnswers extends React.Component {
         filteredQs,
         filteredAs
       }, () => {
-        this.hideLoadMoreAnswers();
         this.highlightText();
+        this.hideLoadMoreAnswers();
       });
     }
   }
