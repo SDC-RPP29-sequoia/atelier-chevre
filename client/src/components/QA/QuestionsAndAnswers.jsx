@@ -537,6 +537,8 @@ class QuestionsAndAnswers extends React.Component {
   }
 
   highlightText() {
+    this.clearText();
+
     let term = this.state.searchVal;
 
     let answers = document.getElementsByClassName('answer-text');
@@ -555,6 +557,21 @@ class QuestionsAndAnswers extends React.Component {
       let newText = currText.replace(new RegExp(term, 'gi'), (match) => `<mark>${match}</mark>`);
 
       questions[i].innerHTML = newText;
+    }
+  }
+
+  clearText() {
+    let answers = document.getElementsByClassName('answer-text');
+    let regex = new RegExp('mark>', 'ig');
+
+    for (let i = 0; i < answers.length; i++) {
+      answers[i].innerHTML = answers[i].innerHTML.replace(regex, 'wbr>');
+    }
+
+    let questions = document.getElementsByClassName('question-text');
+
+    for (let i = 0; i < questions.length; i++) {
+      questions[i].innerHTML = questions[i].innerHTML.replace(regex, 'wbr>');
     }
   }
 
