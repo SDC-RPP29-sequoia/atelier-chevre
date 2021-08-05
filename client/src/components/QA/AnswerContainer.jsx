@@ -1,10 +1,9 @@
 import React from 'react';
 import SignatureHelpfulReport from './SignatureHelpfulReport';
-
 import withTracker from './QATrackerHOC';
 
 const AnswerContainer = (props) => {
-  let clickHandler = (e) => {
+  const clickHandler = (e) => {
     props.handleTrackingClick(e, e.currentTarget.className, 'Questions & Answers');
     props.openThumbnail(e);
   };

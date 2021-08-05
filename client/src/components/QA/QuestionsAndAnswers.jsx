@@ -61,7 +61,7 @@ class QuestionsAndAnswers extends React.Component {
         isLoaded: true
       });
 
-      let moreAnsweredQs = document.getElementById('more-answered-qs');
+      const moreAnsweredQs = document.getElementById('more-answered-qs');
 
       if (result.length <= 2) {
         moreAnsweredQs.style.display = 'none';
@@ -72,7 +72,7 @@ class QuestionsAndAnswers extends React.Component {
   getQuestions(cb, reset) {
     API.getQuestions(this.state.currProductId)
       .then(response => {
-        let questions = response.data.results;
+        const questions = response.data.results;
 
         if (cb) {
           cb(questions);
@@ -92,11 +92,11 @@ class QuestionsAndAnswers extends React.Component {
   }
 
   retrieveSortQAs(questions, reset) {
-    let answers = {};
+    const answers = {};
 
     questions.forEach(q => {
-      let ansObj = {};
-      let ansArray = [];
+      const ansObj = {};
+      const ansArray = [];
 
       for (let i in q.answers) {
         ansArray.push(q.answers[i]);
@@ -141,7 +141,7 @@ class QuestionsAndAnswers extends React.Component {
   }
 
   displayButtons() {
-    let displayedAnswers = document.getElementsByClassName('load-more-answers');
+    const displayedAnswers = document.getElementsByClassName('load-more-answers');
 
     for (let i = 0; i < displayedAnswers.length; i++) {
       let length = displayedAnswers[i].attributes['original-length'].value;
@@ -155,8 +155,8 @@ class QuestionsAndAnswers extends React.Component {
       }
     }
 
-    let displayedQuestions = document.getElementsByClassName('question');
-    let moreAnsweredQs = document.getElementById('more-answered-qs');
+    const displayedQuestions = document.getElementsByClassName('question');
+    const moreAnsweredQs = document.getElementById('more-answered-qs');
 
     if (displayedQuestions.length === this.state.originalLength) {
       moreAnsweredQs.style.display = 'none';
@@ -164,7 +164,7 @@ class QuestionsAndAnswers extends React.Component {
   }
 
   markHelpful(e) {
-    let clicked = e.target.getAttribute('clicked');
+    const clicked = e.target.getAttribute('clicked');
 
     let url, data;
 
@@ -246,9 +246,9 @@ class QuestionsAndAnswers extends React.Component {
   }
 
   addAnswer(e) {
-    let questionId = e.target.getAttribute('question_id');
-    let questionBody = e.target.getAttribute('question_body');
-    let productName = this.state.currProduct.name;
+    const questionId = e.target.getAttribute('question_id');
+    const questionBody = e.target.getAttribute('question_body');
+    const productName = this.state.currProduct.name;
 
     this.setState({
       productName,
@@ -260,7 +260,7 @@ class QuestionsAndAnswers extends React.Component {
   }
 
   addQuestion(e) {
-    let productName = this.state.currProduct.name;
+    const productName = this.state.currProduct.name;
 
     this.setState({
       productName
@@ -270,7 +270,7 @@ class QuestionsAndAnswers extends React.Component {
   }
 
   openThumbnail(e) {
-    let displayedImage = e.target.src;
+    const displayedImage = e.target.src;
 
     document.getElementsByTagName('body')[0].setAttribute('style', 'overflow-y: hidden');
 
@@ -294,9 +294,9 @@ class QuestionsAndAnswers extends React.Component {
 
     modal.style.display = 'block';
 
-    let closeBtn = document.querySelector('.modal .close-btn');
-    let closeBtn2 = document.querySelector('.modal-q .close-btn');
-    let closeBtn3 = document.querySelector('.modal-thumbnail .close-btn');
+    const closeBtn = document.querySelector('.modal .close-btn');
+    const closeBtn2 = document.querySelector('.modal-q .close-btn');
+    const closeBtn3 = document.querySelector('.modal-thumbnail .close-btn');
 
     closeBtn.onclick = () => {
       modal.style.display = 'none';
@@ -329,9 +329,9 @@ class QuestionsAndAnswers extends React.Component {
   }
 
   loadMoreAnswers(e) {
-    let text = e.target.parentElement.textContent;
-    let questionId = e.target.parentElement.getAttribute('question_id');
-    let originalLength = e.target.parentElement.getAttribute('original-length');
+    const text = e.target.parentElement.textContent;
+    const questionId = e.target.parentElement.getAttribute('question_id');
+    const originalLength = e.target.parentElement.getAttribute('original-length');
 
     let answers = this.state.answers;
 
@@ -386,10 +386,10 @@ class QuestionsAndAnswers extends React.Component {
   submitAnswer(e) {
     e.preventDefault();
 
-    let answer = document.getElementById('modal-answer').value;
-    let name = document.getElementById('modal-answer-nickname').value;
-    let email = document.getElementById('modal-answer-email').value;
-    let photos = document.getElementById('modal-photos').files;
+    const answer = document.getElementById('modal-answer').value;
+    const name = document.getElementById('modal-answer-nickname').value;
+    const email = document.getElementById('modal-answer-email').value;
+    const photos = document.getElementById('modal-photos').files;
 
     let photoFileNames = [];
 
@@ -405,9 +405,9 @@ class QuestionsAndAnswers extends React.Component {
       email
     };
 
-    let regexp = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    const regexp = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
-    let emailValid = regexp.test(email);
+    const emailValid = regexp.test(email);
 
     if (!answer || !name || !email || !emailValid) {
       let string = 'You must enter or address the following:\n';
@@ -454,7 +454,7 @@ class QuestionsAndAnswers extends React.Component {
   }
 
   photosValid(photos) {
-    let validFileExtensions = ['.jpg', '.jpeg', '.bmp', '.png', '.gif'];
+    const validFileExtensions = ['.jpg', '.jpeg', '.bmp', '.png', '.gif'];
 
     for (let i = 0; i < photos.length; i++) {
       let fileName = photos[i];
@@ -479,9 +479,9 @@ class QuestionsAndAnswers extends React.Component {
   submitQuestion(e) {
     e.preventDefault();
 
-    let question = document.getElementById('modal-question').value;
-    let name = document.getElementById('modal-question-nickname').value;
-    let email = document.getElementById('modal-question-email').value;
+    const question = document.getElementById('modal-question').value;
+    const name = document.getElementById('modal-question-nickname').value;
+    const email = document.getElementById('modal-question-email').value;
 
     let tracker = {
       question,
@@ -489,9 +489,9 @@ class QuestionsAndAnswers extends React.Component {
       email
     };
 
-    let regexp = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    const regexp = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
-    let emailValid = regexp.test(email);
+    const emailValid = regexp.test(email);
 
     if (!question || !name || !email || !emailValid) {
       let string = 'You must enter or address the following:\n';
@@ -561,14 +561,14 @@ class QuestionsAndAnswers extends React.Component {
   }
 
   clearText() {
-    let answers = document.getElementsByClassName('answer-text');
-    let regex = new RegExp('mark>', 'ig');
+    const answers = document.getElementsByClassName('answer-text');
+    const regex = new RegExp('mark>', 'ig');
 
     for (let i = 0; i < answers.length; i++) {
       answers[i].innerHTML = answers[i].innerHTML.replace(regex, 'wbr>');
     }
 
-    let questions = document.getElementsByClassName('question-text');
+    const questions = document.getElementsByClassName('question-text');
 
     for (let i = 0; i < questions.length; i++) {
       questions[i].innerHTML = questions[i].innerHTML.replace(regex, 'wbr>');
@@ -601,8 +601,8 @@ class QuestionsAndAnswers extends React.Component {
         return question.includes(text) || answers.includes(text);
       });
 
-      let originalAnswers = Object.assign({}, this.state.answers);
-      let filteredAs = Object.assign({}, originalAnswers);
+      const originalAnswers = Object.assign({}, this.state.answers);
+      const filteredAs = Object.assign({}, originalAnswers);
 
       let questionKeys = filteredQs.map(q => {
         return q.question_id;

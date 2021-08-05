@@ -1,6 +1,6 @@
 import React from 'react';
 
-let withTracker = (WrappedComponent) => {
+const withTracker = (WrappedComponent) => {
   return class extends React.Component {
     constructor(props) {
       super(props);
@@ -9,8 +9,8 @@ let withTracker = (WrappedComponent) => {
     }
 
     handleTrackingClick(e, element, widget) {
-      let time = new Date(e.timeStamp).toString();
-      let data = {
+      const time = new Date(e.timeStamp).toString();
+      const data = {
         element,
         widget,
         time

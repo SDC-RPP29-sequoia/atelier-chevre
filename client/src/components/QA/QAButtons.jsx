@@ -1,14 +1,13 @@
 import React from 'react';
-
 import withTracker from './QATrackerHOC';
 
 const QAButtons = (props) => {
-  let moreQsClickHandler = (e) => {
+  const moreQsClickHandler = (e) => {
     props.moreAnsweredQs(e);
     props.handleTrackingClick(e, e.currentTarget.id, 'Questions & Answers');
   };
 
-  let addQClickHandler = (e) => {
+  const addQClickHandler = (e) => {
     props.addQuestion(e);
     props.handleTrackingClick(e, e.currentTarget.id, 'Questions & Answers');
   };

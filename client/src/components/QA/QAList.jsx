@@ -46,17 +46,17 @@ class QAList extends React.Component {
   }
 
   convertDate(date) {
-    let ISOdate = new Date(date);
-    let month = ISOdate.toLocaleString('default', { month: 'long'});
-    let day = ISOdate.getDate();
-    let year = ISOdate.getFullYear();
-    let newDate = `${month} ${day}, ${year}`;
+    const ISOdate = new Date(date);
+    const month = ISOdate.toLocaleString('default', { month: 'long'});
+    const day = ISOdate.getDate();
+    const year = ISOdate.getFullYear();
+    const newDate = `${month} ${day}, ${year}`;
 
     return newDate;
   }
 
   render() {
-    let allAnswers = this.props.answers;
+    const allAnswers = this.props.answers;
 
     if (!this.props.answers || !this.props.filteredQs) {
       return (

@@ -1,9 +1,8 @@
 import React from 'react';
-
 import withTracker from './QATrackerHOC';
 
 const LoadMoreAnswers = (props) => {
-  let clickHandler = (e) => {
+  const clickHandler = (e) => {
     props.loadMoreAnswers(e);
     props.handleTrackingClick(e, e.currentTarget.className, 'Questions & Answers');
   };

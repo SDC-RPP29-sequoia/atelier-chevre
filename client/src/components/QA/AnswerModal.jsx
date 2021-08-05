@@ -1,9 +1,8 @@
 import React from 'react';
-
 import withTracker from './QATrackerHOC';
 
 const AnswerModal = (props) => {
-  let clickHandler = (e) => {
+  const clickHandler = (e) => {
     props.handleTrackingClick(e, e.currentTarget.className, 'Questions & Answers');
     props.openThumbnail(e);
   };
