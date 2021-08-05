@@ -156,7 +156,6 @@ class QuestionsAndAnswers extends React.Component {
     const moreAnsweredQs = document.getElementById('more-answered-qs');
 
     if (displayedQuestions.length >= this.state.originalLength) {
-      console.log('hi', displayedQuestions.length, this.state.originalLength);
       moreAnsweredQs.style.display = 'none';
     }
   }

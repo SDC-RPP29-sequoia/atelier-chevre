@@ -20,6 +20,18 @@ class QAList extends React.Component {
     this.convertDate = this.convertDate.bind(this);
   }
 
+  componentDidMount() {
+    let element = document.getElementById('qa-list');
+
+    if (element) {
+      element.onscroll = () => {
+        if (element.scrollHeight - element.scrollTop === element.clientHeight) {
+          this.props.moreAnsweredQs();
+        }
+      };
+    }
+  }
+
   sortAnswers(ans) {
     let answers = [];
     let sellerAnswers = [];
