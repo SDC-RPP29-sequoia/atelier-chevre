@@ -32,7 +32,9 @@ class QuestionsAndAnswers extends React.Component {
       searchVal: '',
       count: 2,
       originalLength: null,
-      displayedImage: ''
+      displayedImage: '',
+      unhighlightedAs: [],
+      unhighlightedQs: []
     };
 
     this.retrieveSortQAs = this.retrieveSortQAs.bind(this);
@@ -49,6 +51,7 @@ class QuestionsAndAnswers extends React.Component {
     this.submitQuestion = this.submitQuestion.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.openThumbnail = this.openThumbnail.bind(this);
+    this.highlightText = this.highlightText.bind(this);
   }
 
   componentDidMount() {
@@ -533,6 +536,28 @@ class QuestionsAndAnswers extends React.Component {
       });
   }
 
+  highlightText() {
+    let term = this.state.searchVal;
+
+    let answers = document.getElementsByClassName('answer-text');
+
+    for (let i = 0; i < answers.length; i++) {
+      let currText = answers[i].innerHTML;
+      let newText = currText.replace(new RegExp(term, 'gi'), (match) => `<mark>${match}</mark>`);
+
+      answers[i].innerHTML = newText;
+    }
+
+    let questions = document.getElementsByClassName('question-text');
+
+    for (let i = 0; i < questions.length; i++) {
+      let currText = questions[i].innerHTML;
+      let newText = currText.replace(new RegExp(term, 'gi'), (match) => `<mark>${match}</mark>`);
+
+      questions[i].innerHTML = newText;
+    }
+  }
+
   handleChange(e) {
     this.setState({
       searchVal: e.target.value
@@ -586,7 +611,10 @@ class QuestionsAndAnswers extends React.Component {
       this.setState({
         filteredQs,
         filteredAs
-      }, this.hideLoadMoreAnswers);
+      }, () => {
+        this.hideLoadMoreAnswers();
+        this.highlightText();
+      });
     }
   }
 
