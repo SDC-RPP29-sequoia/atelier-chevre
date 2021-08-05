@@ -206,6 +206,8 @@ class QuestionsAndAnswers extends React.Component {
         this.setState({
           filteredQs
         });
+
+        this.displayButtons();
       }, 1000);
     } else if (e.target.className === 'report-answer') {
       answerId = e.target.getAttribute('answer_id');
@@ -225,6 +227,8 @@ class QuestionsAndAnswers extends React.Component {
         this.setState({
           filteredAs
         });
+
+        this.displayButtons();
       }, 1000);
     }
 
@@ -343,6 +347,13 @@ class QuestionsAndAnswers extends React.Component {
     let loadMoreAnswers = document.getElementsByClassName('load-more-answers');
     for (let i = 0; i < loadMoreAnswers.length; i++) {
       loadMoreAnswers[i].style.display = 'none';
+    }
+  }
+
+  showLoadMoreAnswers() {
+    let loadMoreAnswers = document.getElementsByClassName('load-more-answers');
+    for (let i = 0; i < loadMoreAnswers.length; i++) {
+      loadMoreAnswers[i].style.display = 'block';
     }
   }
 
@@ -524,6 +535,7 @@ class QuestionsAndAnswers extends React.Component {
 
     if (!text || text === '' || text.length < 2) {
       this.getQuestions(null, true);
+      this.showLoadMoreAnswers();
     } else if (text.length > 2) {
       let filteredQs = questions.filter(q => {
         let question = q.question_body.toLowerCase();
