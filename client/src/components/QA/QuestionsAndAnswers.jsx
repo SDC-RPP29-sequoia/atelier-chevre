@@ -202,9 +202,11 @@ class QuestionsAndAnswers extends React.Component {
         }
       }
 
-      this.setState({
-        filteredQs
-      });
+      setTimeout(() => {
+        this.setState({
+          filteredQs
+        });
+      }, 1000);
     } else if (e.target.className === 'report-answer') {
       answerId = e.target.getAttribute('answer_id');
       data = { answerId };
@@ -219,9 +221,11 @@ class QuestionsAndAnswers extends React.Component {
         }
       }
 
-      this.setState({
-        filteredAs
-      });
+      setTimeout(() => {
+        this.setState({
+          filteredAs
+        });
+      }, 1000);
     }
 
     API.report(e.target.className, data)
