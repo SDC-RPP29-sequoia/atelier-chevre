@@ -10,7 +10,7 @@ const getProduct = (req, res) => {
       res.json(response.data);
     })
     .catch(err => {
-      console.log(err);
+      console.error(err);
     });
 };
 
@@ -24,7 +24,7 @@ const getProductStyles = (req, res) => {
       res.json(response.data);
     })
     .catch(err => {
-      console.log(err);
+      console.error(err);
     });
 };
 

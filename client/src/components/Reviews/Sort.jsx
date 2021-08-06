@@ -1,15 +1,16 @@
 import React from 'react';
 import API from './ReviewsAPIUtils';
+import ClickTracker from './ClickTracker';
 import './RatingsAndReviews.scss';
 
-const Sort = ({getReviewData, totalReviews}) => {
+const Sort = ({getReviewData, totalReviews, handleTrackingClick}) => {
 
   const handleSelected = (event) => {
     getReviewData(event.target.value);
   };
 
   const dropDownList = (
-    <select onChange={handleSelected} className="reviews-sort-dropdown">
+    <select onChange={handleSelected} className="reviews-sort-dropdown" onClick={(e) => handleTrackingClick(e, e.currentTarget.className)}>
       <option>relevence</option>
       <option>helpfulness</option>
       <option>newest</option>
@@ -21,4 +22,4 @@ const Sort = ({getReviewData, totalReviews}) => {
   );
 };
 
-export default Sort;
+export default ClickTracker(Sort);

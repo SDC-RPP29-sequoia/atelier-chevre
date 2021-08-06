@@ -31,7 +31,6 @@ export default {
     return new Promise((resolve, reject) => {
       axios.get(`${url}/api/reviews/${id}`)
         .then(response => {
-          console.log(response);
           resolve(response.data);
         })
         .catch(err => {
