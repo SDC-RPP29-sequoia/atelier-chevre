@@ -11,6 +11,7 @@ import ProductBreakdown from './ProductBreakdown';
 import ReviewsModal from './ReviewsModal';
 import NewReviewForm from './NewReviewForm';
 import API from './ReviewsAPIUtils';
+import ClickTracker from './ClickTracker';
 
 class RatingsAndReviews extends React.Component {
   constructor(props) {
@@ -236,9 +237,15 @@ class RatingsAndReviews extends React.Component {
               </div>
             </div>
             {this.state.displayedReviewsCount < compareLength &&
-              <button className="btn" onClick={() => this.handleMoreReviewsClick()}>MORE REVIEWS</button>
+              <button className="btn more-reviews-btn" onClick={(e) => {
+                this.handleMoreReviewsClick();
+                this.props.handleTrackingClick(e, e.currentTarget.className);
+              }}>MORE REVIEWS</button>
             }
-            <button className="btn" onClick={this.handleAddNewReview}>ADD A REVIEW <span className="plus-icon">+</span></button>
+            <button className="btn add-reviews-btn" onClick={(e) => {
+              this.handleAddNewReview();
+              this.props.handleTrackingClick(e, e.currentTarget.className);
+            }}>ADD A REVIEW <span className="plus-icon">+</span></button>
           </div>
         </div>
       </div>
@@ -246,4 +253,4 @@ class RatingsAndReviews extends React.Component {
   }
 }
 
-export default RatingsAndReviews;
+export default ClickTracker(RatingsAndReviews);

@@ -1,4 +1,5 @@
 import React from 'react';
+import ClickTracker from './ClickTracker';
 
 class RatingsBreakdown extends React.Component {
   constructor(props) {
@@ -35,7 +36,12 @@ class RatingsBreakdown extends React.Component {
       breakdownRow.push(<div key={(i + j) * 12} className="review-label">{reviewCounter[i]}</div>);
 
       if (percentOfReviews !== 0) {
-        ratingsRow = <div onClick={() => this.props.handleStarsNumberClick(i)} className="ratings-breakdown-row reviews-number-link">{breakdownRow}</div>;
+        ratingsRow = <div
+          onClick={(e) => {
+            this.props.handleStarsNumberClick(i);
+            this.props.handleTrackingClick(e, e.currentTarget.className);
+          }}
+          className="ratings-breakdown-row reviews-number-link">{breakdownRow}</div>;
       } else {
         ratingsRow = <div className="ratings-breakdown-row reviews-number-nolink">{breakdownRow}</div>;
       }
@@ -56,4 +62,4 @@ class RatingsBreakdown extends React.Component {
   }
 }
 
-export default RatingsBreakdown;
+export default ClickTracker(RatingsBreakdown);

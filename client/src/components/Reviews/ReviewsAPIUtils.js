@@ -35,5 +35,9 @@ export default {
 
   submitFormData: (formData, config) => {
     return axios.post('/api/reviews', formData, config);
+  },
+
+  sendClickData: (clickData) => {
+    return axios.post('/api/interactions/clickData', clickData);
   }
 };
