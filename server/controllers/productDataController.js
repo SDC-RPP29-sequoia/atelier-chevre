@@ -21,13 +21,18 @@ const getProductData = async (req, res) => {
     if (productId !== 'undefined') {
       const reviews = await axios.get(`${url}reviews?product_id=${productId}&count=500`, headers);
       const reviewsMeta = await axios.get(`${url}reviews/meta?product_id=${productId}`, headers);
+      // /products/:id
+      // /products/:id/styles
+      // /qa/questions/:id
+
 
       const productData = {
         productId,
         reviews: reviews.data,
         reviewsMeta: reviewsMeta.data
-        // questions,
-        // product stuff
+        // product:
+        // productStyles:
+        // questios:
       };
 
       fs.readFile(path.resolve( __dirname, '../../client/public/index.html' ), 'utf-8', (err, data) => {

@@ -5,7 +5,8 @@ import { App } from './components/App/App.jsx';
 
 const { productId, reviews, reviewsMeta } = window.__PRODUCT_ID__;
 
-ReactDOM.hydrate(<App productId={productId}
+ReactDOM.hydrate(<App
+  productId={productId}
   reviews={reviews}
   reviewsMeta={reviewsMeta}
 
