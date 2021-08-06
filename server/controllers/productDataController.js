@@ -10,7 +10,7 @@ const { App } = require('../../client/src/components/App/App.jsx');
 const getProductData = async (req, res) => {
   try {
     const productId = req.params.productId;
-    const url = 'https://app-hrsei-api.herokuapp.com/api/fec2/hr-rpp/';
+    const url = 'https://app-hrsei-api.herokuapp.com/api/fec2/hr-rpp';
     const headers = {
       headers: {
         'Authorization': process.env.TOKEN
@@ -19,19 +19,21 @@ const getProductData = async (req, res) => {
 
     // FETCH REVIEWS
     if (productId !== 'undefined') {
-      const reviews = await axios.get(`${url}reviews?product_id=${productId}&count=500`, headers);
-      const reviewsMeta = await axios.get(`${url}reviews/meta?product_id=${productId}`, headers);
-      // /products/:id
-      // /products/:id/styles
-      // /qa/...
+      const getReviews = axios.get(`${url}/reviews?product_id=${productId}&count=500sort=relevence`, headers);
+      const reviewsMeta = axios.get(`${url}/reviews/meta?product_id=${productId}`, headers);
+      const product = axios.get(`${url}/products/${productId}`, headers);
+      const productStyles = axios.get(`${url}/products/${productId}/styles`, headers);
+      const questions = axios.get(`${url}/qa/questions?product_id=${productId}&page=1&count=100`, headers);
+
+      const apiData = await Promise.all([getReviews, reviewsMeta, product, productStyles, questions]);
 
       const productData = {
         productId,
-        reviews: reviews.data,
-        reviewsMeta: reviewsMeta.data
-        // product:
-        // productStyles:
-        // questions:
+        reviews: apiData[0].data,
+        reviewsMeta: apiData[1].data,
+        product: apiData[2].data,
+        productStyles: apiData[3].data,
+        questions: apiData[4].data
       };
 
       fs.readFile(path.resolve( __dirname, '../../client/public/index.html' ), 'utf-8', (err, data) => {
@@ -39,8 +41,15 @@ const getProductData = async (req, res) => {
           console.log(err);
           return res.status(500).send('Error');
         }
+        const { reviews, reviewsMeta, product, productStyles, questions} = productData;
 
-        let appHTML = ReactDOMServer.renderToString(<App reviews={productData.reviews} reviewsMeta={productData.reviewsMeta}/>);
+        let appHTML = ReactDOMServer.renderToString(<App
+          reviews={reviews}
+          reviewsMeta={reviewsMeta}
+          product={product}
+          productStyles={productStyles}
+          questions={questions}
+        />);
 
         res.contentType('text/html');
         res.status(200);

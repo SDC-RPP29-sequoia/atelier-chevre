@@ -121,6 +121,7 @@ class ProductOverview extends React.Component {
   }
 
   render() {
+    console.log('Product Overview was rendered');
     return (
       <div id="product-overview">
         <div id="announcement-banner">

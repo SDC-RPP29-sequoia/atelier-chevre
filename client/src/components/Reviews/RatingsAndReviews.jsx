@@ -166,7 +166,7 @@ class RatingsAndReviews extends React.Component {
   }
 
   render () {
-    // need to find a way to eliminate this section for SSR purposes
+    console.log('Ratings and Reviews was rendered');
     if (this.state.currentProductReviews.length === 0) {
       return (
         <div id="reviews-section">
@@ -204,13 +204,11 @@ class RatingsAndReviews extends React.Component {
         review={review}
       />;
     });
-
-    console.log('R&R was rendered');
     return (
       <div id="reviews-section">
         {this.state.displayForm &&
           <NewReviewForm
-            currentProductName={this.state.currentProductName}
+            currentProductName={this.props.productName}
             productId={this.props.productId}
             closeForm={this.closeForm}
             currentProductMeta={this.state.currentProductMeta}/>

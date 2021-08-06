@@ -31,12 +31,21 @@ export class App extends React.Component {
     return (
       <div className="wrapper">
         <Header />
-        <ProductOverview productId={this.props.productId} addToBag={this.addToBag} />
-        <QuestionsAndAnswers productId={this.props.productId}/>
+        <ProductOverview
+          productId={this.props.productId}
+          product = {this.props.product}
+          productStyles = {this.props.productStyles}
+          addToBag={this.addToBag}
+        />
+        <QuestionsAndAnswers
+          productId={this.props.productId}
+          questions={this.props.questions}
+        />
         <RatingsAndReviews
           productId={this.props.productId}
           reviews={this.props.reviews}
           reviewsMeta={this.props.reviewsMeta}
+          productName={this.props.product.name}
         />
       </div>
     );

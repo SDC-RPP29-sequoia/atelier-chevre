@@ -194,7 +194,10 @@ class NewReviewForm extends React.Component {
         <form className="review-form">
           <div className="review-form-row">
             <div></div>
-            <h3 >WRITE YOUR REVIEW</h3>
+            <div>
+              <h3 >WRITE YOUR REVIEW</h3>
+              <h4>About the {this.props.currentProductName}</h4>
+            </div>
           </div>
           <div id="review-rating" className="review-form-row">
             <label className="label">Overall Rating:</label>
