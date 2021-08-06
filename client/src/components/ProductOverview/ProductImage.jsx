@@ -44,7 +44,7 @@ const ProductImage = (props) => {
         </div>
         <div id="images" ref={imagesRef}>
           {props.images?.map((photo, ind) => (
-            <div className={`${ind === currentImageIndex ? 'selected' : ''}`}>
+            <div className={`${ind === currentImageIndex ? 'selected' : ''}`} key={photo.url}>
               <div
                 className="alt-image bg-image"
                 style={{ backgroundImage: `url(${photo.thumbnail_url})` }}

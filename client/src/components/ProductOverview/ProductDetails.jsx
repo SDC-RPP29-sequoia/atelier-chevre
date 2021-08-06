@@ -134,7 +134,7 @@ const ProductDetails = (props) => {
 
       <div className="group horizontal gapped stretch">
         <div className="control-wrapper button" onClick={handleAddToBag}>
-          <p style={{ display: props.selectedSku?.quantity ? 'flex' : 'none' }}><b>ADD TO CART</b></p>
+          <p style={{ display: props.selectedSku?.quantity ? 'flex' : 'none' }} id="add-to-bag"><b>ADD TO BAG</b></p>
         </div>
         <div className="control-wrapper">
           <AiOutlineStar />
