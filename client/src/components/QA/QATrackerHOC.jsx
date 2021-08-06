@@ -9,14 +9,14 @@ const withTracker = (WrappedComponent) => {
     }
 
     handleTrackingClick(e, element, widget) {
-      const time = new Date(e.timeStamp).toString();
+      const time = new Date().toString();
       const data = {
         element,
         widget,
         time
       };
 
-      console.log('click data', data);
+      console.log(data);
     }
 
     render() {
