@@ -10,6 +10,7 @@ import CustomSelect from './CustomSelect.jsx';
 import ProductImage from './ProductImage.jsx';
 import ProductDetails from './ProductDetails.jsx';
 import ProductExtra from './ProductExtra.jsx';
+import Tracked from './ClickTracker.jsx';
 
 import '../../styles.scss';
 import './ProductOverview.scss';
@@ -140,4 +141,4 @@ class ProductOverview extends React.Component {
   }
 }
 
-export default ProductOverview;
+export default Tracked(ProductOverview, 'ProductOverview');

@@ -1,5 +1,6 @@
 import React from 'react';
 import Stars from '../Stars/Stars';
+import ClickTracker from './ClickTracker';
 import API from './ReviewsAPIUtils';
 import './RatingsAndReviews.scss';
 import { GrCheckmark } from 'react-icons/gr';
@@ -24,7 +25,10 @@ class ReviewContent extends React.Component {
     const { review, displayImage, handleHelpfulClick, handleReportClick } = this.props;
     const date = new Date(review.date);
     const photos = review.photos.map(photo => {
-      return <img onClick={() => displayImage(photo.url)} className="reviews-thumbnail" key={photo.id} src={photo.url}></img>;
+      return <img onClick={(e) => {
+        displayImage(photo.url);
+        this.props.handleTrackingClick(e, e.currentTarget.className);
+      }} className="reviews-thumbnail" key={photo.id} src={photo.url}></img>;
     });
 
     let reviewBody;
@@ -44,7 +48,10 @@ class ReviewContent extends React.Component {
         <div className="review-summary">{review.summary}</div>
         <div className="review-body">{reviewBody}</div>
         {condensed &&
-          <div className="review-show-more" onClick={this.handleShowMoreClick}>Show More</div>
+          <div className="review-show-more" onClick={(e) => {
+            this.handleShowMoreClick();
+            this.props.handleTrackingClick(e, e.currentTarget.className);
+          }}>Show More</div>
         }
         {review.photos.length > 0 &&
           <div className="review-photos-thumbnails">
@@ -64,16 +71,22 @@ class ReviewContent extends React.Component {
           className="helpful">Helpful?
           <span
             className="review-content-method"
-            onClick={() => handleHelpfulClick(review.review_id)}>Yes</span>
+            onClick={(e) => {
+              handleHelpfulClick(review.review_id);
+              this.props.handleTrackingClick(e, e.currentTarget.className);
+            }}>Yes</span>
           <span> ({review.helpfulness})</span>
           <span className="review-content-separator">|</span>
           <span
             className="review-content-method review-report"
-            onClick={() => handleReportClick(review.review_id)}>Report</span>
+            onClick={(e) => {
+              handleReportClick(review.review_id);
+              this.props.handleTrackingClick(e, e.currentTarget.className);
+            }}>Report</span>
         </div>
       </div>
     );
   }
 }
 
-export default ReviewContent;
+export default ClickTracker(ReviewContent);
