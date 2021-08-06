@@ -1,4 +1,5 @@
 import React from 'react';
+import API from './QAAPIUtils';
 
 const withTracker = (WrappedComponent) => {
   return class extends React.Component {
@@ -16,7 +17,10 @@ const withTracker = (WrappedComponent) => {
         time
       };
 
-      console.log(data);
+      API.sendClickData(data)
+        .catch(err => {
+          console.log(err);
+        });
     }
 
     render() {

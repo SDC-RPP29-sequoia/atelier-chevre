@@ -35,5 +35,9 @@ export default {
     }
 
     return axios.put(url, data);
+  },
+
+  sendClickData: (clickData) => {
+    return axios.post('/api/interactions/clickData', clickData);
   }
 };
