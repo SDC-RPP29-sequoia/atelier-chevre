@@ -10,7 +10,7 @@ const ProductExtra = (props) => (
     <div id="product-features">
 
       {props.product?.features?.map(feature => (
-        <div className="feature">
+        <div className="feature" key={feature.value}>
           <div className="check">
             <AiOutlineCheck />
           </div>
