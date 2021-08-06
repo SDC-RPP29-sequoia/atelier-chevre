@@ -141,4 +141,5 @@ class ProductOverview extends React.Component {
   }
 }
 
-export default Tracked(ProductOverview, 'ProductOverview');
+export default ProductOverview;
+export const tracked = Tracked(ProductOverview, 'ProductOverview');
