@@ -1,5 +1,6 @@
 import React from 'react';
 import FormStars from './FormStars';
+import ClickTracker from './ClickTracker';
 import API from './ReviewsAPIUtils';
 
 const inititalState = {
@@ -203,8 +204,18 @@ class NewReviewForm extends React.Component {
           <div id="review-recommend" className="review-form-row">
             <label className="label" onChange={this.handleChange}>Do you recommended this product?</label>
             <div>
-              <input type="radio" value="Yes" name="recommend" onChange={this.handleChange}/> Yes
-              <input className="radio" type="radio" value="No" name="recommend" onChange={this.handleChange}/> No
+              <input type="radio" value="Yes" name="recommend"
+                onChange={this.handleChange}
+                onClick={(e) => {
+                  this.props.handleTrackingClick(e, e.currentTarget.className);
+                }}
+              /> Yes
+              <input className="radio" type="radio" value="No" name="recommend"
+                onChange={this.handleChange}
+                onClick={(e) => {
+                  this.props.handleTrackingClick(e, e.currentTarget.className);
+                }}
+              /> No
             </div>
           </div>
 
@@ -358,7 +369,9 @@ class NewReviewForm extends React.Component {
           {selectedFileCount < 5 &&
           <div id="review-files" className="review-form-row">
             <label className="label">Upload up to 5 images:</label>
-            <input type="file" multiple onChange={(e) => this.handleFiles(e)}/>
+            <input type="file" multiple
+              onChange={(e) => this.handleFiles(e)}
+              onClick={(e) => this.props.handleTrackingClick(e, e.currentTarget.className)}/>
           </div>
           }
 
@@ -403,7 +416,10 @@ class NewReviewForm extends React.Component {
 
           <div className="review-form-row">
             <div></div>
-            <input type="submit" className="btn" value="Submit Review" onClick={() => this.handleSubmit(characteristicChoices, characteristicIds)}/>
+            <input type="submit" className="btn submit-review" value="Submit Review" onClick={(e) => {
+              this.handleSubmit(characteristicChoices, characteristicIds);
+              this.props.handleTrackingClick(e, e.currentTarget.className);
+            }}/>
           </div>
 
         </form>
@@ -413,4 +429,4 @@ class NewReviewForm extends React.Component {
 
 }
 
-export default NewReviewForm;
+export default ClickTracker(NewReviewForm);
