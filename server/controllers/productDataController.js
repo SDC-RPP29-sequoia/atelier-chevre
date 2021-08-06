@@ -23,8 +23,7 @@ const getProductData = async (req, res) => {
       const reviewsMeta = await axios.get(`${url}reviews/meta?product_id=${productId}`, headers);
       // /products/:id
       // /products/:id/styles
-      // /qa/questions/:id
-
+      // /qa/...
 
       const productData = {
         productId,
@@ -32,7 +31,7 @@ const getProductData = async (req, res) => {
         reviewsMeta: reviewsMeta.data
         // product:
         // productStyles:
-        // questios:
+        // questions:
       };
 
       fs.readFile(path.resolve( __dirname, '../../client/public/index.html' ), 'utf-8', (err, data) => {
