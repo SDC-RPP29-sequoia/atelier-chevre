@@ -36,9 +36,7 @@ class RatingsAndReviews extends React.Component {
     this.closeForm = this.closeForm.bind(this);
     this.handleHelpfulClick = this.handleHelpfulClick.bind(this);
     this.handleReportClick = this.handleReportClick.bind(this);
-
     this.handleAddNewReview = this.handleAddNewReview.bind(this);
-
   }
 
   componentDidMount () {
@@ -53,7 +51,7 @@ class RatingsAndReviews extends React.Component {
     let reviews, compareLength;
 
     if (filtered) {
-      this.state.currentProductReviews.forEach(review => {
+      this.state.currentProductReviews.forEach(review => { // could refactor to use reviews in props instead
         if (this.state.filterReviews[review.rating - 1]) {
           reviewHolder.push(review);
         }
@@ -61,8 +59,8 @@ class RatingsAndReviews extends React.Component {
       reviews = reviewHolder.slice(0, this.state.displayedReviewsCount);
       compareLength = reviewHolder.length;
     } else {
-      reviews = this.state.currentProductReviews.slice(0, this.state.displayedReviewsCount);
-      compareLength = this.state.currentProductReviews.length;
+      reviews = this.state.currentProductReviews.slice(0, this.state.displayedReviewsCount); // also props here
+      compareLength = this.state.currentProductReviews.length; // also props here
     }
 
     return [reviews, compareLength];
@@ -168,6 +166,7 @@ class RatingsAndReviews extends React.Component {
   }
 
   render () {
+    // need to find a way to eliminate this section for SSR purposes
     if (this.state.currentProductReviews.length === 0) {
       return (
         <div id="reviews-section">
@@ -189,8 +188,8 @@ class RatingsAndReviews extends React.Component {
       );
     }
 
-    const averageRating = this.getAverageRating(this.state.currentProductReviews);
-    const percentRecommended = this.getPercentRecommended(this.state.currentProductReviews);
+    const averageRating = this.getAverageRating(this.state.currentProductReviews); // could use props, need to change to use Meta anyway
+    const percentRecommended = this.getPercentRecommended(this.state.currentProductReviews); // could use props, need to change to use Meta anyway
     const totalReviews = this.state.currentProductReviews.length;
     const filtered = this.state.filterReviews.includes(1);
     const [ displayedReviews, compareLength ] = this.getReviewsToDisplay(filtered);
@@ -206,7 +205,7 @@ class RatingsAndReviews extends React.Component {
       />;
     });
 
-
+    console.log('R&R was rendered');
     return (
       <div id="reviews-section">
         {this.state.displayForm &&

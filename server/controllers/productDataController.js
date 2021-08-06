@@ -40,7 +40,7 @@ const getProductData = async (req, res) => {
           return res.status(500).send('Error');
         }
 
-        let appHTML = ReactDOMServer.renderToString(<App/>);
+        let appHTML = ReactDOMServer.renderToString(<App reviews={productData.reviews} reviewsMeta={productData.reviewsMeta}/>);
 
         res.contentType('text/html');
         res.status(200);

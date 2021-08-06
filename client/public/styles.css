@@ -883,12 +883,13 @@ button.underlined {
   display: flex;
   justify-content: center;
 }
-#product-overview #product-extra > div > div {
-  padding: 0 2rem;
-}
-#product-overview #product-extra > div > div:nth-of-type(1) {
+#product-overview #product-extra > div #product-description {
   border-right: 1px solid #454545;
   border-width: 2px;
+  flex-direction: column;
+}
+#product-overview #product-extra > div > div {
+  padding: 0 2rem;
 }
 #product-overview #product-extra > div p {
   font-size: 0.8rem;
@@ -905,11 +906,11 @@ button.underlined {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  gap: 10px;
+  gap: 0.5rem;
 }
 #product-overview #product-extra > div #product-features .feature {
   display: flex;
-  gap: 10px;
+  gap: 0.5rem;
   align-items: center;
 }
 #product-overview #product-extra > div #product-features .feature .check {
