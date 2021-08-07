@@ -188,8 +188,8 @@ class RatingsAndReviews extends React.Component {
       );
     }
 
-    const averageRating = this.getAverageRating(this.state.currentProductReviews); // could use props, need to change to use Meta anyway
-    const percentRecommended = this.getPercentRecommended(this.state.currentProductReviews); // could use props, need to change to use Meta anyway
+    const averageRating = this.getAverageRating(this.state.currentProductReviews);
+    const percentRecommended = this.getPercentRecommended(this.state.currentProductReviews);
     const totalReviews = this.state.currentProductReviews.length;
     const filtered = this.state.filterReviews.includes(1);
     const [ displayedReviews, compareLength ] = this.getReviewsToDisplay(filtered);

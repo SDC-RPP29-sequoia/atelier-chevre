@@ -15,7 +15,6 @@ export class App extends React.Component {
       currentProduct: {},
       bag: []
     };
-
     this.addToBag = this.addToBag.bind(this);
   }
 
@@ -27,7 +26,7 @@ export class App extends React.Component {
 
 
   render() {
-
+    console.log('App was rendered');
     return (
       <div className="wrapper">
         <Header />

@@ -23,7 +23,15 @@ class ReviewContent extends React.Component {
 
   render () {
     const { review, displayImage, handleHelpfulClick, handleReportClick } = this.props;
+
+    const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
     const date = new Date(review.date);
+    const month = monthNames[date.getMonth()];
+    const day = date.getDay();
+    const year = date.getFullYear();
+
+
+
     const photos = review.photos.map(photo => {
       return <img onClick={(e) => {
         displayImage(photo.url);
@@ -43,7 +51,7 @@ class ReviewContent extends React.Component {
       <div className="review-content">
         <div className="review-content-top-section">
           <Stars average={review.rating}/>
-          <span className="review-content-user-and-date">{review.reviewer_name}, {date.toLocaleDateString()}</span>
+          <span className="review-content-user-and-date">{review.reviewer_name}, {month} {day}, {year}</span>
         </div>
         <div className="review-summary">{review.summary}</div>
         <div className="review-body">{reviewBody}</div>

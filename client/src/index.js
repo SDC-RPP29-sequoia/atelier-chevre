@@ -5,6 +5,9 @@ import { App } from './components/App/App.jsx';
 
 const { productId, reviews, reviewsMeta, product, productStyles, questions } = window.__PRODUCT_ID__;
 
+
+console.log('-----before hydrate-----');
+
 ReactDOM.hydrate(<App
   productId={productId}
   reviews={reviews}
@@ -14,3 +17,4 @@ ReactDOM.hydrate(<App
   questions={questions}
 />, document.getElementById('app'));
 
+console.log('-----after hydrate-----');
