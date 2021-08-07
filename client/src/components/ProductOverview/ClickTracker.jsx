@@ -32,7 +32,7 @@ const ClickTracker = (WrappedComponent, moduleName) => {
 
     render() {
       return (
-        <div class="click-tracker" onClick={this.clickHandler}>
+        <div className="click-tracker" onClick={this.clickHandler}>
           <WrappedComponent {...this.props} />
         </div>
       );

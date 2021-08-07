@@ -129,7 +129,7 @@ class ProductOverview extends React.Component {
         </div>
 
         <div id="product-main" className={`${this.state.fullscreen ? 'fullscreen' : ''}`}>
-          <ProductImage currentImageUrl={this.state.currentImageUrl} images={this.state.images} toggleFullScreen={this.toggleFullScreen} switchImage={this.switchImage} onChange={this.onChange} />
+          <ProductImage currentImageUrl={this.state.currentImageUrl} images={this.state.images} toggleFullScreen={this.toggleFullScreen} switchImage={this.switchImage} onChange={this.onChange} fullscreen={this.state.fullscreen} />
           <ProductDetails addToBag={this.props.addToBag} reviews={this.state.reviews} product={this.state.product} productStyles={this.state.productStyles} selectedSku={this.state.selectedSku} onChange={this.onChange} selectedStyle={this.state.selectedStyle} changeSku={this.changeSku} productStyles={this.state.productStyles} changeStyle={this.changeStyle} selectedQuantity={this.state.selectedQuantity} />
         </div>
 
