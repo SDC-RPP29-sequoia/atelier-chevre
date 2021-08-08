@@ -83,8 +83,8 @@ class RatingsAndReviews extends React.Component {
     return averageRating.toFixed(1);
   }
 
-  getPercentRecommended (reviews) {
-    const { recommended } = this.state.currentProductMeta;
+  getPercentRecommended (meta) {
+    const { recommended } = meta;
     const total = parseInt(recommended.false) + parseInt(recommended.true);
     const percentRecommended = (recommended.true / total) * 100;
 
@@ -187,7 +187,7 @@ class RatingsAndReviews extends React.Component {
     }
 
     const averageRating = this.getAverageRating(this.state.currentProductReviews);
-    const percentRecommended = this.getPercentRecommended(this.state.currentProductReviews);
+    const percentRecommended = this.getPercentRecommended(this.state.currentProductMeta);
     const totalReviews = this.state.currentProductReviews.length;
     const filtered = this.state.filterReviews.includes(1);
     const [ displayedReviews, compareLength ] = this.getReviewsToDisplay(filtered);
@@ -252,5 +252,6 @@ class RatingsAndReviews extends React.Component {
     );
   }
 }
+export { RatingsAndReviews as TestRatingsAndReviews };
 
 export default ClickTracker(RatingsAndReviews);
