@@ -1,6 +1,5 @@
 import React from 'react';
 import './Header.scss';
-import { AiOutlineSearch } from 'react-icons/ai';
 
 class Header extends React.Component {
   constructor(props) {
