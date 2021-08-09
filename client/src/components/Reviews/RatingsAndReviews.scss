@@ -60,11 +60,12 @@
       }
 
       .review-show-more {
+        font-weight: bold;
         font-size: .85em;
         margin-bottom: 2rem;
         cursor: pointer;
         text-decoration: underline;
-        color: #797979;
+        color: #292929;
       }
     }
 
@@ -79,7 +80,7 @@
     }
 
     .helpful {
-      color: rgb(121, 121, 121);
+      color: #797979;
       font-size: .7rem;
       margin-bottom: 1rem;
     }
@@ -90,7 +91,7 @@
     }
 
     .review-content-user-and-date {
-      color: rgb(121, 121, 121);
+      color: #292929;
       font-size: .85rem;
       place-self: end;
     }
