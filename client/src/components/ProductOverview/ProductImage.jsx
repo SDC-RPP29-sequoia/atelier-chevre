@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import ReactDOM from 'React-dom';
+import ReactDOM from 'react-dom';
 import { AiOutlineArrowLeft, AiOutlineArrowRight, AiOutlineDown, AiOutlineUp, AiOutlineBorder, AiOutlineMinusSquare } from 'react-icons/ai';
 import { MdFullscreen } from 'react-icons/md';
 
