@@ -1,8 +1,9 @@
 import React from 'react';
+import withTracker from './QATrackerHOC';
 
 const SignatureHelpfulReport = (props) => {
   return (
-    <div className="signature-helpful-report">
+    <div className="signature-helpful-report" onClick={(e) => { props.handleTrackingClick(e, e.currentTarget.className, 'Questions & Answers'); }}>
       <div>by&nbsp;</div>
       <div className="author-date" dangerouslySetInnerHTML={{__html: props.aName}}></div>
       <div>, {props.date} | Helpful?&nbsp;</div>
@@ -13,4 +14,4 @@ const SignatureHelpfulReport = (props) => {
   );
 };
 
-export default SignatureHelpfulReport;
+export default withTracker(SignatureHelpfulReport);

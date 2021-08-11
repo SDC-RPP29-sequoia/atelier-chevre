@@ -7,15 +7,26 @@ import QAButtons from './QAButtons';
 import AnswerModal from './AnswerModal';
 import QuestionModal from './QuestionModal';
 
+import withTracker from './QATrackerHOC';
+
 class QAList extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-
-    };
 
     this.sortAnswers = this.sortAnswers.bind(this);
     this.convertDate = this.convertDate.bind(this);
+  }
+
+  componentDidMount() {
+    let element = document.getElementById('qa-list');
+
+    if (element) {
+      element.onscroll = () => {
+        if (element.scrollHeight - element.scrollTop === element.clientHeight) {
+          this.props.moreAnsweredQs();
+        }
+      };
+    }
   }
 
   sortAnswers(ans) {
@@ -44,17 +55,23 @@ class QAList extends React.Component {
   }
 
   convertDate(date) {
-    let ISOdate = new Date(date);
-    let month = ISOdate.toLocaleString('default', { month: 'long'});
-    let day = ISOdate.getDate();
-    let year = ISOdate.getFullYear();
-    let newDate = `${month} ${day}, ${year}`;
+    const ISOdate = new Date(date);
+    const month = ISOdate.toLocaleString('default', { month: 'long'});
+    const day = ISOdate.getDate();
+    const year = ISOdate.getFullYear();
+    const newDate = `${month} ${day}, ${year}`;
 
     return newDate;
   }
 
   render() {
-    let allAnswers = this.props.answers;
+    const allAnswers = this.props.answers;
+
+    if (!this.props.answers || !this.props.filteredQs) {
+      return (
+        <div id="noQs">No questions or answers.</div>
+      );
+    }
 
     return (
       <div id="qa-list">{this.props.filteredQs.map((q, i) => {
@@ -66,7 +83,7 @@ class QAList extends React.Component {
 
         return (
           <div key={q.question_date + i} className="qa" id="list">
-            <div className="question"><b>Q: {q.question_body}</b></div>
+            <div className="question" onClick={(e) => { this.props.handleTrackingClick(e, e.currentTarget.className, 'Questions & Answers'); }}><b>Q: <span className="question-text">{q.question_body}</span></b></div>
             <div className="answer-wrapper">{answers.map(a => {
               let date = this.convertDate(a.date);
               let aName = a.answerer_name;
@@ -76,7 +93,7 @@ class QAList extends React.Component {
               }
 
               return (
-                <AnswerContainer key={a.id} body={a.body} photos={a.photos} aName={aName} date={date} markHelpful={this.props.markHelpful} answer_id={a.id} helpfulness={a.helpfulness} report={this.props.report} />
+                <AnswerContainer key={a.id} body={a.body} photos={a.photos} aName={aName} date={date} markHelpful={this.props.markHelpful} answer_id={a.id} helpfulness={a.helpfulness} report={this.props.report} openThumbnail={this.props.openThumbnail} />
               );
             })}
             <LoadMoreAnswers loadMoreAnswers={this.props.loadMoreAnswers} question_id={q.question_id} originalLength={originalLength} />
@@ -90,4 +107,4 @@ class QAList extends React.Component {
   }
 }
 
-export default QAList;
+export default withTracker(QAList);
