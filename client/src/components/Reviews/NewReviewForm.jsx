@@ -40,11 +40,11 @@ class NewReviewForm extends React.Component {
     const errors = [];
 
     if (!this.state.rating) {
-      errors.push(<li>You must choose a star rating</li>);
+      errors.push(<li key={this.state.rating}>You must choose a star rating</li>);
     }
 
     if (this.state.recommend === '') {
-      errors.push(<li>You must choose a recommendation</li>);
+      errors.push(<li key={this.state.recommend}>You must choose a recommendation</li>);
     }
 
     characteristicChoices.forEach(choice => {
@@ -54,23 +54,23 @@ class NewReviewForm extends React.Component {
     });
 
     if (!this.state.summary) {
-      errors.push(<li>You must include a summary</li>);
+      errors.push(<li key={this.state.summary}>You must include a summary</li>);
     }
 
     if (!this.state.body) {
-      errors.push(<li>You must include a body</li>);
+      errors.push(<li key={this.state.body}>You must include a body</li>);
     }
 
     if (this.state.body.length < 50) {
-      errors.push(<li>You must include at least 50 characters in your review</li>);
+      errors.push(<li key={this.state.body.length}>You must include at least 50 characters in your review</li>);
     }
 
     if (!this.state.nickname) {
-      errors.push(<li>You must include a nickname</li>);
+      errors.push(<li key={this.state.nickname}>You must include a nickname</li>);
     }
 
     if (!this.state.email || !this.validateEmail(this.state.email)) {
-      errors.push(<li>You must include a valid email address</li>);
+      errors.push(<li key={this.state.email}>You must include a valid email address</li>);
     }
 
     if (errors.length) {
@@ -122,8 +122,6 @@ class NewReviewForm extends React.Component {
 
   handleSubmit (characteristicChoices, characteristicIds) {
     event.preventDefault();
-
-
 
     if (this.validateForm(characteristicChoices)) {
       let formData = new FormData;
@@ -428,5 +426,7 @@ class NewReviewForm extends React.Component {
   }
 
 }
+
+export { NewReviewForm as TestNewReviewForm };
 
 export default ClickTracker(NewReviewForm);
