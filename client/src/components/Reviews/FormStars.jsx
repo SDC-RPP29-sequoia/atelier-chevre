@@ -2,11 +2,6 @@ import React from 'react';
 import { AiFillStar, AiOutlineStar } from 'react-icons/ai';
 
 const FormStars = ({rating, handleStarReviewClick}) => {
-
-
-
-
-
   let selectionText = '';
 
   if (rating === 1) {
@@ -30,7 +25,7 @@ const FormStars = ({rating, handleStarReviewClick}) => {
       <AiFillStar
         size="24"
         color={rating >= index + 1 ? 'goldenrod' : 'white'}
-        className="form-star"
+        className={`form-star form-star-${index}`}
         onClick={() => handleStarReviewClick(index + 1)}/>
       <input type="radio" className="form-star-radio"></input>
     </label>;
