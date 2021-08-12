@@ -40,7 +40,7 @@ class ProductOverview extends React.Component {
     await API.getProduct(this.props.productId)
       .then(response => {
         this.setState({
-          product: response
+          product: response,
         });
       })
       .catch(err => {
@@ -60,7 +60,7 @@ class ProductOverview extends React.Component {
           selectedStyle: defaultStyle,
           selectedSku: null,
           images: defaultStyle.photos,
-          currentImageUrl: defaultStyle.photos[0].url
+          currentImageUrl: defaultStyle.photos[0].url,
         });
       })
       .catch(err => {
@@ -70,7 +70,7 @@ class ProductOverview extends React.Component {
     await API.getReviews(this.props.productId)
       .then(response => {
         this.setState({
-          reviews: response
+          reviews: response,
         });
       })
       .catch(err => {
@@ -82,7 +82,7 @@ class ProductOverview extends React.Component {
 
   onChange(key, val) {
     this.setState({
-      [key]: val
+      [key]: val,
     });
   }
 
@@ -90,12 +90,11 @@ class ProductOverview extends React.Component {
     let sku = _.map(this.state.selectedStyle.skus, (sku, key) => {
       sku.sku_id = key;
       return sku;
-    })
-      .find(sku => sku.sku_id === skuId);
+    }).find(sku => sku.sku_id === skuId);
 
     this.setState({
       selectedSku: sku,
-      selectedQuantity: sku?.quantity > 0 ? 1 : ''
+      selectedQuantity: sku?.quantity > 0 ? 1 : '',
     });
   }
 
@@ -111,30 +110,51 @@ class ProductOverview extends React.Component {
       selectedSku: null,
       images: [...style.photos],
       currentImageUrl: style.photos[0].url,
-      selectedQuantity: 0
+      selectedQuantity: 0,
     });
   }
 
   toggleFullScreen() {
     this.setState({
-      fullscreen: !this.state.fullscreen
+      fullscreen: !this.state.fullscreen,
     });
   }
 
   render() {
     return (
-      <div id="product-overview">
-        <div id="announcement-banner">
-          <p className="light"><i>Site-wide announcement message!</i> -- sale / discount <b>offer</b> -- <u>new product highlight</u></p>
+      <div id='product-overview'>
+        <div id='announcement-banner'>
+          <p className='light'>
+            <i>Site-wide announcement message!</i> -- sale / discount <b>offer</b> -- <u>new product highlight</u>
+          </p>
         </div>
 
-        <div id="product-main" className={`${this.state.fullscreen ? 'fullscreen' : ''}`}>
-          <ProductImage currentImageUrl={this.state.currentImageUrl} images={this.state.images} toggleFullScreen={this.toggleFullScreen} switchImage={this.switchImage} onChange={this.onChange} />
-          <ProductDetails addToBag={this.props.addToBag} reviews={this.state.reviews} product={this.state.product} productStyles={this.state.productStyles} selectedSku={this.state.selectedSku} onChange={this.onChange} selectedStyle={this.state.selectedStyle} changeSku={this.changeSku} productStyles={this.state.productStyles} changeStyle={this.changeStyle} selectedQuantity={this.state.selectedQuantity} />
+        <div id='product-main' className={`${this.state.fullscreen ? 'fullscreen' : ''}`}>
+          <ProductImage
+            currentImageUrl={this.state.currentImageUrl}
+            images={this.state.images}
+            toggleFullScreen={this.toggleFullScreen}
+            switchImage={this.switchImage}
+            onChange={this.onChange}
+            fullscreen={this.state.fullscreen}
+          />
+          <ProductDetails
+            addToBag={this.props.addToBag}
+            reviews={this.state.reviews}
+            product={this.state.product}
+            productStyles={this.state.productStyles}
+            selectedSku={this.state.selectedSku}
+            onChange={this.onChange}
+            selectedStyle={this.state.selectedStyle}
+            changeSku={this.changeSku}
+            productStyles={this.state.productStyles}
+            changeStyle={this.changeStyle}
+            selectedQuantity={this.state.selectedQuantity}
+          />
         </div>
 
-        <div id="product-extra">
-          <ProductExtra product={this.state.product}/>
+        <div id='product-extra'>
+          <ProductExtra product={this.state.product} />
         </div>
       </div>
     );
