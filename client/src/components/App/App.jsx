@@ -30,8 +30,8 @@ class App extends React.Component {
     return (
       <div className="wrapper">
         <Header currentProduct={this.state.currentProduct} />
-        <ProductOverview productId="28216" addToBag={this.addToBag} />
-        <QuestionsAndAnswers productId="28213" />
+        <ProductOverview productId="28223" addToBag={this.addToBag} />
+        <QuestionsAndAnswers productId="28223" />
         <RatingsAndReviews productId="28223"/>
       </div>
     );

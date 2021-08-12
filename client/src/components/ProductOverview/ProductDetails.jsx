@@ -14,7 +14,7 @@ const ProductDetails = (props) => {
   if (!props.selectedStyle.sale_price) {
     price = <p>${props.selectedStyle.original_price}</p>;
   } else {
-    price = <p className="canceled-price"><span>${props.selectedStyle.original_price}</span><span>${props.selectedStyle.sale_price}5678</span></p>;
+    price = <p className="canceled-price"><span>${props.selectedStyle.original_price}</span><span>${props.selectedStyle.sale_price}</span></p>;
   }
 
   sizes = _.filter(_.map(props.selectedStyle.skus, (sku, key) => {

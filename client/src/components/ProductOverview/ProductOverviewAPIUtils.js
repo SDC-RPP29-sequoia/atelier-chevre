@@ -1,12 +1,10 @@
 import axios from 'axios';
 
-let url = 'http://localhost:3000';
-
 export default {
   getProduct(id) {
     return new Promise((resolve, reject) => {
       axios
-        .get(`${url}/api/products/${id}`)
+        .get(`/api/products/${id}`)
         .then(response => {
           resolve(response.data);
         })
@@ -19,7 +17,7 @@ export default {
   getProductStyles(id) {
     return new Promise((resolve, reject) => {
       axios
-        .get(`${url}/api/products/${id}/styles`)
+        .get(`/api/products/${id}/styles`)
         .then(response => {
           resolve(response.data);
         })
@@ -32,7 +30,7 @@ export default {
   getReviews(id) {
     return new Promise((resolve, reject) => {
       axios
-        .get(`${url}/api/reviews/${id}`)
+        .get(`/api/reviews/${id}`)
         .then(response => {
           resolve(response.data);
         })
@@ -43,6 +41,6 @@ export default {
   },
 
   sendClickData(clickData) {
-    return axios.post('/api/interactions/clickData', clickData);
+    return axios.post('/interactions/clickData', clickData);
   },
 };

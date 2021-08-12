@@ -72,6 +72,29 @@ $standardBorder: 1px solid $standardColor;
       padding: $standardPaddingUnit;
       flex: 1 0 60%;
 
+      &:hover {
+        cursor: zoom-in;
+      }
+
+      &.fullscreen:hover {
+        cursor: crosshair;
+
+        &.zoomed {
+          --x: 0%;
+          --y: 0%;
+          background-position: var(--x) var(--y);
+          background-size: fit;
+          transform: scale(2.5);
+          cursor: zoom-out;
+          overflow: hidden;
+          position: fixed;
+          top: 0;
+          left: 0;
+          min-width: 100vw;
+          min-height: 100vh;
+        }
+      }
+
       #image-list {
         display: flex;
         flex-direction: column;
@@ -105,6 +128,13 @@ $standardBorder: 1px solid $standardColor;
             margin-bottom: 3px;
           }
 
+          .image-icon,
+          .selected-image-icon {
+            display: none;
+            font-size: 2em;
+            cursor: pointer;
+          }
+
           .bottom-line {
             height: 4px;
             background-color: transparent;
@@ -114,6 +144,46 @@ $standardBorder: 1px solid $standardColor;
           .selected {
             .bottom-line {
               background-color: $standardColor;
+            }
+          }
+        }
+
+        &.collapsed {
+          .image-alt-scroll {
+            display: none;
+          }
+
+          #images {
+            justify-content: center;
+
+            .alt-image {
+              display: none;
+            }
+
+            .image-icon {
+              display: block;
+            }
+
+            .bottom-line {
+              display: none;
+            }
+
+            .selected-image-icon {
+              display: none;
+            }
+
+            .image-icon {
+              display: block;
+            }
+
+            .selected {
+              .selected-image-icon {
+                display: block;
+              }
+
+              .image-icon {
+                display: none;
+              }
             }
           }
         }
@@ -271,11 +341,11 @@ $standardBorder: 1px solid $standardColor;
       display: flex;
       flex-direction: column;
       justify-content: center;
-      gap: .5rem;
+      gap: 0.5rem;
 
       .feature {
         display: flex;
-        gap: .5rem;
+        gap: 0.5rem;
         align-items: center;
 
         .check {
