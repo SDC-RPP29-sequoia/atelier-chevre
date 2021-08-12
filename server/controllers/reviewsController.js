@@ -4,6 +4,19 @@ const imgbbUploader = require('imgbb-uploader');
 const multer = require('multer');
 const upload = multer();
 
+const thumbnailify = reviews => {
+  const thumbnailReviews = {...reviews};
+  thumbnailReviews.results.forEach(review => {
+    if (review.photos.length) {
+      review.photos.forEach(photo => {
+        const splitURL = photo.url.split('&w=');
+        photo.thumbnail = splitURL + '&w=100&q=80';
+      });
+    }
+  });
+  return thumbnailReviews;
+};
+
 
 const getSortedReviews = (req, res) => {
   axios.get(`https://app-hrsei-api.herokuapp.com/api/fec2/hr-rpp/reviews?product_id=${req.params.productId}&sort=${req.params.sortMethod}&count=500`, {
@@ -12,7 +25,8 @@ const getSortedReviews = (req, res) => {
     }
   })
     .then(response => {
-      res.send(response.data);
+      const data = thumbnailify(response.data);
+      res.send(data);
     })
     .catch(err => {
       console.log(err);

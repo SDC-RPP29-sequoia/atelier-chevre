@@ -166,7 +166,6 @@ class RatingsAndReviews extends React.Component {
   }
 
   render () {
-    console.log('Ratings and Reviews was rendered');
     if (this.state.currentProductReviews.length === 0) {
       return (
         <div id="reviews-section">

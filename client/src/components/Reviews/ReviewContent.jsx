@@ -33,6 +33,7 @@ class ReviewContent extends React.Component {
 
 
     const photos = review.photos.map(photo => {
+      console.log('photo:', photo);
       return <img alt="product image" onClick={(e) => {
         displayImage(photo.url);
         this.props.handleTrackingClick(e, e.currentTarget.className);

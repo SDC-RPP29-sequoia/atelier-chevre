@@ -367,7 +367,6 @@ class QuestionsAndAnswers extends React.Component {
   }
 
   render() {
-    console.log('Questions and Answers was rendered');
     if (!this.state.isLoaded) {
       return (
         <div id="loading">Loading...</div>
