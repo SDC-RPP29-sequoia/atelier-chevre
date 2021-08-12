@@ -2,10 +2,12 @@ require('dotenv').config();
 const express = require('express');
 const app = express();
 
+
 const reviewsRouter = require('./routes/reviewsRoutes');
 const QARouter = require('./routes/QARoutes');
 const productRouter = require('./routes/productRoutes');
 const productDataRouter = require('./routes/productDataRoutes');
+const trackerRouter = require('./routes/trackerRoutes');
 
 app.use(express.json());
 app.use(express.urlencoded({extended: false}));
@@ -14,7 +16,7 @@ app.use(express.static(__dirname + '/../client/public'));
 app.use('/api/reviews', reviewsRouter);
 app.use('/api/questions', QARouter);
 app.use('/api/products', productRouter);
-
+app.use('/api/interactions', trackerRouter);
 app.use('/products', productDataRouter);
 
 
