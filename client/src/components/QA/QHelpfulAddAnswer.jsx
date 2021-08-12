@@ -1,8 +1,9 @@
 import React from 'react';
+import withTracker from './QATrackerHOC';
 
 const QHelpfulAddAnswer = (props) => {
   return (
-    <div className="qhelpful-addanswer">
+    <div className="qhelpful-addanswer" onClick={(e) => { props.handleTrackingClick(e, e.currentTarget.className, 'Questions & Answers'); }}>
       <div>Helpful?&nbsp;</div>
       <u className="question-helpful" onClick={props.markHelpful} question_id={props.question_id} clicked="false">Yes</u>
       <div>&nbsp;({props.question_helpfulness}) |&nbsp;</div>
@@ -13,4 +14,4 @@ const QHelpfulAddAnswer = (props) => {
   );
 };
 
-export default QHelpfulAddAnswer;
+export default withTracker(QHelpfulAddAnswer);

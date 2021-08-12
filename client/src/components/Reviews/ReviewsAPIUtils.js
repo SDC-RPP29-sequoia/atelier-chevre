@@ -6,8 +6,7 @@ export default {
   },
 
   getProductReviewsMeta: (productId) => {
-    return axios.get(`/api/reviews/${productId}`, {
-    }).then(response => {
+    return axios.get(`/api/reviews/${productId}`).then(response => {
       return response.data;
     });
   },

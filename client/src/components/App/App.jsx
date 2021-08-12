@@ -6,7 +6,8 @@ import Header from '../Header/Header.jsx';
 import QuestionsAndAnswers from '../QA/QuestionsAndAnswers.jsx';
 import RatingsAndReviews from '../Reviews/RatingsAndReviews.jsx';
 import Stars from '../Stars/Stars.jsx';
-import ProductOverview from '../ProductOverview/ProductOverview.jsx';
+import { tracked } from '../ProductOverview/ProductOverview.jsx';
+const ProductOverview = tracked;
 
 export class App extends React.Component {
   constructor(props) {

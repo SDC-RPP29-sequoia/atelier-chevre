@@ -5,7 +5,7 @@ const FilteredStatus = ({ filterReviews, clearAllFilters }) => {
   let i = 1;
   filterReviews.forEach(filter => {
     if (filter === 1) {
-      filtersUsed.push(<div className="filter-title">{i} Stars</div>);
+      filtersUsed.push(<div key={i} className="filter-title">{i} Stars</div>);
     }
     i++;
   });

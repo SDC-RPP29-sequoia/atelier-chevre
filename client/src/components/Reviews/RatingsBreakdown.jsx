@@ -26,24 +26,25 @@ class RatingsBreakdown extends React.Component {
     let j = 1;
 
     for (let i = 5; i > 0; i--) {
+
       const percentOfReviews = (reviewCounter[i] / totalReviews) * 100;
       const width = {
         width: `${percentOfReviews}%`
       };
 
-      breakdownRow.push(<div key={i}><span className="reviews-number">{i} Stars</span></div>);
-      breakdownRow.push(<div key={(i) * 6} className="light-bar"><div style={width}className="dark-bar"></div></div>);
-      breakdownRow.push(<div key={(i) * 12} className="review-label">{reviewCounter[i]}</div>);
+      breakdownRow.push(<div><span className="reviews-number">{i} Stars</span></div>);
+      breakdownRow.push(<div className="light-bar"><div style={width}className="dark-bar"></div></div>);
+      breakdownRow.push(<div className="review-label">{reviewCounter[i]}</div>);
 
       if (percentOfReviews !== 0) {
-        ratingsRow = <div
+        ratingsRow = <div key={i}
           onClick={(e) => {
             this.props.handleStarsNumberClick(i);
             this.props.handleTrackingClick(e, e.currentTarget.className);
           }}
           className="ratings-breakdown-row reviews-number-link">{breakdownRow}</div>;
       } else {
-        ratingsRow = <div className="ratings-breakdown-row reviews-number-nolink">{breakdownRow}</div>;
+        ratingsRow = <div key={i} className="ratings-breakdown-row reviews-number-nolink">{breakdownRow}</div>;
       }
 
       breakdownRows.push(ratingsRow);
@@ -61,5 +62,7 @@ class RatingsBreakdown extends React.Component {
     );
   }
 }
+
+export { RatingsBreakdown as TestRatingsBreakdown};
 
 export default ClickTracker(RatingsBreakdown);

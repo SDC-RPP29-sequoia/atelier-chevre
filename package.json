@@ -10,7 +10,8 @@
     "lint": "eslint .",
     "prepare": "husky install",
     "start": "webpack && node server/index.js",
-    "test:CI": "jest"
+    "test:CI": "jest",
+    "test:coverage": "jest --coverage"
   },
   "repository": {
     "type": "git",

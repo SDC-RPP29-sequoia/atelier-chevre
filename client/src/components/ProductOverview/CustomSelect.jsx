@@ -23,7 +23,6 @@ const CustomSelect = (props) => {
         inputProps={{ 'aria-label': 'Without label' }}
       >
         {props.options?.map(option => (
-
           <MenuItem value={option.value} key={option.value}>{option.label}</MenuItem>
         ))}
       </StyledSelect>

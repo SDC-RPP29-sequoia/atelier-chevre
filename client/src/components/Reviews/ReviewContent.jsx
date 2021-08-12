@@ -33,7 +33,7 @@ class ReviewContent extends React.Component {
 
 
     const photos = review.photos.map(photo => {
-      return <img onClick={(e) => {
+      return <img alt="product image" onClick={(e) => {
         displayImage(photo.url);
         this.props.handleTrackingClick(e, e.currentTarget.className);
       }} className="reviews-thumbnail" key={photo.id} src={photo.url}></img>;
@@ -78,7 +78,7 @@ class ReviewContent extends React.Component {
         <div
           className="helpful">Helpful?
           <span
-            className="review-content-method"
+            className="review-content-method review-helpful"
             onClick={(e) => {
               handleHelpfulClick(review.review_id);
               this.props.handleTrackingClick(e, e.currentTarget.className);
@@ -96,5 +96,7 @@ class ReviewContent extends React.Component {
     );
   }
 }
+
+export { ReviewContent as TestReviewContent };
 
 export default ClickTracker(ReviewContent);

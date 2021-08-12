@@ -24,7 +24,10 @@ class Header extends React.Component {
       <header id="header">
         <div id="logo">LOGO</div>
         <div id="search-box">
-          <input type="text" value={this.state.searchVal} onChange={(e) => this.handleChange('searchVal', e.target.value)}></input>
+          <label id="search-box-label">
+            <input id="search-box-input" type="text" value={this.state.searchVal} onChange={(e) => this.handleChange('searchVal', e.target.value)}></input>
+            Search
+          </label>
         </div>
       </header>
     );
