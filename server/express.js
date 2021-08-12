@@ -14,6 +14,7 @@ app.use(express.static(__dirname + '/../client/public'));
 app.use('/api/reviews', reviewsRouter);
 app.use('/api/questions', QARouter);
 app.use('/api/products', productRouter);
+
 app.use('/products', productDataRouter);
 
 

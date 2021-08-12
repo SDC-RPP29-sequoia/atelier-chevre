@@ -1,6 +1,7 @@
 const axios = require('axios');
 const fs = require('fs');
 const path = require('path');
+const { thumbnailify } = require('./reviewsController');
 
 const React = require( 'react' );
 const ReactDOMServer = require( 'react-dom/server' );
@@ -26,10 +27,11 @@ const getProductData = async (req, res) => {
       const questions = axios.get(`${url}/qa/questions?product_id=${productId}&page=1&count=100`, headers);
 
       const apiData = await Promise.all([getReviews, reviewsMeta, product, productStyles, questions]);
+      const reviewsWithThumbnail = thumbnailify(apiData[0].data);
 
       const productData = {
         productId,
-        reviews: apiData[0].data,
+        reviews: reviewsWithThumbnail,
         reviewsMeta: apiData[1].data,
         product: apiData[2].data,
         productStyles: apiData[3].data,

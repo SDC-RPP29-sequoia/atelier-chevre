@@ -10,7 +10,7 @@ const thumbnailify = reviews => {
     if (review.photos.length) {
       review.photos.forEach(photo => {
         const splitURL = photo.url.split('&w=');
-        photo.thumbnail = splitURL + '&w=100&q=80';
+        photo.thumbnail = splitURL[0] + '&w=100&q=80';
       });
     }
   });
@@ -145,5 +145,6 @@ module.exports = {
   getReviews,
   reportReview,
   markReviewHelpful,
-  postNewReview
+  postNewReview,
+  thumbnailify
 };

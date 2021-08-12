@@ -33,11 +33,10 @@ class ReviewContent extends React.Component {
 
 
     const photos = review.photos.map(photo => {
-      console.log('photo:', photo);
       return <img alt="product image" onClick={(e) => {
         displayImage(photo.url);
         this.props.handleTrackingClick(e, e.currentTarget.className);
-      }} className="reviews-thumbnail" key={photo.id} src={photo.url}></img>;
+      }} className="reviews-thumbnail" key={photo.id} src={photo.thumbnail}></img>;
     });
 
     let reviewBody;
