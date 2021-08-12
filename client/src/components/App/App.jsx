@@ -30,7 +30,7 @@ export class App extends React.Component {
     return (
       <div className="wrapper">
         <Header />
-        {/* <ProductOverview
+        <ProductOverview
           productId={this.props.productId}
           product = {this.props.product}
           productStyles = {this.props.productStyles}
@@ -39,7 +39,7 @@ export class App extends React.Component {
         <QuestionsAndAnswers
           productId={this.props.productId}
           questions={this.props.questions}
-        /> */}
+        />
         <RatingsAndReviews
           productId={this.props.productId}
           reviews={this.props.reviews}
