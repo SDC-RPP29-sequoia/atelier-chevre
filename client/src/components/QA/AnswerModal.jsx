@@ -145,8 +145,13 @@ class AnswerModal extends React.Component {
             <label>Your answer:*&nbsp;</label>
             <textarea id="modal-answer" name="body" maxLength="1000" onClick={(e) => { this.props.handleTrackingClick(e, e.currentTarget.id, 'Questions & Answers'); }}></textarea>
             <div className="modal-answer-photos">{this.state.photos.map((photo, i) => {
+              let fullRes = photo;
+
+              let splitURL = photo.split('&w=');
+              photo = splitURL[0] + '&w=100&q=80';
+
               return (
-                <img src={photo} width="70px" height="70px" key={i} className="answer-photo-thumbnail" onClick={this.clickHandler}></img>
+                <img src={photo} full={fullRes} width="70px" height="70px" key={i} className="answer-photo-thumbnail" onClick={this.clickHandler}></img>
               );
             })}</div>
             <label>What is your nickname:*&nbsp;</label>
