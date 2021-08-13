@@ -27,12 +27,14 @@ class App extends React.Component {
   }
 
   render() {
+    const { productId } = this.props;
+
     return (
       <div className="wrapper">
-        <Header currentProduct={this.state.currentProduct} />
-        <ProductOverview productId="28223" addToBag={this.addToBag} />
-        <QuestionsAndAnswers productId="28223" />
-        <RatingsAndReviews productId="28223"/>
+        <Header />
+        <ProductOverview productId={productId} addToBag={this.addToBag} />
+        <QuestionsAndAnswers productId={productId} />
+        <RatingsAndReviews productId={productId}/>
       </div>
     );
   }
