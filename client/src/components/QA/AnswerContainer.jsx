@@ -18,7 +18,7 @@ const AnswerContainer = (props) => {
         photo = splitURL[0] + '&w=100&q=80';
 
         return (
-          <img src={photo} full={fullRes} width="80px" height="60px" key={i} className="answer-photo" onClick={clickHandler} alt={'product photo ' + i}></img>
+          <img src={photo} full={fullRes} width="auto" height="60px" key={i} className="answer-photo" onClick={clickHandler} alt={'product photo ' + i}></img>
         );
       })}
       </div>
