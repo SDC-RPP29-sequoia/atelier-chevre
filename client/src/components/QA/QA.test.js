@@ -26,7 +26,7 @@ describe('<QuestionsAndAnswers />', () => {
     instance = wrapper.instance();
   });
 
-  it('<QuestionsAndAnswers /> renders without crashing', () => {
+  it('renders without crashing', () => {
     expect(wrapper).toBeTruthy();
   });
 });
@@ -39,7 +39,7 @@ describe('<QAHeader />', () => {
     instance = wrapper.instance();
   });
 
-  it('<QAHeader /> renders all elements', () => {
+  it('renders all elements', () => {
     expect(wrapper).toBeTruthy();
     expect(wrapper.find('#QAHeader')).toHaveLength(1);
   });
@@ -53,7 +53,7 @@ describe('<SearchBar />', () => {
     instance = wrapper.instance();
   });
 
-  it('<SearchBar /> renders all elements', () => {
+  it('renders all elements', () => {
     expect(wrapper).toBeTruthy();
     expect(wrapper.find('#search')).toHaveLength(1);
     expect(wrapper.find('input')).toHaveLength(1);
@@ -113,12 +113,12 @@ describe('<QAList />', () => {
     instance = wrapper.instance();
   });
 
-  it('<QAList /> renders all elements provided data', () => {
+  it('renders all elements provided data', () => {
     expect(wrapper).toBeTruthy();
     expect(wrapper.find('#qa-list')).toHaveLength(1);
   });
 
-  it('<QAList /> renders provided no data', () => {
+  it('renders provided no data', () => {
     let faultyList = shallow(<TestableQAList />);
 
     expect(faultyList).toBeTruthy();
@@ -134,7 +134,7 @@ describe('<QAButtons />', () => {
     instance = wrapper.instance();
   });
 
-  it('<QAButtons /> renders all elements', () => {
+  it('renders all elements', () => {
     expect(wrapper).toBeTruthy();
     expect(wrapper.find('#buttons')).toHaveLength(1);
     expect(wrapper.find('button')).toHaveLength(1);
@@ -150,12 +150,37 @@ describe('<AnswerModal />', () => {
     instance = wrapper.instance();
   });
 
-  it('<AnswerModal /> renders all elements', () => {
+  it('renders all elements', () => {
     expect(wrapper).toBeTruthy();
     expect(wrapper.find('.modal')).toHaveLength(1);
     expect(wrapper.find('.modal-content')).toHaveLength(1);
     expect(wrapper.find('form')).toHaveLength(1);
+    expect(wrapper.find('#modal-photos')).toHaveLength(1);
   });
+
+  // it('runs uploadPhotos function', () => {
+  //   instance.uploadPhotos = jest.fn();
+
+  //   const event = {target: {files: 'test'}};
+
+  //   wrapper.find('#modal-photos').simulate('change', event);
+
+  //   wrapper.update();
+
+  //   expect(instance.uploadPhotos).toHaveBeenCalled();
+  // });
+
+  // it('runs submitAnswer function', () => {
+  //   instance.submitAnswer = jest.fn();
+
+  //   const event = {target: {files: 'test'}, preventDefault: () => {}};
+
+  //   wrapper.find('#add-answer button').simulate('click', event);
+
+  //   wrapper.update();
+
+  //   expect(instance.submitAnswer).toHaveBeenCalled();
+  // });
 });
 
 describe('<QuestionModal />', () => {
@@ -166,7 +191,7 @@ describe('<QuestionModal />', () => {
     instance = wrapper.instance();
   });
 
-  it('<QuestionModal /> renders all elements', () => {
+  it('renders all elements', () => {
     expect(wrapper).toBeTruthy();
     expect(wrapper.find('.modal-q')).toHaveLength(1);
     expect(wrapper.find('.modal-content')).toHaveLength(1);
@@ -183,7 +208,7 @@ describe('<AnswerContainer />', () => {
     instance = wrapper.instance();
   });
 
-  it('<AnswerContainer /> renders all elements', () => {
+  it('renders all elements', () => {
     expect(wrapper).toBeTruthy();
     expect(wrapper.find('.answer-container')).toHaveLength(1);
   });
@@ -193,14 +218,29 @@ describe('<LoadMoreAnswers />', () => {
   let wrapper, instance;
 
   beforeEach(() => {
-    wrapper = shallow(<TestableLoadMoreAnswers />);
+    wrapper = shallow(<TestableLoadMoreAnswers loadMoreAnswers={(e) => { return; }} handleTrackingClick={(e) => { return; }} />);
     instance = wrapper.instance();
   });
 
-  it('<LoadMoreAnswers /> renders all elements', () => {
+  it('renders all elements', () => {
     expect(wrapper).toBeTruthy();
     expect(wrapper.find('.load-more-answers')).toHaveLength(1);
   });
+
+  // it('should run click handler function on click', () => {
+  //   const clickHandler = jest.fn();
+  //   const loadMoreAnswers = jest.fn();
+  //   const handleTrackingClick = jest.fn();
+  //   event = {currentTarget: {className: 'test'}};
+
+  //   wrapper.find('.load-more-answers').simulate('click', event);
+
+  //   wrapper.update();
+
+  //   expect(clickHandler).toHaveBeenCalled();
+  //   // expect(loadMoreAnswers).toHaveBeenCalled();
+  //   // expect(handleTrackingClick).toHaveBeenCalled();
+  // });
 });
 
 describe('<QHelpfulAddAnswer />', () => {
@@ -211,7 +251,7 @@ describe('<QHelpfulAddAnswer />', () => {
     instance = wrapper.instance();
   });
 
-  it('<QHelpfulAddAnswer /> renders all elements', () => {
+  it('renders all elements', () => {
     expect(wrapper).toBeTruthy();
     expect(wrapper.find('.qhelpful-addanswer')).toHaveLength(1);
     expect(wrapper.find('.question-helpful')).toHaveLength(1);
@@ -228,7 +268,7 @@ describe('<SignatureHelpfulReport />', () => {
     instance = wrapper.instance();
   });
 
-  it('<SignatureHelpfulReport /> renders all elements', () => {
+  it('renders all elements', () => {
     expect(wrapper).toBeTruthy();
     expect(wrapper.find('.signature-helpful-report')).toHaveLength(1);
     expect(wrapper.find('.author-date')).toHaveLength(1);
@@ -245,7 +285,7 @@ describe('<QATrackerHOC />', () => {
     instance = wrapper.instance();
   });
 
-  it('<QATrackerHOC /> renders', () => {
+  it('renders', () => {
     expect(wrapper).toBeTruthy();
   });
 });
