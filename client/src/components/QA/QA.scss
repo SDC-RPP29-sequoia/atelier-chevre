@@ -122,10 +122,10 @@
     display: flex;
     flex-direction: row;
     justify-content: flex-start;
-    color: rgb(121, 121, 121);
     font-size: .7rem;
     margin-bottom: 1rem;
     margin-left: 1.45rem;
+    color: #292929;
   }
 
   .author-date {
@@ -140,10 +140,9 @@
     flex-direction: row;
     flex-wrap: nowrap;
     justify-content: flex-end;
-    color: rgb(121, 121, 121);
     font-size: .7rem;
     margin-bottom: 1rem;
-
+    color: #292929;
   }
 
   .load-more-answers {
