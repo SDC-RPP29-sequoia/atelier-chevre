@@ -13,7 +13,7 @@ const AnswerContainer = (props) => {
       <div className="answer" key={props.body} onClick={(e) => { props.handleTrackingClick(e, e.currentTarget.className, 'Questions & Answers'); }}><b className="answer-body">A:</b>&nbsp;<span className="answer-text">{props.body}</span></div>
       <div className="answer-photos">{props.photos.map((photo, i) => {
         return (
-          <img src={photo} width="80px" height="60px" key={i} className="answer-photo" onClick={clickHandler}></img>
+          <img src={photo} width="80px" height="60px" key={i} className="answer-photo" onClick={clickHandler} alt={'product photo ' + i}></img>
         );
       })}
       </div>
