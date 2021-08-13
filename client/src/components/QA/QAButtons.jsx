@@ -20,4 +20,6 @@ const QAButtons = (props) => {
   );
 };
 
+export {QAButtons as TestableQAButtons};
+
 export default withTracker(QAButtons);

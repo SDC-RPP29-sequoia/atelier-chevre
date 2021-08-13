@@ -117,4 +117,6 @@ class SearchBar extends React.Component {
   }
 }
 
+export {SearchBar as TestableSearchBar};
+
 export default withTracker(SearchBar);

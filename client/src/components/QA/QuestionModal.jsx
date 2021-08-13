@@ -98,4 +98,6 @@ class QuestionModal extends React.Component {
   }
 }
 
+export {QuestionModal as TestableQuestionModal};
+
 export default withTracker(QuestionModal);

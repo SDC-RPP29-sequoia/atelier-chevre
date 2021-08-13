@@ -167,4 +167,6 @@ class AnswerModal extends React.Component {
   }
 }
 
+export {AnswerModal as TestableAnswerModal};
+
 export default withTracker(AnswerModal);

@@ -27,4 +27,6 @@ const AnswerContainer = (props) => {
   );
 };
 
+export {AnswerContainer as TestableAnswerContainer};
+
 export default withTracker(AnswerContainer);

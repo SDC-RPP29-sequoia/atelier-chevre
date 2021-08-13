@@ -3,22 +3,65 @@
 */
 
 import React from 'react';
-import { shallow, mount, render } from 'enzyme';
+import { shallow, mount } from 'enzyme';
 
-import QuestionsAndAnswers from './QuestionsAndAnswers';
-import QAHeader from './QAHeader';
-import SearchBar from './SearchBar';
-import QAList from './QAList';
-import QAButtons from './QAButtons';
-import AnswerModal from './AnswerModal';
-import QuestionModal from './QuestionModal';
-import AnswerContainer from './AnswerContainer';
-import LoadMoreAnswers from './LoadMoreAnswers';
-import QHelpfulAddAnswer from './QHelpfulAddAnswer';
-import SignatureHelpfulReport from './SignatureHelpfulReport';
+import { TestableQuestionsAndAnswers } from './QuestionsAndAnswers';
+import { TestableQAHeader } from './QAHeader';
+import { TestableSearchBar } from './SearchBar';
+import { TestableQAList } from './QAList';
+import { TestableQAButtons } from './QAButtons';
+import { TestableAnswerModal } from './AnswerModal';
+import { TestableQuestionModal } from './QuestionModal';
+import { TestableAnswerContainer } from './AnswerContainer';
+import { TestableLoadMoreAnswers } from './LoadMoreAnswers';
+import { TestableQHelpfulAddAnswer } from './QHelpfulAddAnswer';
+import { TestableSignatureHelpfulReport } from './SignatureHelpfulReport';
+import QATrackerHOC from './QATrackerHOC';
 
 describe('<QuestionsAndAnswers />', () => {
-  let QA, header, searchBar, list, buttons, answerForm, questionForm, answers, loadMoreAs, QHelpful, signatureHelpful;
+  let wrapper, instance;
+
+  beforeEach(() => {
+    wrapper = shallow(<TestableQuestionsAndAnswers productId="28213"/>);
+    instance = wrapper.instance();
+  });
+
+  it('<QuestionsAndAnswers /> renders without crashing', () => {
+    expect(wrapper).toBeTruthy();
+  });
+});
+
+describe('<QAHeader />', () => {
+  let wrapper, instance;
+
+  beforeEach(() => {
+    wrapper = shallow(<TestableQAHeader />);
+    instance = wrapper.instance();
+  });
+
+  it('<QAHeader /> renders all elements', () => {
+    expect(wrapper).toBeTruthy();
+    expect(wrapper.find('#QAHeader')).toHaveLength(1);
+  });
+});
+
+describe('<SearchBar />', () => {
+  let wrapper, instance;
+
+  beforeEach(() => {
+    wrapper = shallow(<TestableSearchBar />);
+    instance = wrapper.instance();
+  });
+
+  it('<SearchBar /> renders all elements', () => {
+    expect(wrapper).toBeTruthy();
+    expect(wrapper.find('#search')).toHaveLength(1);
+    expect(wrapper.find('input')).toHaveLength(1);
+  });
+});
+
+describe('<QAList />', () => {
+  let wrapper, instance;
 
   let mockfilteredQs = [
     {
@@ -65,92 +108,144 @@ describe('<QuestionsAndAnswers />', () => {
     }
   };
 
-  let mockPhotos = ['photo1', 'photo2', 'photo3'];
-
   beforeEach(() => {
-    QA = mount(<QuestionsAndAnswers productId="28213"/>);
-    header = mount(<QAHeader />);
-    searchBar = mount(<SearchBar />);
-    list = mount(<QAList filteredQs={mockfilteredQs} answers={mockAnswers} />);
-    buttons = mount(<QAButtons />);
-    answerForm = mount(<AnswerModal photos={mockPhotos}/>);
-    questionForm = mount(<QuestionModal />);
-    answers = mount(<AnswerContainer photos={mockPhotos}/>);
-    loadMoreAs = mount(<LoadMoreAnswers />);
-    QHelpful = mount(<QHelpfulAddAnswer />);
-    signatureHelpful = mount(<SignatureHelpfulReport />);
-  });
-
-  it('<QuestionsAndAnswers /> renders all elements', () => {
-    expect(QA).toBeTruthy();
-  });
-
-  it('<QAHeader /> renders all elements', () => {
-    expect(header).toBeTruthy();
-    expect(header.find('#QAHeader')).toHaveLength(1);
-  });
-
-  it('<SearchBar /> renders all elements', () => {
-    expect(searchBar).toBeTruthy();
-    expect(searchBar.find('#search')).toHaveLength(1);
-    expect(searchBar.find('input')).toHaveLength(1);
+    wrapper = shallow(<TestableQAList filteredQs={mockfilteredQs} answers={mockAnswers} />);
+    instance = wrapper.instance();
   });
 
   it('<QAList /> renders all elements provided data', () => {
-    expect(list).toBeTruthy();
-    expect(list.find('#qa-list')).toHaveLength(1);
+    expect(wrapper).toBeTruthy();
+    expect(wrapper.find('#qa-list')).toHaveLength(1);
   });
 
   it('<QAList /> renders provided no data', () => {
-    let faultyList = mount(<QAList />);
+    let faultyList = shallow(<TestableQAList />);
 
     expect(faultyList).toBeTruthy();
     expect(faultyList.find('#noQs')).toHaveLength(1);
   });
+});
+
+describe('<QAButtons />', () => {
+  let wrapper, instance;
+
+  beforeEach(() => {
+    wrapper = shallow(<TestableQAButtons />);
+    instance = wrapper.instance();
+  });
 
   it('<QAButtons /> renders all elements', () => {
-    expect(buttons).toBeTruthy();
-    expect(buttons.find('#buttons')).toHaveLength(1);
-    expect(buttons.find('button')).toHaveLength(1);
+    expect(wrapper).toBeTruthy();
+    expect(wrapper.find('#buttons')).toHaveLength(1);
+    expect(wrapper.find('button')).toHaveLength(1);
+  });
+});
+
+describe('<AnswerModal />', () => {
+  let wrapper, instance;
+  let mockPhotos = ['photo1', 'photo2', 'photo3'];
+
+  beforeEach(() => {
+    wrapper = shallow(<TestableAnswerModal photos={mockPhotos}/>);
+    instance = wrapper.instance();
   });
 
   it('<AnswerModal /> renders all elements', () => {
-    expect(answerForm).toBeTruthy();
-    expect(answerForm.find('.modal')).toHaveLength(1);
-    expect(answerForm.find('.modal-content')).toHaveLength(1);
-    expect(answerForm.find('form')).toHaveLength(1);
+    expect(wrapper).toBeTruthy();
+    expect(wrapper.find('.modal')).toHaveLength(1);
+    expect(wrapper.find('.modal-content')).toHaveLength(1);
+    expect(wrapper.find('form')).toHaveLength(1);
+  });
+});
+
+describe('<QuestionModal />', () => {
+  let wrapper, instance;
+
+  beforeEach(() => {
+    wrapper = shallow(<TestableQuestionModal />);
+    instance = wrapper.instance();
   });
 
   it('<QuestionModal /> renders all elements', () => {
-    expect(questionForm).toBeTruthy();
-    expect(questionForm.find('.modal-q')).toHaveLength(1);
-    expect(questionForm.find('.modal-content')).toHaveLength(1);
-    expect(questionForm.find('form')).toHaveLength(1);
+    expect(wrapper).toBeTruthy();
+    expect(wrapper.find('.modal-q')).toHaveLength(1);
+    expect(wrapper.find('.modal-content')).toHaveLength(1);
+    expect(wrapper.find('form')).toHaveLength(1);
+  });
+});
+
+describe('<AnswerContainer />', () => {
+  let wrapper, instance;
+  let mockPhotos = ['photo1', 'photo2', 'photo3'];
+
+  beforeEach(() => {
+    wrapper = shallow(<TestableAnswerContainer photos={mockPhotos}/>);
+    instance = wrapper.instance();
   });
 
   it('<AnswerContainer /> renders all elements', () => {
-    expect(answers).toBeTruthy();
-    expect(answers.find('.answer-container')).toHaveLength(1);
+    expect(wrapper).toBeTruthy();
+    expect(wrapper.find('.answer-container')).toHaveLength(1);
+  });
+});
+
+describe('<LoadMoreAnswers />', () => {
+  let wrapper, instance;
+
+  beforeEach(() => {
+    wrapper = shallow(<TestableLoadMoreAnswers />);
+    instance = wrapper.instance();
   });
 
   it('<LoadMoreAnswers /> renders all elements', () => {
-    expect(loadMoreAs).toBeTruthy();
-    expect(loadMoreAs.find('.load-more-answers')).toHaveLength(1);
+    expect(wrapper).toBeTruthy();
+    expect(wrapper.find('.load-more-answers')).toHaveLength(1);
+  });
+});
+
+describe('<QHelpfulAddAnswer />', () => {
+  let wrapper, instance;
+
+  beforeEach(() => {
+    wrapper = shallow(<TestableQHelpfulAddAnswer />);
+    instance = wrapper.instance();
   });
 
   it('<QHelpfulAddAnswer /> renders all elements', () => {
-    expect(QHelpful).toBeTruthy();
-    expect(QHelpful.find('.qhelpful-addanswer')).toHaveLength(1);
-    expect(QHelpful.find('.question-helpful')).toHaveLength(1);
-    expect(QHelpful.find('.add-answer')).toHaveLength(1);
-    expect(QHelpful.find('.report-question')).toHaveLength(1);
+    expect(wrapper).toBeTruthy();
+    expect(wrapper.find('.qhelpful-addanswer')).toHaveLength(1);
+    expect(wrapper.find('.question-helpful')).toHaveLength(1);
+    expect(wrapper.find('.add-answer')).toHaveLength(1);
+    expect(wrapper.find('.report-question')).toHaveLength(1);
+  });
+});
+
+describe('<SignatureHelpfulReport />', () => {
+  let wrapper, instance;
+
+  beforeEach(() => {
+    wrapper = shallow(<TestableSignatureHelpfulReport />);
+    instance = wrapper.instance();
   });
 
   it('<SignatureHelpfulReport /> renders all elements', () => {
-    expect(signatureHelpful).toBeTruthy();
-    expect(signatureHelpful.find('.signature-helpful-report')).toHaveLength(1);
-    expect(signatureHelpful.find('.author-date')).toHaveLength(1);
-    expect(signatureHelpful.find('.answer-helpful')).toHaveLength(1);
-    expect(signatureHelpful.find('.report-answer')).toHaveLength(1);
+    expect(wrapper).toBeTruthy();
+    expect(wrapper.find('.signature-helpful-report')).toHaveLength(1);
+    expect(wrapper.find('.author-date')).toHaveLength(1);
+    expect(wrapper.find('.answer-helpful')).toHaveLength(1);
+    expect(wrapper.find('.report-answer')).toHaveLength(1);
+  });
+});
+
+describe('<QATrackerHOC />', () => {
+  let wrapper, instance;
+
+  beforeEach(() => {
+    wrapper = shallow(<QATrackerHOC />);
+    instance = wrapper.instance();
+  });
+
+  it('<QATrackerHOC /> renders', () => {
+    expect(wrapper).toBeTruthy();
   });
 });
