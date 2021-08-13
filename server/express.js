@@ -12,6 +12,11 @@ const trackerRouter = require('./routes/trackerRoutes');
 
 app.use(express.json());
 app.use(express.urlencoded({extended: false}));
+app.use(
+  expressStaticGzip(__dirname + '/../client/public', {
+    enableBrotli: true,
+  }),
+);
 app.use(express.static(__dirname + '/../client/public'));
 
 app.use('/api/reviews', reviewsRouter);

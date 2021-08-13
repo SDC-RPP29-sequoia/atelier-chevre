@@ -7,6 +7,18 @@ const zlib = require('zlib');
 module.exports = {
   plugins: [new MiniCSSExtractPlugin({
     filename: 'styles.css'
+  }), new CompressionPlugin({
+    filename: '[path][base].br',
+    algorithm: 'brotliCompress',
+    test: /\.(jsx|js|css|html|svg)$/,
+    compressionOptions: {
+      params: {
+        [zlib.constants.BROTLI_PARAM_QUALITY]: 11,
+      },
+    },
+    threshold: 10240,
+    minRatio: 0.8,
+    deleteOriginalAssets: false,
   })],
   entry: path.resolve(__dirname, '/client/src/index.js'),
   module: {
@@ -38,17 +50,4 @@ module.exports = {
     path: path.resolve(__dirname, 'client/public'),
     filename: 'bundle.js',
   },
-  plugins: [new CompressionPlugin({
-    filename: '[path][base].br',
-    algorithm: 'brotliCompress',
-    test: /\.(jsx|js|css|html|svg)$/,
-    compressionOptions: {
-      params: {
-        [zlib.constants.BROTLI_PARAM_QUALITY]: 11,
-      },
-    },
-    threshold: 10240,
-    minRatio: 0.8,
-    deleteOriginalAssets: false,
-  })],
 };
