@@ -22,17 +22,6 @@ app.use('/api/questions', QARouter);
 app.use('/api/products', productRouter);
 app.use('/api/interactions', trackerRouter);
 
-// BUNDLE
-app.get('/bundle.js', (req, res) => {
-  if (req.header('Accept-Encoding').includes('br')) {
-    res.set('Content-Encoding', 'br');
-    res.set('Content-type', 'application/javascript');
-    res.sendFile((join(__dirname, 'public', 'bundle.js.br')));
-  }
-
-  res.sendFile((join(__dirname, 'public', 'bundle.js.')));
-});
-
 app.listen(process.env.PORT, () => {
   console.log('App listening on port ', process.env.PORT);
 });
