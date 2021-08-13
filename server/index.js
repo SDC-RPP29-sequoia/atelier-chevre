@@ -5,6 +5,7 @@ const axios = require('axios');
 const bodyParser = require('body-parser');
 const multer = require('multer');
 const cookieParser = require('cookie-parser');
+const expressStaticGzip = require('express-static-gzip');
 
 const reviewsRouter = require('./routes/reviewsRoutes');
 const QARouter = require('./routes/QARoutes');
@@ -14,9 +15,16 @@ const trackerRouter = require('./routes/trackerRoutes');
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
+
+
+app.use(
+  expressStaticGzip(__dirname + '/../client/public', {
+    enableBrotli: true,
+  }),
+);
+
 app.use(express.static(__dirname + '/../client/public'));
 
-// ROUTES
 app.use('/api/reviews', reviewsRouter);
 app.use('/api/questions', QARouter);
 app.use('/api/products', productRouter);
