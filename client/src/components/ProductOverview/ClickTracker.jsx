@@ -1,7 +1,7 @@
 import React from 'react';
 import API from './ProductOverviewAPIUtils';
 
-const ClickTracker = (WrappedComponent, moduleName = 'NA') => {
+const ClickTracker = (WrappedComponent, moduleName) => {
   return class extends React.Component {
     constructor(props) {
       super(props);
