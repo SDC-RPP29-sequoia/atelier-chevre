@@ -1,7 +1,7 @@
 node_modules
 .env
 .rest
-client/public/bundle.js
 */*/bundle.js
-client/public/photos
+client/public
 coverage
+

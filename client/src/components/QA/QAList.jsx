@@ -107,4 +107,6 @@ class QAList extends React.Component {
   }
 }
 
+export {QAList as TestableQAList};
+
 export default withTracker(QAList);
