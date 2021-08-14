@@ -38,6 +38,7 @@ module.exports = {
   output: {
     path: path.resolve(__dirname, 'client/public'),
     filename: 'bundle.js',
+    clean: true
   },
   plugins: [new CompressionPlugin({
     filename: '[path][base].br',
