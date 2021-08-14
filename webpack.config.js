@@ -1,7 +1,5 @@
 const CompressionPlugin = require('compression-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const path = require('path');
 const zlib = require('zlib');
 
@@ -23,7 +21,7 @@ module.exports = {
       {
         test: /\.s[ac]ss$/i,
         use: [
-          MiniCssExtractPlugin.loader,
+          'style-loader',
           'css-loader',
           'sass-loader',
         ],
@@ -41,12 +39,6 @@ module.exports = {
     path: path.resolve(__dirname, 'client/public'),
     filename: 'bundle-[contenthash].bundle.js',
     clean: true
-  },
-  optimization: {
-    minimizer: [
-      '...',
-      new CssMinimizerPlugin()
-    ],
   },
   plugins:
   [new CompressionPlugin({
@@ -66,8 +58,5 @@ module.exports = {
     template: __dirname + '/client/src/template.html',
     favicon: './client/src/favicon.ico',
     inject: 'body'
-  }),
-  new MiniCssExtractPlugin({
-    filename: 'styles-[contenthash].css'
   })],
 };
