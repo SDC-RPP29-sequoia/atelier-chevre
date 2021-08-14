@@ -3,9 +3,15 @@ $lightGrey: #ebebeb;
 $styleSelectorDiameter: 75px;
 $standardColor: #454545;
 $standardBorder: 1px solid $standardColor;
+$standardDarkColor: #eee;
+
+
 
 #product-overview {
   color: $standardColor;
+  @media (prefers-color-scheme: dark) {
+    color: $standardDarkColor
+  }
 
   .red {
     color: red;
@@ -296,6 +302,9 @@ $standardBorder: 1px solid $standardColor;
         height: 50px;
         display: flex;
         align-items: center;
+        @media (prefers-color-scheme: dark) {
+          border: 1px solid #eee;
+        }
 
         &.button {
           cursor: pointer;

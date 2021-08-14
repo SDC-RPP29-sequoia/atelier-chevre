@@ -1,6 +1,9 @@
   #reviews-section {
     color: #292929;
     margin-top: 20px;
+    @media (prefers-color-scheme: dark) {
+      color: #eee;
+    }
 
     #review-section-title {
       padding: 0 80px;
