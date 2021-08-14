@@ -7,10 +7,11 @@ class QuestionModal extends React.Component {
     super(props);
 
     this.state = {
-      currProductId: this.props.currProductId
+      currProductId: this.props.currProductId,
     };
 
     this.submitQuestion = this.submitQuestion.bind(this);
+    this.handleModal = this.handleModal.bind(this);
   }
 
   submitQuestion(e) {
@@ -47,8 +48,7 @@ class QuestionModal extends React.Component {
       return;
     }
 
-    let modal = document.querySelector('.modal-q');
-    modal.style.display = 'none';
+    this.handleModal('modal-q');
 
     let formElement = document.querySelector('#add-question');
     let formData = new FormData(formElement);
@@ -71,6 +71,11 @@ class QuestionModal extends React.Component {
       .catch(err => {
         console.log(err);
       });
+  }
+
+  handleModal(target) {
+    let modal = document.querySelector(target);
+    modal.style.display = 'none';
   }
 
   render() {
@@ -97,5 +102,7 @@ class QuestionModal extends React.Component {
     );
   }
 }
+
+export {QuestionModal as TestableQuestionModal};
 
 export default withTracker(QuestionModal);
