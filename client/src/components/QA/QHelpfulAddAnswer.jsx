@@ -14,4 +14,6 @@ const QHelpfulAddAnswer = (props) => {
   );
 };
 
+export {QHelpfulAddAnswer as TestableQHelpfulAddAnswer};
+
 export default withTracker(QHelpfulAddAnswer);
