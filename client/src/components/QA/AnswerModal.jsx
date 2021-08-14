@@ -31,7 +31,7 @@ class AnswerModal extends React.Component {
     }
 
     if (e.target.files.length > 5) {
-      alert('You may only upload 5 images');
+      // alert('You may only upload 5 images');
       e.target.value = '';
     } else {
       this.setState({

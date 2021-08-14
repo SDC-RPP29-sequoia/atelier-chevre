@@ -23,13 +23,269 @@ import withTracker from './QATrackerHOC';
 describe('<QuestionsAndAnswers />', () => {
   let wrapper, instance;
 
+  let mockFilteredQs = [
+    {
+      'question_id': 213346,
+      'question_body': 'Where is this product made?',
+      'question_date': '2018-10-04T00:00:00.000Z',
+      'asker_name': 'jbilas',
+      'question_helpfulness': 21,
+      'reported': false,
+      'answers': {
+        '1992368': {
+          'id': 1992368,
+          'body': 'China',
+          'date': '2018-08-04T00:00:00.000Z',
+          'answerer_name': 'Seller',
+          'helpfulness': 16,
+          'photos': []
+        }
+      }
+    }
+  ];
+
+  let mockAnswers = {
+    '213346': {
+      'data': [
+        {
+          'id': 1992383,
+          'body': 'Michigan',
+          'date': '2018-01-24T00:00:00.000Z',
+          'answerer_name': 'iluvbirds',
+          'helpfulness': 4,
+          'photos': []
+        },
+        {
+          'id': 1992387,
+          'body': 'Made locally!',
+          'date': '2018-11-24T00:00:00.000Z',
+          'answerer_name': 'Seller',
+          'helpfulness': 8,
+          'photos': []
+        }
+      ],
+      'count': 2
+    }
+  };
+
   beforeEach(() => {
-    wrapper = mount(<TestableQuestionsAndAnswers productId="28213"/>);
+    wrapper = mount(<TestableQuestionsAndAnswers productId="36300" />);
     instance = wrapper.instance();
+    wrapper.setState({
+      filteredAs: mockAnswers,
+      currProduct: {name: 'test'},
+      questions: [1, 2, 3, 4],
+      answers: mockAnswers
+    });
+
+    document.body.innerHTML = `
+    <div className="modal-q"></div>
+    <div className="modal"></div>
+    `;
   });
 
   it('renders without crashing', () => {
     expect(wrapper).toBeTruthy();
+  });
+
+  it('sorts retrieved Q&As', () => {
+    instance.retrieveSortQAs = jest.fn(instance.retrieveSortQAs);
+    instance.retrieveSortQAs(mockFilteredQs);
+    expect(instance.retrieveSortQAs).toHaveBeenCalled();
+  });
+
+  it('sorts retrieved Q&As reset branch', () => {
+    instance.retrieveSortQAs = jest.fn(instance.retrieveSortQAs);
+    instance.retrieveSortQAs(mockFilteredQs, true);
+    expect(instance.retrieveSortQAs).toHaveBeenCalled();
+  });
+
+  it('marks question helpful', () => {
+    instance.markHelpful = jest.fn(instance.markHelpful);
+    let event = {
+      target: {
+        getAttribute: (a) => { return a; },
+        setAttribute: (a) => { return a; },
+        className: 'question-helpful'
+      }
+    };
+    instance.markHelpful(event);
+    expect(instance.markHelpful).toHaveBeenCalled();
+  });
+
+  it('marks answer helpful', () => {
+    instance.markHelpful = jest.fn(instance.markHelpful);
+    let event = {
+      target: {
+        getAttribute: (a) => { return a; },
+        setAttribute: (a) => { return a; },
+        className: 'answer-helpful'
+      }
+    };
+    instance.markHelpful(event);
+    expect(instance.markHelpful).toHaveBeenCalled();
+  });
+
+  it('displays buttons', () => {
+    instance.displayButtons = jest.fn(instance.displayButtons);
+    instance.displayButtons();
+    expect(instance.displayButtons).toHaveBeenCalled();
+  });
+
+  it('reports question', () => {
+    instance.report = jest.fn(instance.report);
+    let event = {
+      target: {
+        getAttribute: (a) => { return a; },
+        setAttribute: (a) => { return a; },
+        className: 'report-question'
+      }
+    };
+    instance.report(event);
+    expect(instance.report).toHaveBeenCalled();
+  });
+
+  it('reports answer', () => {
+    instance.report = jest.fn(instance.report);
+    let event = {
+      target: {
+        getAttribute: (a) => { return a; },
+        setAttribute: (a) => { return a; },
+        className: 'report-answer'
+      }
+    };
+    instance.report(event);
+    expect(instance.report).toHaveBeenCalled();
+  });
+
+  it('adds question', () => {
+    instance.addQuestion = jest.fn(instance.addQuestion);
+    instance.openModal = jest.fn();
+    let event = {
+      target: {
+        getAttribute: (a) => { return a; },
+        setAttribute: (a) => { return a; },
+        className: 'report-answer'
+      }
+    };
+    instance.addQuestion(event);
+    expect(instance.addQuestion).toHaveBeenCalled();
+  });
+
+  it('adds answers', () => {
+    instance.addAnswer = jest.fn(instance.addAnswer);
+    instance.openModal = jest.fn();
+    let event = {
+      target: {
+        getAttribute: (a) => { return a; },
+        setAttribute: (a) => { return a; },
+        className: 'report-answer'
+      }
+    };
+    instance.addAnswer(event);
+    expect(instance.addAnswer).toHaveBeenCalled();
+  });
+
+  it('opens modal question', () => {
+    instance.openModal = jest.fn();
+    instance.openModal('question');
+    expect(instance.openModal).toHaveBeenCalled();
+  });
+
+  it('opens modal answer', () => {
+    instance.openModal = jest.fn();
+    instance.openModal('answer');
+    expect(instance.openModal).toHaveBeenCalled();
+  });
+
+  it('opens thumbnail', () => {
+    instance.openThumbnail = jest.fn(instance.openThumbnail);
+    instance.openModal = jest.fn();
+    let event = {
+      target: {
+        getAttribute: (a) => { return a; },
+        setAttribute: (a) => { return a; },
+        className: 'report-answer'
+      }
+    };
+    instance.openThumbnail(event);
+    expect(instance.openThumbnail).toHaveBeenCalled();
+  });
+
+  it('runs more answered Qs', () => {
+    instance.moreAnsweredQs = jest.fn(instance.moreAnsweredQs);
+    instance.moreAnsweredQs('answer');
+    expect(instance.moreAnsweredQs).toHaveBeenCalled();
+  });
+
+  it('shows more answered Qs', () => {
+    instance.showMoreAnsweredQs = jest.fn(instance.showMoreAnsweredQs);
+    instance.showMoreAnsweredQs('answer');
+    expect(instance.showMoreAnsweredQs).toHaveBeenCalled();
+  });
+
+  it('loads more answers branch one', () => {
+    instance.loadMoreAnswers = jest.fn(instance.loadMoreAnswers);
+    instance.getQuestions = jest.fn();
+    let event = {
+      target: {
+        getAttribute: (a) => { return a; },
+        setAttribute: (a) => { return a; },
+        className: 'report-answer',
+        parentElement: {
+          textContent: 'LOAD MORE ANSWERS',
+          getAttribute: (a) => {
+            if (a === 'question_id') {
+              return 213346;
+            }
+          },
+          setAttribute: (a) => { return a; }
+        }
+      }
+    };
+    instance.loadMoreAnswers(event);
+    expect(instance.loadMoreAnswers).toHaveBeenCalled();
+  });
+
+  it('loads more answers branch two', () => {
+    instance.loadMoreAnswers = jest.fn(instance.loadMoreAnswers);
+    instance.getQuestions = jest.fn();
+    let event = {
+      target: {
+        getAttribute: (a) => { return a; },
+        setAttribute: (a) => { return a; },
+        className: 'report-answer',
+        parentElement: {
+          textContent: 'COLLAPSE ANSWERS',
+          getAttribute: (a) => {
+            if (a === 'question_id') {
+              return 213346;
+            }
+          },
+          setAttribute: (a) => { return a; }
+        }
+      }
+    };
+    instance.loadMoreAnswers(event);
+    expect(instance.loadMoreAnswers).toHaveBeenCalled();
+  });
+
+  it('hides load more answers', () => {
+    instance.hideLoadMoreAnswers = jest.fn(instance.hideLoadMoreAnswers);
+    instance.hideLoadMoreAnswers();
+    expect(instance.hideLoadMoreAnswers).toHaveBeenCalled();
+  });
+
+  it('shows load more answers', () => {
+    instance.showMoreAnsweredQs = jest.fn(instance.showMoreAnsweredQs);
+    instance.showMoreAnsweredQs();
+    expect(instance.showMoreAnsweredQs).toHaveBeenCalled();
+  });
+
+  it('sets search state', () => {
+    instance.setSearchState = jest.fn(instance.setSearchState);
+    instance.setSearchState(mockAnswers, mockFilteredQs, () => {});
+    expect(instance.setSearchState).toHaveBeenCalled();
   });
 });
 
@@ -50,9 +306,10 @@ describe('<QAHeader />', () => {
 describe('<SearchBar />', () => {
   let wrapper, instance;
   const handleTrackingClick = jest.fn();
+  const handleChange = jest.fn();
 
   beforeEach(() => {
-    wrapper = shallow(<TestableSearchBar handleTrackingClick={handleTrackingClick}/>);
+    wrapper = mount(<TestableSearchBar handleTrackingClick={handleTrackingClick} />);
     instance = wrapper.instance();
   });
 
@@ -66,6 +323,21 @@ describe('<SearchBar />', () => {
     let event = {currentTarget: {id: 'test'}};
     wrapper.find('.qa').simulate('click', event);
     expect(handleTrackingClick).toHaveBeenCalled();
+  });
+
+  // it('runs handleChange on input change', () => {
+  //   instance.handleChange = jest.fn(instance.handleChange);
+  //   let event = {currentTarget: {id: 'test'}, target: {value: 1}};
+  //   wrapper.find('input').simulate('change', event);
+  //   expect(instance.handleChange).toHaveBeenCalled();
+  // });
+
+  it('highlights and clears text', () => {
+    instance.highlightText = jest.fn(instance.highlightText);
+    instance.clearText = jest.fn(instance.clearText);
+    instance.highlightText();
+    expect(instance.highlightText).toHaveBeenCalled();
+    expect(instance.clearText).toHaveBeenCalled();
   });
 });
 
