@@ -4,3 +4,5 @@ client/public/
 *.css
 *.scss
 .eslintrc.js
+favicon.ico
+template.html
