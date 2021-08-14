@@ -1,4 +1,5 @@
 const CompressionPlugin = require('compression-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 const path = require('path');
 const zlib = require('zlib');
 
@@ -25,6 +26,10 @@ module.exports = {
           'sass-loader',
         ],
       },
+      {
+        test: /\.ico$/i,
+        type: 'asset/resource',
+      }
     ],
   },
   resolve: {
@@ -46,5 +51,9 @@ module.exports = {
     threshold: 10240,
     minRatio: 0.8,
     deleteOriginalAssets: false,
+  }),
+  new HtmlWebpackPlugin({
+    template: './client/src/template.html',
+    favicon: './client/src/favicon.ico'
   })],
 };
