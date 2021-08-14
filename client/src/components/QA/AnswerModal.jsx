@@ -14,6 +14,7 @@ class AnswerModal extends React.Component {
     this.submitAnswer = this.submitAnswer.bind(this);
     this.uploadPhotos = this.uploadPhotos.bind(this);
     this.clickHandler = this.clickHandler.bind(this);
+    this.handleModal = this.handleModal.bind(this);
   }
 
   clickHandler(e) {
@@ -31,7 +32,7 @@ class AnswerModal extends React.Component {
     }
 
     if (e.target.files.length > 5) {
-      // alert('You may only upload 5 images');
+      alert('You may only upload 5 images');
       e.target.value = '';
     } else {
       this.setState({
@@ -87,8 +88,7 @@ class AnswerModal extends React.Component {
       return;
     }
 
-    let modal = document.querySelector('.modal');
-    modal.style.display = 'none';
+    this.handleModal('modal');
 
     let formElement = document.querySelector('#add-answer');
     let formData = new FormData(formElement);
@@ -109,6 +109,11 @@ class AnswerModal extends React.Component {
       .catch(err => {
         console.log(err);
       });
+  }
+
+  handleModal(target) {
+    let modal = document.querySelector(target);
+    modal.style.display = 'none';
   }
 
   photosValid(photos) {
@@ -146,7 +151,7 @@ class AnswerModal extends React.Component {
             <textarea id="modal-answer" name="body" maxLength="1000" onClick={(e) => { this.props.handleTrackingClick(e, e.currentTarget.id, 'Questions & Answers'); }}></textarea>
             <div className="modal-answer-photos">{this.state.photos.map((photo, i) => {
               return (
-                <img src={photo} full={photo} width="70px" height="70px" key={i} className="answer-photo-thumbnail" onClick={this.clickHandler}></img>
+                <img src={photo} full={photo} width="70px" height="70px" key={i} className="answer-photo-thumbnaqil" onClick={this.clickHandler}></img>
               );
             })}</div>
             <label>What is your nickname:*&nbsp;</label>
