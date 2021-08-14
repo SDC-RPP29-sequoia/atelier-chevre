@@ -6,7 +6,9 @@ class SearchBar extends React.Component {
     super(props);
 
     this.state = {
-      searchVal: ''
+      searchVal: '',
+      questions: document.getElementsByClassName('question-text'),
+      answers: document.getElementsByClassName('answer-text')
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -16,10 +18,12 @@ class SearchBar extends React.Component {
     this.clearText();
 
     let term = this.state.searchVal;
-    const answers = document.getElementsByClassName('answer-text');
-    const questions = document.getElementsByClassName('question-text');
+
+    const answers = this.state.answers;
+    const questions = this.state.questions;
 
     for (let i = 0; i < answers.length; i++) {
+      console.log('hi', answers.length);
       let currText = answers[i].innerHTML;
       let newText = currText.replace(new RegExp(term, 'gi'), (match) => `<mark>${match}</mark>`);
 
@@ -35,8 +39,9 @@ class SearchBar extends React.Component {
   }
 
   clearText() {
-    const questions = document.getElementsByClassName('question-text');
-    const answers = document.getElementsByClassName('answer-text');
+    const answers = this.state.answers;
+    const questions = this.state.questions;
+
     const regex = new RegExp('mark>', 'ig');
 
     for (let i = 0; i < answers.length; i++) {

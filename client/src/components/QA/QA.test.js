@@ -307,10 +307,63 @@ describe('<SearchBar />', () => {
   let wrapper, instance;
   const handleTrackingClick = jest.fn();
   const handleChange = jest.fn();
+  const getQuestions = jest.fn();
+  const showLoadMoreAnswers = jest.fn();
+  const showMoreAnsweredQs = jest.fn();
+  const setSearchState = jest.fn();
+
+  let mockFilteredQs = [
+    {
+      'question_id': 213346,
+      'question_body': 'Where is this product made?',
+      'question_date': '2018-10-04T00:00:00.000Z',
+      'asker_name': 'jbilas',
+      'question_helpfulness': 21,
+      'reported': false,
+      'answers': {
+        '1992368': {
+          'id': 1992368,
+          'body': 'China',
+          'date': '2018-08-04T00:00:00.000Z',
+          'answerer_name': 'Seller',
+          'helpfulness': 16,
+          'photos': []
+        }
+      }
+    }
+  ];
+
+  let mockAnswers = {
+    '213346': {
+      'data': [
+        {
+          'id': 1992383,
+          'body': 'Michigan',
+          'date': '2018-01-24T00:00:00.000Z',
+          'answerer_name': 'iluvbirds',
+          'helpfulness': 4,
+          'photos': []
+        },
+        {
+          'id': 1992387,
+          'body': 'Made locally!',
+          'date': '2018-11-24T00:00:00.000Z',
+          'answerer_name': 'Seller',
+          'helpfulness': 8,
+          'photos': []
+        }
+      ],
+      'count': 2
+    }
+  };
 
   beforeEach(() => {
-    wrapper = mount(<TestableSearchBar handleTrackingClick={handleTrackingClick} />);
+    wrapper = mount(<TestableSearchBar handleTrackingClick={handleTrackingClick} getQuestions={getQuestions} showLoadMoreAnswers={showLoadMoreAnswers} showMoreAnsweredQs={showMoreAnsweredQs} questions={mockFilteredQs} setSearchState={setSearchState} answers={mockAnswers}/>);
     instance = wrapper.instance();
+    wrapper.setState({
+      answers: [{innerHTML: '<div>hi</div>'}, {innerHTML: '<div>hi</div>'}],
+      questions: [{innerHTML: '<div>hi</div>'}, {innerHTML: '<div>hi</div>'}]
+    });
   });
 
   it('renders all elements', () => {
@@ -325,12 +378,25 @@ describe('<SearchBar />', () => {
     expect(handleTrackingClick).toHaveBeenCalled();
   });
 
-  // it('runs handleChange on input change', () => {
-  //   instance.handleChange = jest.fn(instance.handleChange);
-  //   let event = {currentTarget: {id: 'test'}, target: {value: 1}};
-  //   wrapper.find('input').simulate('change', event);
-  //   expect(instance.handleChange).toHaveBeenCalled();
-  // });
+  it('runs handleChange on input change with empty input', () => {
+    instance.handleChange = jest.fn(instance.handleChange);
+    instance.clearText = jest.fn();
+    let event = {currentTarget: {id: 'test'}, target: {value: ''}};
+    wrapper.find('input').simulate('change', event);
+    wrapper.update();
+    instance.handleChange(event);
+    expect(instance.handleChange).toHaveBeenCalled();
+  });
+
+  it('runs handleChange on input change with input', () => {
+    instance.handleChange = jest.fn(instance.handleChange);
+    instance.clearText = jest.fn();
+    let event = {currentTarget: {id: 'test'}, target: {value: 'hello'}};
+    wrapper.find('input').simulate('change', event);
+    wrapper.update();
+    instance.handleChange(event);
+    expect(instance.handleChange).toHaveBeenCalled();
+  });
 
   it('highlights and clears text', () => {
     instance.highlightText = jest.fn(instance.highlightText);
@@ -421,11 +487,6 @@ describe('<QAList />', () => {
     wrapper.find('.question').simulate('click');
     expect(handleTrackingClick).toHaveBeenCalled();
   });
-
-  // it('runs responds to scroll', () => {
-  //   wrapper.find('#qa-list').simulate('scroll');
-  //   expect(moreAnsweredQs).toHaveBeenCalled();
-  // });
 });
 
 describe('<QAButtons />', () => {
@@ -530,9 +591,10 @@ describe('<AnswerModal />', () => {
 
 describe('<QuestionModal />', () => {
   let wrapper, instance;
+  const handleTrackingClick = jest.fn();
 
   beforeEach(() => {
-    wrapper = shallow(<TestableQuestionModal />);
+    wrapper = shallow(<TestableQuestionModal handleTrackingClick={handleTrackingClick}/>);
     instance = wrapper.instance();
     document.body.innerHTML = `
     <div className="modal-q">
@@ -568,9 +630,19 @@ describe('<QuestionModal />', () => {
     expect(wrapper.find('form')).toHaveLength(1);
   });
 
+  it('runs click handler on click', () => {
+    let event = {currentTarget: {className: 'test'}, preventDefault: () => {}};
+    wrapper.find('.close-btn').simulate('click', event);
+    wrapper.find('.subtitle').simulate('click', event);
+    wrapper.find('#modal-question').simulate('click', event);
+    wrapper.find('#modal-question-nickname').simulate('click', event);
+    wrapper.find('#modal-question-email').simulate('click', event);
+    expect(handleTrackingClick).toHaveBeenCalled();
+  });
+
   // it('runs submitQuestion function upon submit', () => {
   //   let event = {currentTarget: {className: 'test'}, preventDefault: () => {}};
-  //   const submitQuestion = jest.fn();
+  //   instance.submitQuestion = jest.fn(instance.submitQuestion);
   //   wrapper.find('#add-question button').simulate('click', event);
   //   wrapper.update();
   //   expect(instance.submitQuestion).toHaveBeenCalled();
