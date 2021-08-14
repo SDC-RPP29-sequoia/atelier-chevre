@@ -12,6 +12,7 @@ import ProductDetails from './ProductDetails.jsx';
 import ProductExtra from './ProductExtra.jsx';
 import ProductImage from './ProductImage.jsx';
 import ProductOverview from './ProductOverview.jsx';
+import ClickTracker from './ClickTracker.jsx';
 import _mockData from './__mocks__/_mockData';
 
 let productIdTest = 36300;
@@ -94,6 +95,21 @@ describe('ProductOverview component', () => {
     wrapper.update();
 
     expect(wrapper.state().fullscreen).toEqual(false);
+    done();
+  });
+
+  it('tracks clicks', done => {
+    let HOC = ClickTracker(wrapper);
+    let HOCWrapper = shallow(<HOC />);
+    let HOCInstance = HOCWrapper.instance();
+
+    let mock = jest.spyOn(HOCInstance, 'clickHandler');
+
+    expect(HOCWrapper.find('.click-tracker')).toBeTruthy();
+    HOCWrapper.find('.click-tracker').simulate('click', { target: { value: 1 }});
+    mock({ target: { value: 1 }});
+
+    expect(mock).toHaveBeenCalled();
     done();
   });
 });
