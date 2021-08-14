@@ -326,14 +326,16 @@ $standardBorder: 1px solid $standardColor;
     p {
       font-size: 0.8rem;
       font-weight: 300;
-    }
-
-    h4 {
       margin-bottom: 1rem;
     }
 
     #product-description {
       flex-basis: 60%;
+
+      #description-title {
+        font-size: 1rem;
+        font-weight: bold;
+      }
     }
 
     #product-features {

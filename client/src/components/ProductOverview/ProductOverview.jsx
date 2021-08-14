@@ -76,7 +76,6 @@ class ProductOverview extends React.Component {
       .catch(err => {
         console.error(err);
       });
-
     console.log(this.state);
   }
 
