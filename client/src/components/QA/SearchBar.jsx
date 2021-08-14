@@ -23,7 +23,6 @@ class SearchBar extends React.Component {
     const questions = this.state.questions;
 
     for (let i = 0; i < answers.length; i++) {
-      console.log('hi', answers.length);
       let currText = answers[i].innerHTML;
       let newText = currText.replace(new RegExp(term, 'gi'), (match) => `<mark>${match}</mark>`);
 
