@@ -25,10 +25,15 @@ class ReviewContent extends React.Component {
     const { review, displayImage, handleHelpfulClick, handleReportClick } = this.props;
     const date = new Date(review.date);
     const photos = review.photos.map(photo => {
+
+      const splitURL = photo.url.split('&w');
+      const thumbnailURL = splitURL[0] + '&w=100&q=80';
+
+
       return <img alt="product image" onClick={(e) => {
         displayImage(photo.url);
         this.props.handleTrackingClick(e, e.currentTarget.className);
-      }} className="reviews-thumbnail" key={photo.id} src={photo.url}></img>;
+      }} className="reviews-thumbnail" key={photo.id} src={thumbnailURL}></img>;
     });
 
     let reviewBody;
