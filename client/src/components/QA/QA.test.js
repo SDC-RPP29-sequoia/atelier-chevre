@@ -3,10 +3,11 @@
 */
 
 import React from 'react';
-import { shallow, mount } from 'enzyme';
+import { shallow, mount, render } from 'enzyme';
 
 import { TestableQuestionsAndAnswers } from './QuestionsAndAnswers';
 import { TestableQAHeader } from './QAHeader';
+import QAHeader from './QAHeader';
 import { TestableSearchBar } from './SearchBar';
 import { TestableQAList } from './QAList';
 import { TestableQAButtons } from './QAButtons';
@@ -23,7 +24,7 @@ describe('<QuestionsAndAnswers />', () => {
   let wrapper, instance;
 
   beforeEach(() => {
-    wrapper = shallow(<TestableQuestionsAndAnswers productId="28213"/>);
+    wrapper = mount(<TestableQuestionsAndAnswers productId="28213"/>);
     instance = wrapper.instance();
   });
 
@@ -48,9 +49,10 @@ describe('<QAHeader />', () => {
 
 describe('<SearchBar />', () => {
   let wrapper, instance;
+  const handleTrackingClick = jest.fn();
 
   beforeEach(() => {
-    wrapper = shallow(<TestableSearchBar />);
+    wrapper = shallow(<TestableSearchBar handleTrackingClick={handleTrackingClick}/>);
     instance = wrapper.instance();
   });
 
@@ -59,10 +61,18 @@ describe('<SearchBar />', () => {
     expect(wrapper.find('#search')).toHaveLength(1);
     expect(wrapper.find('input')).toHaveLength(1);
   });
+
+  it('runs handleTrackingClick on click', () => {
+    let event = {currentTarget: {id: 'test'}};
+    wrapper.find('.qa').simulate('click', event);
+    expect(handleTrackingClick).toHaveBeenCalled();
+  });
 });
 
 describe('<QAList />', () => {
   let wrapper, instance;
+  const handleTrackingClick = jest.fn();
+  const moreAnsweredQs = jest.fn();
 
   let mockfilteredQs = [
     {
@@ -110,8 +120,11 @@ describe('<QAList />', () => {
   };
 
   beforeEach(() => {
-    wrapper = shallow(<TestableQAList filteredQs={mockfilteredQs} answers={mockAnswers} />);
+    wrapper = mount(<TestableQAList filteredQs={mockfilteredQs} answers={mockAnswers} handleTrackingClick={handleTrackingClick} moreAnsweredQs={moreAnsweredQs}/>);
     instance = wrapper.instance();
+    document.body.innerHTML = `
+    <div id="qa-list"></div>
+    `;
   });
 
   it('renders all elements provided data', () => {
@@ -125,30 +138,62 @@ describe('<QAList />', () => {
     expect(faultyList).toBeTruthy();
     expect(faultyList.find('#noQs')).toHaveLength(1);
   });
+
+  it('sorts answers', () => {
+    const sortAnswers = jest.fn();
+    sortAnswers(mockAnswers);
+    expect(sortAnswers).toHaveBeenCalled();
+  });
+
+  it('runs handleTrackingClick on click', () => {
+    wrapper.find('.question').simulate('click');
+    expect(handleTrackingClick).toHaveBeenCalled();
+  });
+
+  // it('runs responds to scroll', () => {
+  //   wrapper.find('#qa-list').simulate('scroll');
+  //   expect(moreAnsweredQs).toHaveBeenCalled();
+  // });
 });
 
 describe('<QAButtons />', () => {
   let wrapper, instance;
+  const moreAnsweredQs = jest.fn();
+  const handleTrackingClick = jest.fn();
+  const addQuestion = jest.fn();
 
   beforeEach(() => {
-    wrapper = shallow(<TestableQAButtons />);
-    instance = wrapper.instance();
+    wrapper = shallow(<TestableQAButtons moreAnsweredQs={moreAnsweredQs} handleTrackingClick={handleTrackingClick} addQuestion={addQuestion} displayMoreAnsweredQs={true}/>);
   });
 
   it('renders all elements', () => {
     expect(wrapper).toBeTruthy();
     expect(wrapper.find('#buttons')).toHaveLength(1);
-    expect(wrapper.find('button')).toHaveLength(1);
+    expect(wrapper.find('button')).toHaveLength(2);
+  });
+
+  it('runs click handlers on click', () => {
+    let event = {currentTarget: {id: 'test'}};
+    wrapper.find('#more-answered-qs').simulate('click', event);
+    wrapper.find('#addq').simulate('click', event);
+    expect(moreAnsweredQs).toHaveBeenCalled();
+    expect(handleTrackingClick).toHaveBeenCalled();
+    expect(addQuestion).toHaveBeenCalled();
   });
 });
 
 describe('<AnswerModal />', () => {
   let wrapper, instance;
   let mockPhotos = ['photo1', 'photo2', 'photo3'];
+  const handleTrackingClick = jest.fn();
+  const openThumbnail = jest.fn();
 
   beforeEach(() => {
-    wrapper = shallow(<TestableAnswerModal photos={mockPhotos}/>);
+    wrapper = shallow(<TestableAnswerModal photos={mockPhotos} handleTrackingClick={handleTrackingClick} openThumbnail={openThumbnail}/>);
     instance = wrapper.instance();
+    wrapper.setState({
+      photos: mockPhotos
+    });
   });
 
   it('renders all elements', () => {
@@ -157,29 +202,56 @@ describe('<AnswerModal />', () => {
     expect(wrapper.find('.modal-content')).toHaveLength(1);
     expect(wrapper.find('form')).toHaveLength(1);
     expect(wrapper.find('#modal-photos')).toHaveLength(1);
+    expect(wrapper.find('img')).toHaveLength(3);
   });
 
-  // it('runs uploadPhotos function', () => {
-  //   instance.uploadPhotos = jest.fn();
+  it('runs handleTrackingClick on click', () => {
+    let event = {currentTarget: {className: 'test'}};
+    wrapper.find('.close-btn').simulate('click', event);
+    wrapper.find('.subtitle').simulate('click', event);
+    wrapper.find('#modal-answer').simulate('click', event);
+    wrapper.find('#modal-answer-nickname').simulate('click', event);
+    wrapper.find('#modal-answer-email').simulate('click', event);
+    wrapper.find('#modal-photos').simulate('click', event);
+    expect(handleTrackingClick).toHaveBeenCalled();
+  });
 
-  //   const event = {target: {files: 'test'}};
+  it('runs clickHandler on submit', () => {
+    let event = {currentTarget: {className: 'test'}};
+    wrapper.find('img').at(1).simulate('click', event);
+    expect(handleTrackingClick).toHaveBeenCalled();
+    expect(openThumbnail).toHaveBeenCalled();
+  });
 
-  //   wrapper.find('#modal-photos').simulate('change', event);
+  it('checks if photos are invalid', () => {
+    let result = instance.photosValid(mockPhotos);
+    expect(result).toEqual(false);
+  });
 
-  //   wrapper.update();
+  it('checks if photos are valid', () => {
+    let result = instance.photosValid(['test.jpg']);
+    expect(result).toEqual(true);
+  });
 
-  //   expect(instance.uploadPhotos).toHaveBeenCalled();
-  // });
+  it('runs uploadPhotos function', () => {
+    const event = {target: {files: {length: 0}}};
+    instance.uploadPhotos(event);
+    wrapper.find('#modal-photos').simulate('change', event);
+    expect(instance.state.photos).toEqual([]);
+  });
+
+  it('runs uploadPhotos alert if more than five photos', () => {
+    const event = {target: {files: {item: {length: 0}, length: 6}}};
+    instance.uploadPhotos(event);
+    wrapper.find('#modal-photos').simulate('change', event);
+    expect(instance.state.photos).toEqual(mockPhotos);
+  });
 
   // it('runs submitAnswer function', () => {
   //   instance.submitAnswer = jest.fn();
-
   //   const event = {target: {files: 'test'}, preventDefault: () => {}};
-
   //   wrapper.find('#add-answer button').simulate('click', event);
-
   //   wrapper.update();
-
   //   expect(instance.submitAnswer).toHaveBeenCalled();
   // });
 });
@@ -190,6 +262,31 @@ describe('<QuestionModal />', () => {
   beforeEach(() => {
     wrapper = shallow(<TestableQuestionModal />);
     instance = wrapper.instance();
+    document.body.innerHTML = `
+    <div className="modal-q">
+    <div className="modal-content">
+      <span className="close-btn" onClick={(e) => { this.props.handleTrackingClick(e, e.currentTarget.className, 'Questions & Answers'); }}>&times;</span>
+      <p>ASK YOUR QUESTION</p>
+      <div className="subtitle" onClick={(e) => { this.props.handleTrackingClick(e, e.currentTarget.className, 'Questions & Answers'); }}>About the {this.props.productName}</div>
+      <form id="add-question">
+        <label>Your Question:*&nbsp;</label>
+        <textarea id="modal-question" name="body" maxLength="1000" onClick={(e) => { this.props.handleTrackingClick(e, e.currentTarget.id, 'Questions & Answers'); }}></textarea>
+        <label>What is your nickname:*&nbsp;</label>
+        <input type="text" id="modal-question-nickname" placeholder="Example: jackson11!" name="name" maxLength="60" onClick={(e) => { this.props.handleTrackingClick(e, e.currentTarget.id, 'Questions & Answers'); }}/>
+        <div>(For privacy reasons, do not use your full name or email address)</div>
+        <br></br>
+        <label>Your email:*&nbsp;</label>
+        <input type="text" id="modal-question-email" placeholder="Why did you like the product or not" name="email" maxLength="60" onClick={(e) => { this.props.handleTrackingClick(e, e.currentTarget.id, 'Questions & Answers'); }}/>
+        <div>(For authentication reasons, you will not be emailed)</div>
+        <button onClick={this.submitQuestion}>Submit question</button>
+      </form>
+    </div>
+  </div>
+    `;
+
+    document.getElementById('modal-question').value = 'test';
+    document.getElementById('modal-question-nickname').value = 'test';
+    document.getElementById('modal-question-email').value = 'test@test.com';
   });
 
   it('renders all elements', () => {
@@ -198,20 +295,38 @@ describe('<QuestionModal />', () => {
     expect(wrapper.find('.modal-content')).toHaveLength(1);
     expect(wrapper.find('form')).toHaveLength(1);
   });
+
+  // it('runs submitQuestion function upon submit', () => {
+  //   let event = {currentTarget: {className: 'test'}, preventDefault: () => {}};
+  //   const submitQuestion = jest.fn();
+  //   wrapper.find('#add-question button').simulate('click', event);
+  //   wrapper.update();
+  //   expect(instance.submitQuestion).toHaveBeenCalled();
+  // });
 });
 
 describe('<AnswerContainer />', () => {
   let wrapper, instance;
   let mockPhotos = ['photo1', 'photo2', 'photo3'];
+  const handleTrackingClick = jest.fn();
+  const openThumbnail = jest.fn();
 
   beforeEach(() => {
-    wrapper = shallow(<TestableAnswerContainer photos={mockPhotos}/>);
-    instance = wrapper.instance();
+    wrapper = shallow(<TestableAnswerContainer photos={mockPhotos} handleTrackingClick={handleTrackingClick} openThumbnail={openThumbnail}/>);
   });
 
   it('renders all elements', () => {
     expect(wrapper).toBeTruthy();
     expect(wrapper.find('.answer-container')).toHaveLength(1);
+    expect(wrapper.find('img')).toHaveLength(3);
+  });
+
+  it('runs click handler on click', () => {
+    let event = {currentTarget: {className: 'test'}, preventDefault: () => {}};
+    wrapper.find('.answer').simulate('click', event);
+    wrapper.find('.answer-photo').at(1).simulate('click', event);
+    expect(handleTrackingClick).toHaveBeenCalled();
+    expect(openThumbnail).toHaveBeenCalled();
   });
 });
 
@@ -289,10 +404,10 @@ describe('<SignatureHelpfulReport />', () => {
 
 describe('<QATrackerHOC />', () => {
   let wrapper, instance, TestComponent;
+  const handleTrackingClick = jest.fn();
 
   beforeEach(() => {
-    TestComponent = withTracker(TestableQAHeader);
-    wrapper = shallow(<TestComponent />);
+    wrapper = mount(<QAHeader />);
     instance = wrapper.instance();
   });
 
@@ -301,12 +416,11 @@ describe('<QATrackerHOC />', () => {
   });
 
   it('runs handleTrackingClick function', () => {
-    instance.handleTrackingClick = jest.fn();
-    let test = shallow(<TestableQAHeader handleTrackingClick={instance.handleTrackingClick}/>);
+    const handleTrackingClick = jest.fn();
+    let test = mount(<TestableQAHeader handleTrackingClick={handleTrackingClick}/>);
     let event = {currentTarget: {id: 'id'}};
-    test.find('.QA').simulate('click', event);
-    wrapper.update();
-    expect(instance.handleTrackingClick).toHaveBeenCalled();
+    test.simulate('click', event);
+    expect(handleTrackingClick).toHaveBeenCalled();
   });
 });
 

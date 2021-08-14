@@ -7,7 +7,7 @@ class QuestionModal extends React.Component {
     super(props);
 
     this.state = {
-      currProductId: this.props.currProductId
+      currProductId: this.props.currProductId,
     };
 
     this.submitQuestion = this.submitQuestion.bind(this);
