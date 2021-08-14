@@ -1,5 +1,7 @@
 const CompressionPlugin = require('compression-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const path = require('path');
 const zlib = require('zlib');
 
@@ -21,7 +23,7 @@ module.exports = {
       {
         test: /\.s[ac]ss$/i,
         use: [
-          'style-loader',
+          MiniCssExtractPlugin.loader,
           'css-loader',
           'sass-loader',
         ],
@@ -37,10 +39,17 @@ module.exports = {
   },
   output: {
     path: path.resolve(__dirname, 'client/public'),
-    filename: 'bundle.js',
+    filename: 'bundle-[contenthash].bundle.js',
     clean: true
   },
-  plugins: [new CompressionPlugin({
+  optimization: {
+    minimizer: [
+      '...',
+      new CssMinimizerPlugin()
+    ],
+  },
+  plugins:
+  [new CompressionPlugin({
     filename: '[path][base].br',
     algorithm: 'brotliCompress',
     test: /\.(jsx|js|css|html|svg)$/,
@@ -54,7 +63,11 @@ module.exports = {
     deleteOriginalAssets: false,
   }),
   new HtmlWebpackPlugin({
-    template: './client/src/template.html',
-    favicon: './client/src/favicon.ico'
+    template: __dirname + '/client/src/template.html',
+    favicon: './client/src/favicon.ico',
+    inject: 'body'
+  }),
+  new MiniCssExtractPlugin({
+    filename: 'styles-[contenthash].css'
   })],
 };
