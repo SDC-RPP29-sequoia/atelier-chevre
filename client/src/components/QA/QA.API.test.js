@@ -37,22 +37,44 @@ describe('Q&A API Utilities', () => {
     done();
   });
 
-  it('should return axios response when invoking markHelpful', done => {
+  it('should return axios response when marking question helpful', done => {
     const questions = {questions: []};
     axios.put.mockResolvedValue(questions);
 
-    API.markHelpful('id', {})
+    API.markHelpful('question-helpful', {})
       .then(response => {
         expect(response).toEqual(questions);
       });
     done();
   });
 
-  it('should return axios response when invoking report', done => {
+  it('should return axios response when marking answer helpful', done => {
     const questions = {questions: []};
     axios.put.mockResolvedValue(questions);
 
-    API.report('id', {})
+    API.markHelpful('answer-helpful', {})
+      .then(response => {
+        expect(response).toEqual(questions);
+      });
+    done();
+  });
+
+  it('should return axios response when reporting answer', done => {
+    const questions = {questions: []};
+    axios.put.mockResolvedValue(questions);
+
+    API.report('report-answer', {})
+      .then(response => {
+        expect(response).toEqual(questions);
+      });
+    done();
+  });
+
+  it('should return axios response when reporting question', done => {
+    const questions = {questions: []};
+    axios.put.mockResolvedValue(questions);
+
+    API.report('report-question', {})
       .then(response => {
         expect(response).toEqual(questions);
       });

@@ -16,7 +16,8 @@ import { TestableAnswerContainer } from './AnswerContainer';
 import { TestableLoadMoreAnswers } from './LoadMoreAnswers';
 import { TestableQHelpfulAddAnswer } from './QHelpfulAddAnswer';
 import { TestableSignatureHelpfulReport } from './SignatureHelpfulReport';
-import QATrackerHOC from './QATrackerHOC';
+import { TestableThumbnailModal } from './ThumbnailModal';
+import withTracker from './QATrackerHOC';
 
 describe('<QuestionsAndAnswers />', () => {
   let wrapper, instance;
@@ -216,9 +217,10 @@ describe('<AnswerContainer />', () => {
 
 describe('<LoadMoreAnswers />', () => {
   let wrapper, instance;
+  const handleTrackingClick = jest.fn();
 
   beforeEach(() => {
-    wrapper = shallow(<TestableLoadMoreAnswers loadMoreAnswers={(e) => { return; }} handleTrackingClick={(e) => { return; }} />);
+    wrapper = shallow(<TestableLoadMoreAnswers loadMoreAnswers={(e) => { return; }} handleTrackingClick={handleTrackingClick} />);
     instance = wrapper.instance();
   });
 
@@ -227,27 +229,20 @@ describe('<LoadMoreAnswers />', () => {
     expect(wrapper.find('.load-more-answers')).toHaveLength(1);
   });
 
-  // it('should run click handler function on click', () => {
-  //   const clickHandler = jest.fn();
-  //   const loadMoreAnswers = jest.fn();
-  //   const handleTrackingClick = jest.fn();
-  //   event = {currentTarget: {className: 'test'}};
-
-  //   wrapper.find('.load-more-answers').simulate('click', event);
-
-  //   wrapper.update();
-
-  //   expect(clickHandler).toHaveBeenCalled();
-  //   // expect(loadMoreAnswers).toHaveBeenCalled();
-  //   // expect(handleTrackingClick).toHaveBeenCalled();
-  // });
+  it('should run clickHandler function on click', () => {
+    let event = {currentTarget: {className: 'test'}};
+    wrapper.find('.load-more-answers').simulate('click', event);
+    wrapper.update();
+    expect(handleTrackingClick).toHaveBeenCalled();
+  });
 });
 
 describe('<QHelpfulAddAnswer />', () => {
   let wrapper, instance;
+  const handleTrackingClick = jest.fn();
 
   beforeEach(() => {
-    wrapper = shallow(<TestableQHelpfulAddAnswer />);
+    wrapper = shallow(<TestableQHelpfulAddAnswer handleTrackingClick={handleTrackingClick}/>);
     instance = wrapper.instance();
   });
 
@@ -258,13 +253,21 @@ describe('<QHelpfulAddAnswer />', () => {
     expect(wrapper.find('.add-answer')).toHaveLength(1);
     expect(wrapper.find('.report-question')).toHaveLength(1);
   });
+
+  it('runs onClick function', () => {
+    let event = {currentTarget: {id: 'id'}};
+    wrapper.find('.qhelpful-addanswer').simulate('click', event);
+    wrapper.update();
+    expect(handleTrackingClick).toHaveBeenCalled();
+  });
 });
 
 describe('<SignatureHelpfulReport />', () => {
   let wrapper, instance;
+  const handleTrackingClick = jest.fn();
 
   beforeEach(() => {
-    wrapper = shallow(<TestableSignatureHelpfulReport />);
+    wrapper = shallow(<TestableSignatureHelpfulReport handleTrackingClick={handleTrackingClick}/>);
     instance = wrapper.instance();
   });
 
@@ -275,17 +278,57 @@ describe('<SignatureHelpfulReport />', () => {
     expect(wrapper.find('.answer-helpful')).toHaveLength(1);
     expect(wrapper.find('.report-answer')).toHaveLength(1);
   });
+
+  it('runs onClick function', () => {
+    let event = {currentTarget: {id: 'id'}};
+    wrapper.find('.signature-helpful-report').simulate('click', event);
+    wrapper.update();
+    expect(handleTrackingClick).toHaveBeenCalled();
+  });
 });
 
 describe('<QATrackerHOC />', () => {
-  let wrapper, instance;
+  let wrapper, instance, TestComponent;
 
   beforeEach(() => {
-    wrapper = shallow(<QATrackerHOC />);
+    TestComponent = withTracker(TestableQAHeader);
+    wrapper = shallow(<TestComponent />);
     instance = wrapper.instance();
   });
 
   it('renders', () => {
     expect(wrapper).toBeTruthy();
+  });
+
+  it('runs handleTrackingClick function', () => {
+    instance.handleTrackingClick = jest.fn();
+    let test = shallow(<TestableQAHeader handleTrackingClick={instance.handleTrackingClick}/>);
+    let event = {currentTarget: {id: 'id'}};
+    test.find('.QA').simulate('click', event);
+    wrapper.update();
+    expect(instance.handleTrackingClick).toHaveBeenCalled();
+  });
+});
+
+describe('<ThumbnailModal />', () => {
+  let wrapper, instance;
+  const handleTrackingClick = jest.fn();
+
+  beforeEach(() => {
+    wrapper = shallow(<TestableThumbnailModal handleTrackingClick={handleTrackingClick}/>);
+  });
+
+  it('renders all elements', () => {
+    expect(wrapper).toBeTruthy();
+    expect(wrapper.find('.close-btn')).toHaveLength(1);
+    expect(wrapper.find('img')).toHaveLength(1);
+    expect(wrapper.find('.thumbnail-content')).toHaveLength(1);
+  });
+
+  it('runs onClick function', () => {
+    let event = {currentTarget: {id: 'id'}};
+    wrapper.find('.close-btn').simulate('click', event);
+    wrapper.update();
+    expect(handleTrackingClick).toHaveBeenCalled();
   });
 });
