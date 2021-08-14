@@ -17,11 +17,11 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 
 
-app.use(
-  expressStaticGzip(__dirname + '/../client/public', {
-    enableBrotli: true,
-  }),
-);
+// app.use(
+//   expressStaticGzip(__dirname + '/../client/public', {
+//     enableBrotli: true,
+//   }),
+// );
 
 app.use(express.static(__dirname + '/../client/public'));
 
