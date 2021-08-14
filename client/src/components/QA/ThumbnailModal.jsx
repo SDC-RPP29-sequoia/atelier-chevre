@@ -12,4 +12,6 @@ const ThumbnailModal = (props) => {
   );
 };
 
+export {ThumbnailModal as TestableThumbnailModal};
+
 export default withTracker(ThumbnailModal);

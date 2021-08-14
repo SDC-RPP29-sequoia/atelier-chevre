@@ -293,7 +293,7 @@ class QuestionsAndAnswers extends React.Component {
   }
 
   openThumbnail(e) {
-    const displayedImage = e.target.src;
+    const displayedImage = e.target.getAttribute('full');
 
     document.getElementsByTagName('body')[0].setAttribute('style', 'overflow-y: hidden');
 
@@ -386,5 +386,7 @@ class QuestionsAndAnswers extends React.Component {
     );
   }
 }
+
+export {QuestionsAndAnswers as TestableQuestionsAndAnswers};
 
 export default withTracker(QuestionsAndAnswers);
