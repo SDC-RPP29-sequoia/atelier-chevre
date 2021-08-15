@@ -88,7 +88,7 @@ class AnswerModal extends React.Component {
       return;
     }
 
-    this.handleModal('modal');
+    this.handleModal('.modal');
 
     let formElement = document.querySelector('#add-answer');
     let formData = new FormData(formElement);
