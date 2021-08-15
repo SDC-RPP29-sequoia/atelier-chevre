@@ -1,3 +1,6 @@
+  // $accentColor: #C596FC;
+  $accentColor: #1ADECB;
+
   #reviews-section {
     color: #292929;
     margin-top: 20px;
@@ -69,6 +72,9 @@
         cursor: pointer;
         text-decoration: underline;
         color: #292929;
+        @media (prefers-color-scheme: dark) {
+          color: #5d5d5d;
+        }
       }
     }
 
@@ -86,6 +92,9 @@
       color: #292929;
       font-size: .7rem;
       margin-bottom: 1rem;
+      @media (prefers-color-scheme: dark) {
+        color: $accentColor;
+      }
     }
 
     .review-content-top-section {
@@ -97,6 +106,9 @@
       color: #292929;
       font-size: .85rem;
       place-self: end;
+      @media (prefers-color-scheme: dark) {
+        color: #eee;
+      }
     }
 
     .review-content-wrapper {
@@ -119,6 +131,16 @@
       }
       &:active {
         background-color: lightslategrey;
+      }
+
+      @media (prefers-color-scheme: dark) {
+        background-color: $accentColor;
+        &:hover {
+          background-color: #cba9f5;
+        }
+        &:active {
+          background-color: #9b52f5
+        }
       }
     }
 
@@ -154,11 +176,18 @@
       width: 100%;
       height: 8px;
       background-color: rgb(185, 185, 185);
+      @media (prefers-color-scheme: dark) {
+        background-color: #5d5d5d;
+      }
+
     }
 
     .dark-bar {
       height: 8px;
       background-color: rgb(1, 160, 1);
+      @media (prefers-color-scheme: dark) {
+        background-color: $accentColor;
+      }
     }
 
     .review-label {
@@ -174,6 +203,10 @@
       font-weight: bold;
       &:focus {
         outline: none;
+      }
+      @media (prefers-color-scheme: dark) {
+        background-color: #212121;
+        color: #eee;
       }
     }
 
@@ -194,6 +227,14 @@
     #reviews-recommended {
       font-size: .85rem;
       margin-bottom: 1rem;
+      @media (prefers-color-scheme: dark) {
+        color: #eee;
+        .checkMark {
+          fill: #eee !important;
+          color: #eee !important;
+          stroke: #eee !important;
+        }
+      }
     }
 
     #reviews-response {
@@ -201,6 +242,9 @@
       font-size: .85rem;
       padding: 1rem;
       margin-bottom: 1rem;
+      @media (prefers-color-scheme: dark) {
+        background-color: #3d3d3d;
+      }
     }
 
     #response-header {
@@ -257,6 +301,9 @@
       .breakdown-icon {
         position: relative;
         width: 20px;
+        @media (prefers-color-scheme: dark) {
+          color: $accentColor;
+        }
       }
 
 
@@ -281,6 +328,9 @@
       .breakdown-bar {
         height: 8px;
         background-color: #B9B9B9;
+        @media (prefers-color-scheme: dark) {
+          background-color: #5d5d5d;
+        }
       }
 
       .breakdown-characteristic {
