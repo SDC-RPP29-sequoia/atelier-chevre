@@ -9,7 +9,7 @@ module.exports = {
     index: './client/src/index.js',
     app: './client/src/components/App/App.jsx',
     header: './client/src/components/Header/Header.jsx',
-    questions: './client/src/components/QA/QuestionsAndAnswers.jsx',
+    questions: ['./client/src/components/QA/QuestionsAndAnswers.jsx', './client/src/components/QA/AnswerModal.jsx', './client/src/components/QA/QuestionModal.jsx'],
     productOverview: './client/src/components/ProductOverview/ProductOverview.jsx',
     reviews: './client/src/components/Reviews/RatingsAndReviews.jsx',
     stars: '/client/src/components/Stars/Stars.jsx'
@@ -50,7 +50,7 @@ module.exports = {
   },
   optimization: {
     splitChunks: {
-      chunks: 'all',
+      chunks: 'initial',
     }
   },
   plugins: [
