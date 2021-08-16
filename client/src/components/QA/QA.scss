@@ -1,9 +1,17 @@
+$accentColor: #C596FC;
+$textColor: #eee;
+$dark: 'prefers-color-scheme: dark';
+
+
 /* WRAPPER */
 #qa-wrapper {
   display: flex;
   flex-direction: column;
   align-content: space-around;
   padding: 0 80px;
+  @media($dark) {
+    color: $textColor
+  }
 
   /* HEADER */
   #QAHeader {
@@ -27,6 +35,13 @@
     background: url('https://upload.wikimedia.org/wikipedia/commons/5/55/Magnifying_glass_icon.svg') no-repeat right;
     background-size: 20px 20px;
     background-position: 97%;
+    @media($dark) {
+      color: $accentColor;
+      border: 1px solid $accentColor;
+      &:focus {
+        outline: none;
+      }
+    }
   }
 
   #search img {
@@ -38,6 +53,9 @@
     color: black;
     font-weight: bold;
     padding-left: 5px;
+    @media($dark) {
+      color: $accentColor
+    }
   }
 
   /* LIST */
@@ -71,6 +89,9 @@
     grid-row: 2 / span 1;
     color: rgb(82, 82, 82);
     font-size: 0.88rem;
+    @media($dark) {
+      color: $textColor
+    }
   }
 
   .answer-body {
@@ -125,6 +146,9 @@
     margin-bottom: 1rem;
     margin-left: 1.45rem;
     color: #292929;
+    @media($dark) {
+     color: $accentColor
+    }
   }
 
   .author-date {
@@ -142,6 +166,9 @@
     font-size: .7rem;
     margin-bottom: 1rem;
     color: #292929;
+    @media($dark) {
+      color: $accentColor
+    }
   }
 
   .load-more-answers {
@@ -150,6 +177,9 @@
     margin-bottom: 1rem;
     margin-left: 1.4rem;
     cursor: pointer;
+    @media($dark) {
+      color: $textColor
+    }
   }
 
   /* BUTTONS */
@@ -162,6 +192,12 @@
 
   #buttons button {
     cursor: pointer;
+    @media($dark) {
+      background-color: $accentColor;
+      &:hover {
+        background-color: #956fc0;
+      }
+    }
   }
 
   #more-answered-qs {

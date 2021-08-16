@@ -253,6 +253,11 @@ $standardDarkColor: #eee;
             justify-content: center;
             align-items: center;
           }
+          @media(prefers-color-scheme: dark) {
+            h1 {
+              color: #C596FC
+            }
+          }
         }
 
         &.gapped {
@@ -303,7 +308,8 @@ $standardDarkColor: #eee;
         display: flex;
         align-items: center;
         @media (prefers-color-scheme: dark) {
-          border: 1px solid #eee;
+          color: #eee;
+          border: 1px solid #C596FC;
         }
 
         &.button {
@@ -326,6 +332,9 @@ $standardDarkColor: #eee;
       border-right: $standardBorder;
       border-width: 2px;
       flex-direction: column;
+      @media(prefers-color-scheme: dark) {
+        color: #C596FC
+      }
     }
 
     & > div {
@@ -360,6 +369,9 @@ $standardDarkColor: #eee;
         .check {
           font-size: 1.2rem;
           font-weight: 700;
+          @media(prefers-color-scheme: dark) {
+            color: #C596FC
+          }
         }
       }
     }
