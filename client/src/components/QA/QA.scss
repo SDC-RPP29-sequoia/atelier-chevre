@@ -1,7 +1,7 @@
 $accentColor: #C596FC;
 $textColor: #eee;
 $dark: 'prefers-color-scheme: dark';
-
+$darkSearchIcon: url('https://www.vippng.com/png/full/493-4938160_magnifying-glass-png-white-search-icon-white-png.png') no-repeat right;
 
 /* WRAPPER */
 #qa-wrapper {
@@ -38,6 +38,9 @@ $dark: 'prefers-color-scheme: dark';
     @media($dark) {
       color: $accentColor;
       border: 1px solid $accentColor;
+      background: $darkSearchIcon;
+      background-size: 20px 20px;
+      background-position: 97%;
       &:focus {
         outline: none;
       }
@@ -98,6 +101,9 @@ $dark: 'prefers-color-scheme: dark';
     font-size: 1rem;
     color: black;
     margin-right: 2px;
+    @media($dark) {
+      color: $textColor
+    }
   }
 
   .answer-photos {
