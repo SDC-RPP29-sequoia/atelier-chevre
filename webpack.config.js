@@ -22,7 +22,7 @@ module.exports = {
       },
       {
         test: /\.s[ac]ss$/i,
-        use: [MiniCssExtractPlugin.loader, 'css-loader', 'sass-loader'],
+        use: [MiniCssExtractPlugin.loader, 'css-loader', 'sass-loader']
       },
       {
         test: /\.ico$/i,
@@ -38,31 +38,25 @@ module.exports = {
     filename: 'bundle-[contenthash].bundle.js',
     clean: true,
   },
-  optimization: {
-    minimizer: ['...', new CssMinimizerPlugin()],
-  },
-  plugins: [
-    new CompressionPlugin({
-      filename: '[path][base].br',
-      algorithm: 'brotliCompress',
-      test: /\.(jsx|js|css|html|svg)$/,
-      compressionOptions: {
-        params: {
-          [zlib.constants.BROTLI_PARAM_QUALITY]: 11,
-        },
+  plugins:
+  [new CompressionPlugin({
+    filename: '[path][base].br',
+    algorithm: 'brotliCompress',
+    test: /\.(jsx|js|css|html|svg)$/,
+    compressionOptions: {
+      params: {
+        [zlib.constants.BROTLI_PARAM_QUALITY]: 11,
       },
-      threshold: 10240,
-      minRatio: 0.8,
-      deleteOriginalAssets: false,
-    }),
-    new HtmlWebpackPlugin({
-      template: __dirname + '/client/src/template.html',
-      favicon: './client/src/favicon.ico',
-      inject: 'body',
-    }),
-    new MiniCssExtractPlugin({
-      filename: 'styles-[contenthash].css',
-    }),
-    //new BundleAnalyzerPlugin(),
+    },
+    threshold: 10240,
+    minRatio: 0.8,
+    deleteOriginalAssets: false,
+  }),
+  new HtmlWebpackPlugin({
+    template: __dirname + '/client/src/template.html',
+    favicon: './client/src/favicon.ico',
+    inject: 'body'
+  }),
+  //new BundleAnalyzerPlugin(),
   ],
 };
