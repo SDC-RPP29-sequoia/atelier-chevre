@@ -11,7 +11,8 @@ describe('ProductOverview API', () => {
       .then(response => {
         expect(response).toEqual(state);
         expect(axios.get).toHaveBeenCalledWith('/api/products/id');
-      });
+      })
+      .catch(err => console.log(err));
     done();
   });
 
@@ -23,7 +24,8 @@ describe('ProductOverview API', () => {
       .then(response => {
         expect(response).toEqual(state);
         expect(axios.get).toHaveBeenCalledWith('/api/products/id/styles');
-      });
+      })
+      .catch(err => console.log(err));
     done();
   });
 
@@ -35,7 +37,8 @@ describe('ProductOverview API', () => {
       .then(response => {
         expect(response).toEqual(state);
         expect(axios.get).toHaveBeenCalledWith('/api/reviews/id');
-      });
+      })
+      .catch(err => console.log(err));
     done();
   });
 });

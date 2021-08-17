@@ -2,9 +2,9 @@ const CompressionPlugin = require('compression-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
+//const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const path = require('path');
 const zlib = require('zlib');
-
 
 module.exports = {
   entry: path.resolve(__dirname, '/client/src/index.js'),
@@ -22,16 +22,12 @@ module.exports = {
       },
       {
         test: /\.s[ac]ss$/i,
-        use: [
-          MiniCssExtractPlugin.loader,
-          'css-loader',
-          'sass-loader',
-        ],
+        use: [MiniCssExtractPlugin.loader, 'css-loader', 'sass-loader'],
       },
       {
         test: /\.ico$/i,
         type: 'asset/resource',
-      }
+      },
     ],
   },
   resolve: {
@@ -40,34 +36,33 @@ module.exports = {
   output: {
     path: path.resolve(__dirname, 'client/public'),
     filename: 'bundle-[contenthash].bundle.js',
-    clean: true
+    clean: true,
   },
   optimization: {
-    minimizer: [
-      '...',
-      new CssMinimizerPlugin()
-    ],
+    minimizer: ['...', new CssMinimizerPlugin()],
   },
-  plugins:
-  [new CompressionPlugin({
-    filename: '[path][base].br',
-    algorithm: 'brotliCompress',
-    test: /\.(jsx|js|css|html|svg)$/,
-    compressionOptions: {
-      params: {
-        [zlib.constants.BROTLI_PARAM_QUALITY]: 11,
+  plugins: [
+    new CompressionPlugin({
+      filename: '[path][base].br',
+      algorithm: 'brotliCompress',
+      test: /\.(jsx|js|css|html|svg)$/,
+      compressionOptions: {
+        params: {
+          [zlib.constants.BROTLI_PARAM_QUALITY]: 11,
+        },
       },
-    },
-    threshold: 10240,
-    minRatio: 0.8,
-    deleteOriginalAssets: false,
-  }),
-  new HtmlWebpackPlugin({
-    template: __dirname + '/client/src/template.html',
-    favicon: './client/src/favicon.ico',
-    inject: 'body'
-  }),
-  new MiniCssExtractPlugin({
-    filename: 'styles-[contenthash].css'
-  })],
+      threshold: 10240,
+      minRatio: 0.8,
+      deleteOriginalAssets: false,
+    }),
+    new HtmlWebpackPlugin({
+      template: __dirname + '/client/src/template.html',
+      favicon: './client/src/favicon.ico',
+      inject: 'body',
+    }),
+    new MiniCssExtractPlugin({
+      filename: 'styles-[contenthash].css',
+    }),
+    //new BundleAnalyzerPlugin(),
+  ],
 };
