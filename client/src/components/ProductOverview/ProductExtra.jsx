@@ -4,7 +4,7 @@ import { AiOutlineCheck } from 'react-icons/ai';
 const ProductExtra = (props) => (
   <div id="product-extra">
     <div id="product-description">
-      <h4 id="description-title">{props.product?.slogan}</h4>
+      <p id="description-title">{props.product?.slogan}</p>
       <p id="description">{props.product?.description}</p>
     </div>
     <div id="product-features">

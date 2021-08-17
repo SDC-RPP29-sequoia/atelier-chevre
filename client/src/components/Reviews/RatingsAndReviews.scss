@@ -1,6 +1,13 @@
+  $accentColor: #C596FC;
+  $dark: 'prefers-color-scheme: dark';
+  // $accentColor: #1ADECB;
+
   #reviews-section {
     color: #292929;
     margin-top: 20px;
+    @media ($dark) {
+      color: #eee;
+    }
 
     #review-section-title {
       padding: 0 80px;
@@ -66,6 +73,9 @@
         cursor: pointer;
         text-decoration: underline;
         color: #292929;
+        @media ($dark) {
+          color: $accentColor;
+        }
       }
     }
 
@@ -83,6 +93,9 @@
       color: #292929;
       font-size: .7rem;
       margin-bottom: 1rem;
+      @media ($dark) {
+        color: $accentColor;
+      }
     }
 
     .review-content-top-section {
@@ -94,6 +107,9 @@
       color: #292929;
       font-size: .85rem;
       place-self: end;
+      @media ($dark) {
+        color: #eee;
+      }
     }
 
     .review-content-wrapper {
@@ -116,6 +132,13 @@
       }
       &:active {
         background-color: lightslategrey;
+      }
+
+      @media ($dark) {
+        background-color: $accentColor;
+        &:hover {
+          background-color: #956fc0;
+        }
       }
     }
 
@@ -151,11 +174,18 @@
       width: 100%;
       height: 8px;
       background-color: rgb(185, 185, 185);
+      @media ($dark) {
+        background-color: #5d5d5d;
+      }
+
     }
 
     .dark-bar {
       height: 8px;
       background-color: rgb(1, 160, 1);
+      @media ($dark) {
+        background-color: $accentColor;
+      }
     }
 
     .review-label {
@@ -171,6 +201,10 @@
       font-weight: bold;
       &:focus {
         outline: none;
+      }
+      @media ($dark) {
+        background-color: #212121;
+        color: #eee;
       }
     }
 
@@ -191,6 +225,12 @@
     #reviews-recommended {
       font-size: .85rem;
       margin-bottom: 1rem;
+      @media ($dark) {
+        color: #eee;
+        svg {
+          color: $accentColor
+        }
+      }
     }
 
     #reviews-response {
@@ -198,6 +238,9 @@
       font-size: .85rem;
       padding: 1rem;
       margin-bottom: 1rem;
+      @media ($dark) {
+        background-color: #3d3d3d;
+      }
     }
 
     #response-header {
@@ -254,8 +297,10 @@
       .breakdown-icon {
         position: relative;
         width: 20px;
+        @media ($dark) {
+          color: $accentColor;
+        }
       }
-
 
       .breakdown-bar-wrapper-2 {
         display: grid;
@@ -278,6 +323,9 @@
       .breakdown-bar {
         height: 8px;
         background-color: #B9B9B9;
+        @media (prefers-color-scheme: dark) {
+          background-color: #5d5d5d;
+        }
       }
 
       .breakdown-characteristic {

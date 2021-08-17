@@ -1,8 +1,8 @@
 const CompressionPlugin = require('compression-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+//const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const path = require('path');
 const zlib = require('zlib');
-
 
 module.exports = {
   entry: {
@@ -28,16 +28,12 @@ module.exports = {
       },
       {
         test: /\.s[ac]ss$/i,
-        use: [
-          'style-loader',
-          'css-loader',
-          'sass-loader',
-        ],
+        use: ['style-loader', 'css-loader', 'sass-loader']
       },
       {
         test: /\.ico$/i,
         type: 'asset/resource',
-      }
+      },
     ],
   },
   resolve: {
@@ -72,4 +68,5 @@ module.exports = {
       favicon: './client/src/favicon.ico',
       inject: 'body'
     })],
+  //new BundleAnalyzerPlugin(),
 };
