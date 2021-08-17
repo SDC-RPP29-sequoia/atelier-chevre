@@ -3,7 +3,8 @@ import Stars from '../Stars/Stars';
 import ClickTracker from './ClickTracker';
 import API from './ReviewsAPIUtils';
 import './RatingsAndReviews.scss';
-import { GrCheckmark } from 'react-icons/gr';
+// import { GrCheckmark } from 'react-icons/gr';
+import { Check } from 'react-feather';
 
 class ReviewContent extends React.Component {
   constructor(props) {
@@ -64,7 +65,7 @@ class ReviewContent extends React.Component {
           </div>
         }
         {review.recommend &&
-          <div id="reviews-recommended"><GrCheckmark /> I recommend this product</div>
+          <div id="reviews-recommended"><Check size={16}/> I recommend this product</div>
         }
         {!responseMissing &&
           <div id="reviews-response">

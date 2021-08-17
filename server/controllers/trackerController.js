@@ -8,7 +8,6 @@ const sendClickData = async (req, res) => {
       }
     });
 
-    console.log(response.status, response.data);
     res.sendStatus(201);
   } catch (err) {
     console.log(err.message);
