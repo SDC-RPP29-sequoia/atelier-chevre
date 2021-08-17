@@ -292,7 +292,7 @@ $standardBorder: 1px solid $standardColor;
 
       .control-wrapper {
         border: $standardBorder;
-        padding: 0 $standardPaddingUnit / 2;
+        padding: 0 1rem;
         height: 50px;
         display: flex;
         align-items: center;
@@ -326,14 +326,16 @@ $standardBorder: 1px solid $standardColor;
     p {
       font-size: 0.8rem;
       font-weight: 300;
-    }
-
-    h4 {
       margin-bottom: 1rem;
     }
 
     #product-description {
       flex-basis: 60%;
+
+      #description-title {
+        font-size: 1rem;
+        font-weight: bold;
+      }
     }
 
     #product-features {
