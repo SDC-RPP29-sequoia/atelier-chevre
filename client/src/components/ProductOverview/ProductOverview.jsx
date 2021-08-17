@@ -2,7 +2,7 @@ import React from 'react';
 import { AiOutlineArrowLeft, AiOutlineArrowRight, AiOutlineCheck, AiOutlineStar } from 'react-icons/ai';
 import { MdFullscreen } from 'react-icons/md';
 import API from './ProductOverviewAPIUtils.js';
-import _ from 'lodash';
+import { map } from 'lodash';
 import helpers from '../../helpers.js';
 
 import Stars from '../Stars/Stars.jsx';
@@ -50,7 +50,7 @@ class ProductOverview extends React.Component {
     await API.getProductStyles(this.props.productId)
       .then(response => {
         let defaultStyle = response.results.find(result => result['default?'] === true);
-        let skus = _.map(defaultStyle.skus, (sku, key) => {
+        let skus = map(defaultStyle.skus, (sku, key) => {
           sku.sku_id = key;
           return sku;
         });
@@ -76,8 +76,6 @@ class ProductOverview extends React.Component {
       .catch(err => {
         console.error(err);
       });
-
-    console.log(this.state);
   }
 
   onChange(key, val) {
@@ -87,7 +85,7 @@ class ProductOverview extends React.Component {
   }
 
   changeSku(skuId) {
-    let sku = _.map(this.state.selectedStyle.skus, (sku, key) => {
+    let sku = map(this.state.selectedStyle.skus, (sku, key) => {
       sku.sku_id = key;
       return sku;
     }).find(sku => sku.sku_id === skuId);
@@ -100,7 +98,7 @@ class ProductOverview extends React.Component {
 
   changeStyle(styleId) {
     let style = this.state.productStyles.results.find(result => result.style_id === styleId);
-    let skus = _.map(style.skus, (sku, key) => {
+    let skus = map(style.skus, (sku, key) => {
       sku.sku_id = key;
       return sku;
     });
