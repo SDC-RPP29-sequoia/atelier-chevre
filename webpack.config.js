@@ -11,7 +11,7 @@ module.exports = {
     header: './client/src/components/Header/Header.jsx',
     questions: ['./client/src/components/QA/QuestionsAndAnswers.jsx', './client/src/components/QA/AnswerModal.jsx', './client/src/components/QA/QuestionModal.jsx'],
     productOverview: './client/src/components/ProductOverview/ProductOverview.jsx',
-    reviews: './client/src/components/Reviews/RatingsAndReviews.jsx',
+    reviews: ['./client/src/components/Reviews/RatingsAndReviews.jsx', './client/src/components/Reviews/NewReviewForm.jsx', './client/src/components/Reviews/ReviewsModal.jsx'],
     stars: '/client/src/components/Stars/Stars.jsx'
   },
   module: {
