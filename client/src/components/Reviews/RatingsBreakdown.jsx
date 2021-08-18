@@ -1,5 +1,6 @@
 import React from 'react';
 import ClickTracker from './ClickTracker';
+import uniqid from 'uniqid';
 
 class RatingsBreakdown extends React.Component {
   constructor(props) {
@@ -32,9 +33,9 @@ class RatingsBreakdown extends React.Component {
         width: `${percentOfReviews}%`
       };
 
-      breakdownRow.push(<div><span className="reviews-number">{i} Stars</span></div>);
-      breakdownRow.push(<div className="light-bar"><div style={width}className="dark-bar"></div></div>);
-      breakdownRow.push(<div className="review-label">{reviewCounter[i]}</div>);
+      breakdownRow.push(<div key={uniqid()}><span className="reviews-number">{i} Stars</span></div>);
+      breakdownRow.push(<div key={uniqid()} className="light-bar"><div style={width}className="dark-bar"></div></div>);
+      breakdownRow.push(<div key={uniqid()} className="review-label">{reviewCounter[i]}</div>);
 
       if (percentOfReviews !== 0) {
         ratingsRow = <div key={i}
@@ -44,7 +45,7 @@ class RatingsBreakdown extends React.Component {
           }}
           className="ratings-breakdown-row reviews-number-link">{breakdownRow}</div>;
       } else {
-        ratingsRow = <div key={i} className="ratings-breakdown-row reviews-number-nolink">{breakdownRow}</div>;
+        ratingsRow = <div key={uniqid()} className="ratings-breakdown-row reviews-number-nolink">{breakdownRow}</div>;
       }
 
       breakdownRows.push(ratingsRow);
