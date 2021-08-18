@@ -5,7 +5,15 @@ const path = require('path');
 const zlib = require('zlib');
 
 module.exports = {
-  entry: path.resolve(__dirname, '/client/src/index.js'),
+  entry: {
+    index: './client/src/index.js',
+    app: './client/src/components/App/App.jsx',
+    header: './client/src/components/Header/Header.jsx',
+    questions: ['./client/src/components/QA/QuestionsAndAnswers.jsx', './client/src/components/QA/AnswerModal.jsx', './client/src/components/QA/QuestionModal.jsx'],
+    productOverview: './client/src/components/ProductOverview/ProductOverview.jsx',
+    reviews: ['./client/src/components/Reviews/RatingsAndReviews.jsx', './client/src/components/Reviews/NewReviewForm.jsx', './client/src/components/Reviews/ReviewsModal.jsx'],
+    stars: '/client/src/components/Stars/Stars.jsx'
+  },
   module: {
     rules: [
       {
@@ -33,28 +41,32 @@ module.exports = {
   },
   output: {
     path: path.resolve(__dirname, 'client/public'),
-    filename: 'bundle-[contenthash].bundle.js',
-    clean: true,
+    filename: '[name].bundle-[contenthash].bundle.js',
+    clean: true
   },
-  plugins:
-  [new CompressionPlugin({
-    filename: '[path][base].br',
-    algorithm: 'brotliCompress',
-    test: /\.(jsx|js|css|html|svg)$/,
-    compressionOptions: {
-      params: {
-        [zlib.constants.BROTLI_PARAM_QUALITY]: 11,
+  optimization: {
+    splitChunks: {
+      chunks: 'all',
+    }
+  },
+  plugins: [
+    new CompressionPlugin({
+      filename: '[path][base].br',
+      algorithm: 'brotliCompress',
+      test: /\.(jsx|js|css|html|svg)$/,
+      compressionOptions: {
+        params: {
+          [zlib.constants.BROTLI_PARAM_QUALITY]: 11,
+        },
       },
-    },
-    threshold: 10240,
-    minRatio: 0.8,
-    deleteOriginalAssets: false,
-  }),
-  new HtmlWebpackPlugin({
-    template: __dirname + '/client/src/template.html',
-    favicon: './client/src/favicon.ico',
-    inject: 'body'
-  }),
+      threshold: 10240,
+      minRatio: 0.8,
+      deleteOriginalAssets: false,
+    }),
+    new HtmlWebpackPlugin({
+      template: __dirname + '/client/src/template.html',
+      favicon: './client/src/favicon.ico',
+      inject: 'body'
+    })],
   //new BundleAnalyzerPlugin(),
-  ],
 };
