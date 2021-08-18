@@ -145,14 +145,6 @@ describe('ProductImage component', () => {
     done();
   });
 
-  it('switches image', done => {
-    wrapper.find('.alt-image').last().simulate('click');
-    wrapper.update();
-
-    expect(wrapper.find('.selected')).toHaveLength(1);
-    done();
-  });
-
   it('calls handleImageClick', done => {
     wrapper.setProps({ fullscreen: true });
 

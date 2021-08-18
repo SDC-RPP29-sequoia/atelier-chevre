@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import { AiOutlineArrowLeft, AiOutlineArrowRight, AiOutlineDown, AiOutlineUp, AiOutlineBorder, AiOutlineMinusSquare } from 'react-icons/ai';
 import { MdFullscreen } from 'react-icons/md';
 
-const ProductImage = props => {
+const ProductImage = ({ data, methods }) => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [scrollTop, setScrollTop] = useState(0);
   const [firstImageInd, setFirstImageInd] = useState(0);
@@ -56,8 +56,8 @@ const ProductImage = props => {
     document.body.style.height = 'auto';
     document.body.style.overflowY = 'scroll';
 
-    if (!props.fullscreen) {
-      props.toggleFullScreen();
+    if (!data?.fullscreen) {
+      methods?.toggleFullScreen();
     } else {
       setZoomed(!zoomed);
 
@@ -86,16 +86,16 @@ const ProductImage = props => {
     <>
       <div
         id='product-image'
-        className={`bg-image ${props.fullscreen ? 'fullscreen' : ''} ${zoomed ? 'zoomed' : ''}`}
-        style={{ backgroundImage: props.images[currentImageIndex]?.url ? `url(${props.images[currentImageIndex]?.url})` : 'none' }}
+        className={`bg-image ${data?.fullscreen ? 'fullscreen' : ''} ${zoomed ? 'zoomed' : ''}`}
+        style={{ backgroundImage: data?.images[currentImageIndex]?.url ? `url(${data?.images[currentImageIndex]?.url.replace('q=80', 'q=30')})` : 'none' }}
         onClick={handleImageclick}
       >
-        <div id='image-list' className={`${props.fullscreen ? 'collapsed' : ''}`} styld={{ display: zoomed ? 'none' : 'flex' }}>
+        <div id='image-list' className={`${data?.fullscreen ? 'collapsed' : ''}`} styld={{ display: zoomed ? 'none' : 'flex' }}>
           <div className='image-alt-scroll up' style={{ color: firstImageInd === 0 ? 'transparent' : '#454545' }}>
             <AiOutlineUp className='clickable' onClick={() => scroll('up')} />
           </div>
           <div id='images' ref={imagesRef}>
-            {props.images?.map((photo, ind) => (
+            {data?.images?.map((photo, ind) => (
               <div className={`${ind === currentImageIndex ? 'selected' : ''}`} key={photo.url}>
                 <div
                   className='alt-image bg-image'
@@ -116,7 +116,7 @@ const ProductImage = props => {
               </div>
             ))}
           </div>
-          <div className='image-alt-scroll down' style={{ color: firstImageInd > props.images.length - 6 ? 'transparent' : '#454545' }}>
+          <div className='image-alt-scroll down' style={{ color: firstImageInd > data?.images.length - 6 ? 'transparent' : '#454545' }}>
             <AiOutlineDown className='clickable' onClick={() => scroll('down')} />
           </div>
         </div>
@@ -126,7 +126,7 @@ const ProductImage = props => {
             <MdFullscreen
               className='clickable'
               onClick={() => {
-                props.toggleFullScreen();
+                methods?.toggleFullScreen();
               }}
             />
           </div>
@@ -136,7 +136,7 @@ const ProductImage = props => {
               <AiOutlineArrowLeft id='arrow-left' className='clickable' onClick={() => switchImage('prev')} style={{ display: currentImageIndex > 0 ? 'block' : 'none' }} />
             </div>
             <div>
-              <AiOutlineArrowRight id='arrow-right' className='clickable' onClick={() => switchImage('next')} style={{ display: currentImageIndex !== props.images.length - 1 ? 'block' : 'none' }} />
+              <AiOutlineArrowRight id='arrow-right' className='clickable' onClick={() => switchImage('next')} style={{ display: currentImageIndex !== data?.images.length - 1 ? 'block' : 'none' }} />
             </div>
           </div>
         </div>
