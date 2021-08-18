@@ -379,3 +379,14 @@ $standardDarkColor: #eee;
     }
   }
 }
+
+@media (prefers-color-scheme: dark) {
+  .MuiSelect-icon {
+    color: white !important;
+  }
+
+  .MuiMenu-list {
+    background-color: #212121;
+    color: white;
+  }
+}
