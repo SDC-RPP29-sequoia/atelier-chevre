@@ -99,7 +99,7 @@ const ProductImage = ({ data, methods }) => {
               <div className={`${ind === currentImageIndex ? 'selected' : ''}`} key={photo.url}>
                 <div
                   className='alt-image bg-image'
-                  style={{ backgroundImage: `url(${photo.thumbnail_url.replace('q=80', 'q=30')})` }}
+                  style={{ backgroundImage: `url(${photo.thumbnail_url.replace('q=80', 'q=10')})` }}
                   onClick={() => {
                     setCurrentImageIndex(ind);
                   }}

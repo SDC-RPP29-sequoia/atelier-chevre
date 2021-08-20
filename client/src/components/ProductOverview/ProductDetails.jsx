@@ -98,7 +98,7 @@ const ProductDetails = ({ data, methods }) => {
               onClick={() => {
                 methods.changeStyle(style.style_id);
               }}
-              style={{ backgroundImage: `url(${style.photos[0].thumbnail_url})` }}
+              style={{ backgroundImage: `url(${style.photos[0].thumbnail_url.replace('q=80', 'q=10')})` }}
             >
               <div className='selected-check'>
                 <AiOutlineCheck />
