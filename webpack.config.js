@@ -67,6 +67,7 @@ module.exports = {
       template: __dirname + '/client/src/template.html',
       favicon: './client/src/favicon.ico',
       inject: 'body'
-    })],
+    }),
   //new BundleAnalyzerPlugin(),
+  ],
 };
