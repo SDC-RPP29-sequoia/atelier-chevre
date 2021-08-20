@@ -37,19 +37,19 @@ module.exports = {
     clean: true
   },
   plugins: [
-    // new CompressionPlugin({
-    //   filename: '[path][base].br',
-    //   algorithm: 'brotliCompress',
-    //   test: /\.(jsx|js|css|html|svg)$/,
-    //   compressionOptions: {
-    //     params: {
-    //       [zlib.constants.BROTLI_PARAM_QUALITY]: 11,
-    //     },
-    //   },
-    //   threshold: 10240,
-    //   minRatio: 0.8,
-    //   deleteOriginalAssets: false,
-    // }),
+    new CompressionPlugin({
+      filename: '[path][base].br',
+      algorithm: 'brotliCompress',
+      test: /\.(jsx|js|css|html|svg)$/,
+      compressionOptions: {
+        params: {
+          [zlib.constants.BROTLI_PARAM_QUALITY]: 11,
+        },
+      },
+      threshold: 10240,
+      minRatio: 0.8,
+      deleteOriginalAssets: false,
+    }),
     new HtmlWebpackPlugin({
       template: __dirname + '/client/src/template.html',
       favicon: './client/src/favicon.ico',
