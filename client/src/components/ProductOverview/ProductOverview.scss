@@ -298,6 +298,12 @@ $standardDarkColor: #eee;
             border-radius: 18px;
             font-size: 0.75rem;
           }
+
+          @media (prefers-color-scheme: dark) {
+            .selected-check {
+              color: $standardColor;
+            }
+          }
         }
       }
 
