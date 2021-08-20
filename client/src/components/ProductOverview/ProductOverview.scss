@@ -298,6 +298,12 @@ $standardDarkColor: #eee;
             border-radius: 18px;
             font-size: 0.75rem;
           }
+
+          @media (prefers-color-scheme: dark) {
+            .selected-check {
+              color: $standardColor;
+            }
+          }
         }
       }
 
@@ -377,5 +383,16 @@ $standardDarkColor: #eee;
         }
       }
     }
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  .MuiSelect-icon {
+    color: white !important;
+  }
+
+  .MuiMenu-list {
+    background-color: #212121;
+    color: white;
   }
 }
