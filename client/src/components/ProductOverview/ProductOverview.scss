@@ -3,9 +3,15 @@ $lightGrey: #ebebeb;
 $styleSelectorDiameter: 75px;
 $standardColor: #454545;
 $standardBorder: 1px solid $standardColor;
+$standardDarkColor: #eee;
+
+
 
 #product-overview {
   color: $standardColor;
+  @media (prefers-color-scheme: dark) {
+    color: $standardDarkColor
+  }
 
   .red {
     color: red;
@@ -247,6 +253,11 @@ $standardBorder: 1px solid $standardColor;
             justify-content: center;
             align-items: center;
           }
+          @media(prefers-color-scheme: dark) {
+            h1 {
+              color: #C596FC
+            }
+          }
         }
 
         &.gapped {
@@ -292,10 +303,14 @@ $standardBorder: 1px solid $standardColor;
 
       .control-wrapper {
         border: $standardBorder;
-        padding: 0 $standardPaddingUnit / 2;
+        padding: 0 1rem;
         height: 50px;
         display: flex;
         align-items: center;
+        @media (prefers-color-scheme: dark) {
+          color: #eee;
+          border: 1px solid #C596FC;
+        }
 
         &.button {
           cursor: pointer;
@@ -317,6 +332,9 @@ $standardBorder: 1px solid $standardColor;
       border-right: $standardBorder;
       border-width: 2px;
       flex-direction: column;
+      @media(prefers-color-scheme: dark) {
+        color: #C596FC
+      }
     }
 
     & > div {
@@ -326,14 +344,16 @@ $standardBorder: 1px solid $standardColor;
     p {
       font-size: 0.8rem;
       font-weight: 300;
-    }
-
-    h4 {
       margin-bottom: 1rem;
     }
 
     #product-description {
       flex-basis: 60%;
+
+      #description-title {
+        font-size: 1rem;
+        font-weight: bold;
+      }
     }
 
     #product-features {
@@ -351,6 +371,9 @@ $standardBorder: 1px solid $standardColor;
         .check {
           font-size: 1.2rem;
           font-weight: 700;
+          @media(prefers-color-scheme: dark) {
+            color: #C596FC
+          }
         }
       }
     }

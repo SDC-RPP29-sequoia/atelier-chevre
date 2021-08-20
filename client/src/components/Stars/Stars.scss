@@ -8,9 +8,15 @@
 
   .outer-stars-container {
     position: absolute;
+    @media (prefers-color-scheme: dark) {
+      color: #5d5d5d;
+    }
   }
 
   .inner-star {
     color: goldenrod;
+    @media (prefers-color-scheme: dark) {
+      color: #C596FC;
+    }
   }
 }

@@ -3,7 +3,7 @@ import { AiOutlineCheck, AiOutlineStar } from 'react-icons/ai';
 import Stars from '../Stars/Stars.jsx';
 import CustomSelect from './CustomSelect.jsx';
 import helpers from '../../helpers.js';
-import _ from 'lodash';
+import { map, filter, forEach } from 'lodash';
 
 
 const ProductDetails = (props) => {
@@ -17,13 +17,13 @@ const ProductDetails = (props) => {
     price = <p className="canceled-price"><span>${props.selectedStyle.original_price}</span><span>${props.selectedStyle.sale_price}</span></p>;
   }
 
-  sizes = _.filter(_.map(props.selectedStyle.skus, (sku, key) => {
+  sizes = filter(map(props.selectedStyle.skus, (sku, key) => {
     return { label: sku.size, value: key, quantity: sku.quantity };
   }), size => size.quantity > 0);
 
   sizes.unshift({ label: 'SELECT SIZE', value: '' });
 
-  _.forEach(props.reviews.ratings, (numRatings, rating) => {
+  forEach(props.reviews.ratings, (numRatings, rating) => {
     for (let i = 0; i < parseInt(numRatings); i++) {
       reviewAvg += parseInt(rating);
       reviewCount++;

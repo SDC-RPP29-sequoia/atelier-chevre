@@ -1,13 +1,19 @@
 const CompressionPlugin = require('compression-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
+//const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const path = require('path');
 const zlib = require('zlib');
 
-
 module.exports = {
-  entry: path.resolve(__dirname, '/client/src/index.js'),
+  entry: {
+    index: './client/src/index.js',
+    app: './client/src/components/App/App.jsx',
+    header: './client/src/components/Header/Header.jsx',
+    questions: ['./client/src/components/QA/QuestionsAndAnswers.jsx', './client/src/components/QA/AnswerModal.jsx', './client/src/components/QA/QuestionModal.jsx'],
+    productOverview: './client/src/components/ProductOverview/ProductOverview.jsx',
+    reviews: ['./client/src/components/Reviews/RatingsAndReviews.jsx', './client/src/components/Reviews/NewReviewForm.jsx', './client/src/components/Reviews/ReviewsModal.jsx'],
+    stars: '/client/src/components/Stars/Stars.jsx'
+  },
   module: {
     rules: [
       {
@@ -22,16 +28,12 @@ module.exports = {
       },
       {
         test: /\.s[ac]ss$/i,
-        use: [
-          MiniCssExtractPlugin.loader,
-          'css-loader',
-          'sass-loader',
-        ],
+        use: ['style-loader', 'css-loader', 'sass-loader']
       },
       {
         test: /\.ico$/i,
         type: 'asset/resource',
-      }
+      },
     ],
   },
   resolve: {
@@ -39,35 +41,33 @@ module.exports = {
   },
   output: {
     path: path.resolve(__dirname, 'client/public'),
-    filename: 'bundle-[contenthash].bundle.js',
+    filename: '[name].bundle-[contenthash].bundle.js',
     clean: true
   },
   optimization: {
-    minimizer: [
-      '...',
-      new CssMinimizerPlugin()
-    ],
+    splitChunks: {
+      chunks: 'all',
+    }
   },
-  plugins:
-  [new CompressionPlugin({
-    filename: '[path][base].br',
-    algorithm: 'brotliCompress',
-    test: /\.(jsx|js|css|html|svg)$/,
-    compressionOptions: {
-      params: {
-        [zlib.constants.BROTLI_PARAM_QUALITY]: 11,
+  plugins: [
+    new CompressionPlugin({
+      filename: '[path][base].br',
+      algorithm: 'brotliCompress',
+      test: /\.(jsx|js|css|html|svg)$/,
+      compressionOptions: {
+        params: {
+          [zlib.constants.BROTLI_PARAM_QUALITY]: 11,
+        },
       },
-    },
-    threshold: 10240,
-    minRatio: 0.8,
-    deleteOriginalAssets: false,
-  }),
-  new HtmlWebpackPlugin({
-    template: __dirname + '/client/src/template.html',
-    favicon: './client/src/favicon.ico',
-    inject: 'body'
-  }),
-  new MiniCssExtractPlugin({
-    filename: 'styles-[contenthash].css'
-  })],
+      threshold: 10240,
+      minRatio: 0.8,
+      deleteOriginalAssets: false,
+    }),
+    new HtmlWebpackPlugin({
+      template: __dirname + '/client/src/template.html',
+      favicon: './client/src/favicon.ico',
+      inject: 'body'
+    }),
+  //new BundleAnalyzerPlugin(),
+  ],
 };

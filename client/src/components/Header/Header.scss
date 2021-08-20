@@ -6,10 +6,14 @@
   width: 100% !important;
   background-color: #757575;
   color: white;
+  @media (prefers-color-scheme: dark) {
+    background-color: #393E46;
+  }
 
   input {
     border: none;
     border-bottom: 2px solid white;
     background-color: transparent;
   }
+
 }

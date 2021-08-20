@@ -48,7 +48,7 @@ class QuestionModal extends React.Component {
       return;
     }
 
-    this.handleModal('modal-q');
+    this.handleModal('.modal-q');
 
     let formElement = document.querySelector('#add-question');
     let formData = new FormData(formElement);
