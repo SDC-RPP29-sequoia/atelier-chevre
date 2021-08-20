@@ -106,7 +106,10 @@ describe('<QuestionsAndAnswers />', () => {
       target: {
         getAttribute: (a) => { return a; },
         setAttribute: (a) => { return a; },
-        className: 'question-helpful'
+        className: 'question-helpful',
+        style: {
+          'text-decoration': ''
+        }
       }
     };
     instance.markHelpful(event);
@@ -119,7 +122,10 @@ describe('<QuestionsAndAnswers />', () => {
       target: {
         getAttribute: (a) => { return a; },
         setAttribute: (a) => { return a; },
-        className: 'answer-helpful'
+        className: 'answer-helpful',
+        style: {
+          'text-decoration': ''
+        }
       }
     };
     instance.markHelpful(event);
