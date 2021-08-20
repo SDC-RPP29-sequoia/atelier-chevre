@@ -181,6 +181,7 @@ class QuestionsAndAnswers extends React.Component {
     }
 
     e.target.setAttribute('clicked', 'true');
+    e.target.style['text-decoration'] = 'none';
 
     if (e.target.className === 'answer-helpful') {
       let answerId = e.target.getAttribute('answer_id');
