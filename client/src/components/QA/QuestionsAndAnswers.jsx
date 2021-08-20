@@ -51,6 +51,7 @@ class QuestionsAndAnswers extends React.Component {
     this.showMoreAnsweredQs = this.showMoreAnsweredQs.bind(this);
     this.hideLoadMoreAnswers = this.hideLoadMoreAnswers.bind(this);
     this.setSearchState = this.setSearchState.bind(this);
+    this.getProductName = this.getProductName.bind(this);
   }
 
   componentDidMount() {
@@ -66,6 +67,8 @@ class QuestionsAndAnswers extends React.Component {
         });
       }
     });
+
+    this.getProductName();
   }
 
   getQuestions(cb, reset) {
@@ -87,6 +90,20 @@ class QuestionsAndAnswers extends React.Component {
       })
       .catch(err => {
         console.log(err);
+      });
+  }
+
+  getProductName() {
+    API.getProductName(this.state.currProductId)
+      .then(response => {
+        this.setState({
+          currProduct: {
+            name: response.data.name
+          }
+        });
+      }).
+      catch(err => {
+        console.log('err', err);
       });
   }
 

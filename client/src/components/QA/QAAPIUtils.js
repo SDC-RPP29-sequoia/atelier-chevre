@@ -39,5 +39,9 @@ export default {
 
   sendClickData: (clickData) => {
     return axios.post('/api/interactions/clickData', clickData);
+  },
+
+  getProductName: (productId) => {
+    return axios.get(`/api/questions/productName/${productId}`);
   }
 };

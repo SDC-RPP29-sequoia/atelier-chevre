@@ -6,6 +6,7 @@ const multer = require('multer');
 const upload = multer();
 
 QARouter.get('/:productId', compression(), QAController.getQuestions);
+QARouter.get('/productName/:productId', compression(), QAController.getProductName);
 QARouter.post('/', QAController.postQuestion);
 QARouter.post('/addAnswer', upload.any(), QAController.postAnswer);
 QARouter.put('/answerHelpful', QAController.markAnswerHelpful);
