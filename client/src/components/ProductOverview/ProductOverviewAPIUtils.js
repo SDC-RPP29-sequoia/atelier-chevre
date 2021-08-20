@@ -30,7 +30,7 @@ export default {
   getReviews(id) {
     return new Promise((resolve, reject) => {
       axios
-        .get(`/api/reviews/${id}`)
+        .get(`/api/reviews/${id}/relevence`)
         .then(response => {
           resolve(response.data);
         })
@@ -41,6 +41,6 @@ export default {
   },
 
   sendClickData(clickData) {
-    return axios.post('/interactions/clickData', clickData);
+    return axios.post('/api/interactions/clickData', clickData);
   },
 };
