@@ -1,13 +1,18 @@
 .stars-container {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr;
+  grid-template-areas: 'stars';
   width: 80px;
 
   .inner-stars-container {
+    grid-area: stars;
     white-space: nowrap;
     overflow: hidden;
   }
 
   .outer-stars-container {
-    position: absolute;
+    grid-area: stars;
     @media (prefers-color-scheme: dark) {
       color: #5d5d5d;
     }
