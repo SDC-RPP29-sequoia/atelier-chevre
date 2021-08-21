@@ -41,7 +41,6 @@ export default {
   },
 
   getProductName: async (productId) => {
-    console.log('api ran');
     return await axios.get(`/api/reviews/name/${productId}`);
   }
 };
