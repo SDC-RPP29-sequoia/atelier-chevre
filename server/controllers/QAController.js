@@ -152,6 +152,22 @@ const postAnswer = async (req, res) => {
   }
 };
 
+const getProductName = (req, res) => {
+  let url = `https://app-hrsei-api.herokuapp.com/api/fec2/hr-rpp/products/${req.params.productId}`;
+
+  axios.get(url, {
+    headers: {
+      Authorization: process.env.TOKEN
+    }
+  })
+    .then(response => {
+      res.json(response.data);
+    })
+    .catch(err => {
+      console.log('err', err);
+    });
+};
+
 module.exports = {
   getQuestions,
   postQuestion,
@@ -159,5 +175,6 @@ module.exports = {
   markQuestionHelpful,
   reportQuestion,
   reportAnswer,
-  postAnswer
+  postAnswer,
+  getProductName
 };
