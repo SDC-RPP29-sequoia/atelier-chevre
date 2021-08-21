@@ -38,5 +38,10 @@ export default {
 
   sendClickData: (clickData) => {
     return axios.post('/api/interactions/clickData', clickData);
+  },
+
+  getProductName: async (productId) => {
+    console.log('api ran');
+    return await axios.get(`/api/reviews/name/${productId}`);
   }
 };

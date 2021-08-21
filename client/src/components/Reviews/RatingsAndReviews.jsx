@@ -68,10 +68,12 @@ class RatingsAndReviews extends React.Component {
   async getReviewData (sortMethod) {
     const reviews = await API.getProductReviews(this.props.productId, sortMethod);
     const reviewsMeta = await API.getProductReviewsMeta(this.props.productId);
+    const productName = await API.getProductName(this.props.productId);
     this.setState({
       currentProductReviews: reviews.data.results,
       currentProductMeta: reviewsMeta,
-      currentSortMethod: sortMethod
+      currentSortMethod: sortMethod,
+      currentProductName: productName.data
     });
   }
 
@@ -211,7 +213,8 @@ class RatingsAndReviews extends React.Component {
             currentProductName={this.state.currentProductName}
             productId={this.props.productId}
             closeForm={this.closeForm}
-            currentProductMeta={this.state.currentProductMeta}/>
+            currentProductMeta={this.state.currentProductMeta}
+            currentProductName={this.state.currentProductName}/>
         }
         {this.state.imageURL.length > 0 &&
           <ReviewsModal closeImage={this.closeImage} imageURL={this.state.imageURL}/>

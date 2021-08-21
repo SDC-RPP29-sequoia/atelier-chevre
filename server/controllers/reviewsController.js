@@ -126,10 +126,25 @@ const postNewReview = async (req, res) => {
   }
 };
 
+const getProductName = async (req, res) => {
+  const headers = {
+    headers: {
+      Authorization: process.env.TOKEN
+    }
+  };
+  try {
+    const productData = await axios.get(`https://app-hrsei-api.herokuapp.com/api/fec2/hr-rpp/products/${req.params.productId}`, headers);
+    res.send(productData.data.name);
+  } catch (err) {
+    res.send(err);
+  }
+};
+
 module.exports = {
   getSortedReviews,
   getReviews,
   reportReview,
   markReviewHelpful,
-  postNewReview
+  postNewReview,
+  getProductName
 };

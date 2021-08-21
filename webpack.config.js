@@ -1,19 +1,11 @@
 const CompressionPlugin = require('compression-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-//const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+// const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const path = require('path');
 const zlib = require('zlib');
 
 module.exports = {
-  entry: {
-    index: './client/src/index.js',
-    app: './client/src/components/App/App.jsx',
-    header: './client/src/components/Header/Header.jsx',
-    questions: ['./client/src/components/QA/QuestionsAndAnswers.jsx', './client/src/components/QA/AnswerModal.jsx', './client/src/components/QA/QuestionModal.jsx'],
-    productOverview: './client/src/components/ProductOverview/ProductOverview.jsx',
-    reviews: ['./client/src/components/Reviews/RatingsAndReviews.jsx', './client/src/components/Reviews/NewReviewForm.jsx', './client/src/components/Reviews/ReviewsModal.jsx'],
-    stars: '/client/src/components/Stars/Stars.jsx'
-  },
+  entry: './client/src/index.js',
   module: {
     rules: [
       {
@@ -44,11 +36,6 @@ module.exports = {
     filename: '[name].bundle-[contenthash].bundle.js',
     clean: true
   },
-  optimization: {
-    splitChunks: {
-      chunks: 'all',
-    }
-  },
   plugins: [
     new CompressionPlugin({
       filename: '[path][base].br',
@@ -68,6 +55,6 @@ module.exports = {
       favicon: './client/src/favicon.ico',
       inject: 'body'
     }),
-  //new BundleAnalyzerPlugin(),
+    // new BundleAnalyzerPlugin(),
   ],
 };
