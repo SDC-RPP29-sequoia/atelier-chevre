@@ -31,6 +31,9 @@ npm run server:dev // nodemon
 ## WIDGETS:
 
 ### PRODUCT OVERVIEW
+
+![Product overview gif](https://lh3.googleusercontent.com/0vKCKmE0vzV7ksxTa9pcZpBi58nEvgTdCEeLaKu23PYqrzv-G4LswV6xAkmyMViQ0RlPMZ3osyHlb4nsoRF5UYIOFFdEZiQxI3WzLXPaDoZWFcGQOdA7kPmR-sq9ViD3kQeWrVXMB0LPi612XeDqLConj1aCAc0IS9V1RusWNeYAISThNsOA_OM2NF3chJYmEubUdgjtsjfEhq8myRPRduwWHmDvvvvuoCcn-_u3FZkxjbX70CZHrv_GurT_7-qAhq10nIAvcmgSbcDheb7o4oo8bfif25NZ77V0nHLfy6xgF-RdDMrSkl6MtMAEs2KgpxF9YPcfDqMZXEuMY8qHOCwTHkT9T7E-V3jh05mXVIG72ysuOz05Bq8chsjth7oKX9cRgUEkerNUVrqfb8dBXDogFPZKxST9PjKlUiV7uoqkFbkgy14VCq3gwfr94t-kNkiUjG8P61LVvggCXmeHr4pmUhQxAhXXqWMzPxjl-ZxFe39Ezt5l_dWfMqdAvOYu0CGYSSyE1HlH8oBeDGOgTfcRkAVlsilqxEHs6Z-ou8z_WtQzklj6rbhYxk4rc3DE7-9AJ4sGxGzaGbZRYnqZLrfMLc5QVyUAEv3m2jbCsGfIjZ2b6t1DS2kuddfJZ0CK2cgWFwRD9oCuzZZ7sePkx_YqXoCZRkuz25K5DuJLK2za6YiqnCl5mu5z0zdAv4cMhN8gQkQY-l2zcPXl4U14m8w=w1295-h710-no?authuser=0)
+
 The product overview widget is the first thing a user sees when navigating to the page. It provides a large image and a lot of important product data.
 
 The image can be cycled through all the available images for each product, and enlarged to a full-screen view. Once in full screen, the image can be clicked again to use a dynamic zooming effect. Moving the mouse in this mode also moves the zoom box around the image.
