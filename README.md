@@ -31,9 +31,16 @@ npm run server:dev // nodemon
 ## WIDGETS:
 
 ### PRODUCT OVERVIEW
+The product overview widget is the first thing a user sees when navigating to the page. It provides a large image and a lot of important product data.
+
+The image can be cycled through all the available images for each product, and enlarged to a full-screen view. Once in full screen, the image can be clicked again to use a dynamic zooming effect. Moving the mouse in this mode also moves the zoom box around the image.
+
+The details section, next to the image, contains the product category, name, and price. A series of five stars shows the average rating of the product. This section also allows the user to change the style using a set of thumbnails representing each style. Once a style is selected, the user can use a series of dropdowns to select the size (SKU) and then, finally, the quantity they would like to add to their cart. An add to cart button lies just below this with a 'favorite' button.
+
+The product's extra section, below both the image end details section, displays a slogan, description, and some features the product has.
 
 ### QUESTIONS & ANSWERS
-The Quetions & Answers widget includes all user-submitted questions and answers related to the given product. The list of questions scrolls infinitely, and each question only displays two answers by default, with the option to display all answers upon clicking "Load More Answers." If there are more questions or answers than can be displayed on the page, the window is capped and the list becomes scrollable. Both questions and answers are sorted by the number of "Helpful" votes they have received - but all answers from the Seller will be listed first, with their username in bold.
+The Questions & Answers widget includes all user-submitted questions and answers related to the given product. The list of questions scrolls infinitely, and each question only displays two answers by default, with the option to display all answers upon clicking "Load More Answers." If there are more questions or answers than can be displayed on the page, the window is capped and the list becomes scrollable. Both questions and answers are sorted by the number of "Helpful" votes they have received - but all answers from the Seller will be listed first, with their username in bold.
 
 Users can mark questions and answers helpful, and can also report them, which will remove them from the page. Users cannot mark something helpful more than once.
 ![](QADisplayReportHelpful.gif)
