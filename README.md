@@ -35,3 +35,14 @@ npm run server:dev // nodemon
 ### QUESTIONS & ANSWERS
 
 ### RATINGS & REVIEWS
+\
+The Ratings and Review Section features the average of all reviews along with a group of 5 stars, filled in based on the average reviews, rounded to the nearest quarter of a star. The section below is a breakdown of the star levels of reach review. Users can click each line, which acts as a filter to only see the desired reviews.
+
+The product breakdown section consists of several characteristics and a slider indicating the average choice of each as submitted by users.
+
+The heart of the Ratings and Reviews section is the product reviews themselves. Each review displays the rating shown by filled in stars, the user's review summary and content, a place for others to mark the review as helpful, and the ability to report a revew.
+
+Below the review content, there is a button to load more reviews, and another to add a new review. This button opens a form with several fields to fill in and the ability to upload up to five product images
+\
+\
+![](ratingsAndReviews.gif)
