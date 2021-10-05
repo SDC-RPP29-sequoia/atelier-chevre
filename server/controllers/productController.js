@@ -1,7 +1,7 @@
 const axios = require('axios');
 
 const getProduct = (req, res) => {
-  axios.get(`https://app-hrsei-api.herokuapp.com/api/fec2/hr-rpp/products/${req.params.productId}`, {
+  axios.get(`http://localhost:3000/products/product_id=${req.params.productId}`, {
     headers: {
       'Authorization': process.env.TOKEN
     }
@@ -15,7 +15,7 @@ const getProduct = (req, res) => {
 };
 
 const getProductStyles = (req, res) => {
-  axios.get(`https://app-hrsei-api.herokuapp.com/api/fec2/hr-rpp/products/${req.params.productId}/styles`, {
+  axios.get(`http://localhost:3000/products/product_id=${req.params.productId}/styles`, {
     headers: {
       'Authorization': process.env.TOKEN
     }

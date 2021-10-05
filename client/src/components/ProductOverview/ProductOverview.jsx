@@ -41,6 +41,7 @@ class ProductOverview extends React.Component {
       .then(response => {
         this.setState({
           product: response,
+          reviews: response.reviews,
         });
       })
       .catch(err => {
@@ -61,16 +62,6 @@ class ProductOverview extends React.Component {
           selectedSku: null,
           images: defaultStyle.photos,
           currentImageUrl: defaultStyle.photos[0].url,
-        });
-      })
-      .catch(err => {
-        console.error(err);
-      });
-
-    await API.getReviews(this.props.productId)
-      .then(response => {
-        this.setState({
-          reviews: response,
         });
       })
       .catch(err => {
