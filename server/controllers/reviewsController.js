@@ -3,10 +3,10 @@ const axios = require('axios');
 const imgbbUploader = require('imgbb-uploader');
 const multer = require('multer');
 const upload = multer();
-
+const RRURL = process.env.RRURL;
 
 const getSortedReviews = (req, res) => {
-  axios.get(`https://app-hrsei-api.herokuapp.com/api/fec2/hr-rpp/reviews?product_id=${req.params.productId}&sort=${req.params.sortMethod}&count=500`, {
+  axios.get(`${RRURL}/reviews?product_id=${req.params.productId}&sort=${req.params.sortMethod}&count=500`, {
     headers: {
       'Authorization': process.env.TOKEN
     }
@@ -20,7 +20,7 @@ const getSortedReviews = (req, res) => {
 };
 
 const getReviews = (req, res) => {
-  axios.get(`https://app-hrsei-api.herokuapp.com/api/fec2/hr-rpp/reviews/meta?product_id=${req.params.productId}`, {
+  axios.get(`${RRURL}/reviews/meta?product_id=${req.params.productId}`, {
     headers: {
       'Authorization': process.env.TOKEN
     }
@@ -34,7 +34,7 @@ const getReviews = (req, res) => {
 };
 
 const reportReview = (req, res) => {
-  axios.put(`https://app-hrsei-api.herokuapp.com/api/fec2/hr-rpp/reviews/${req.params.reviewId}/report`, {}, {
+  axios.put(`${RRURL}/reviews/${req.params.reviewId}/report`, {}, {
     headers: {
       'Authorization': process.env.TOKEN
     }
@@ -49,7 +49,7 @@ const reportReview = (req, res) => {
 
 const markReviewHelpful = (req, res) => {
   if (req.cookies.helpful === undefined) {
-    axios.put(`https://app-hrsei-api.herokuapp.com/api/fec2/hr-rpp/reviews/${req.params.reviewId}/helpful`, {}, {
+    axios.put(`${RRURL}/reviews/${req.params.reviewId}/helpful`, {}, {
       headers: {
         'Authorization': process.env.TOKEN
       }
@@ -63,7 +63,7 @@ const markReviewHelpful = (req, res) => {
     if (helpfulClicked.includes(req.params.reviewId)) {
       res.status(304).send('helful already clicked for this review');
     } else {
-      axios.put(`https://app-hrsei-api.herokuapp.com/api/fec2/hr-rpp/reviews/${req.params.reviewId}/helpful`, {}, {
+      axios.put(`${RRURL}/reviews/${req.params.reviewId}/helpful`, {}, {
         headers: {
           'Authorization': process.env.TOKEN
         }
@@ -119,7 +119,7 @@ const postNewReview = async (req, res) => {
       data.photos = fileURLs;
     }
 
-    const response = await axios.post('https://app-hrsei-api.herokuapp.com/api/fec2/hr-rpp/reviews', data, headers);
+    const response = await axios.post(`${RRURL}/reviews`, data, headers);
     res.sendStatus(201);
   } catch (error) {
     res.send(error);
@@ -133,7 +133,7 @@ const getProductName = async (req, res) => {
     }
   };
   try {
-    const productData = await axios.get(`https://app-hrsei-api.herokuapp.com/api/fec2/hr-rpp/products/${req.params.productId}`, headers);
+    const productData = await axios.get(`${RRURL}/products/${req.params.productId}`, headers);
     res.send(productData.data.name);
   } catch (err) {
     res.send(err);

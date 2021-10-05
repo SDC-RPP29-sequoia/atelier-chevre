@@ -3,11 +3,12 @@ const axios = require('axios');
 const imgbbUploader = require('imgbb-uploader');
 const multer = require('multer');
 const upload = multer();
+const QAURL = process.env.QAURL;
 
 const getQuestions = (req, res) => {
   let num = req.params.productId;
 
-  let url = `https://app-hrsei-api.herokuapp.com/api/fec2/hr-rpp/qa/questions?product_id=${num}&page=1&count=100`;
+  let url = `${QAURL}/qa/questions?product_id=${num}&page=1&count=100`;
 
   axios.get(url, {
     headers: {
@@ -24,7 +25,7 @@ const getQuestions = (req, res) => {
 
 const postQuestion = (req, res) => {
   let data = req.body.data;
-  let url = 'https://app-hrsei-api.herokuapp.com/api/fec2/hr-rpp/qa/questions';
+  let url = `${QAURL}/qa/questions`;
 
   axios.post(url, data, {
     headers: {
@@ -41,7 +42,7 @@ const postQuestion = (req, res) => {
 
 const markAnswerHelpful = (req, res) => {
   let answerId = req.body.answerId;
-  let url = `https://app-hrsei-api.herokuapp.com/api/fec2/hr-rpp/qa/answers/${answerId}/helpful`;
+  let url = `${QAURL}/qa/answers/${answerId}/helpful`;
 
   axios.put(url, {}, {
     headers: {
@@ -58,7 +59,7 @@ const markAnswerHelpful = (req, res) => {
 
 const markQuestionHelpful = (req, res) => {
   let questionId = req.body.questionId;
-  let url = `https://app-hrsei-api.herokuapp.com/api/fec2/hr-rpp/qa/questions/${questionId}/helpful`;
+  let url = `${QAURL}/qa/questions/${questionId}/helpful`;
 
   axios.put(url, {}, {
     headers: {
@@ -75,7 +76,7 @@ const markQuestionHelpful = (req, res) => {
 
 const reportQuestion = (req, res) => {
   let questionId = req.body.questionId;
-  let url = `https://app-hrsei-api.herokuapp.com/api/fec2/hr-rpp/qa/questions/${questionId}/report`;
+  let url = `${QAURL}/qa/questions/${questionId}/report`;
 
   axios.put(url, {}, {
     headers: {
@@ -92,7 +93,7 @@ const reportQuestion = (req, res) => {
 
 const reportAnswer = (req, res) => {
   let answerId = req.body.answerId;
-  let url = `https://app-hrsei-api.herokuapp.com/api/fec2/hr-rpp/qa/answers/${answerId}/report`;
+  let url = `${QAURL}/qa/answers/${answerId}/report`;
 
   axios.put(url, {}, {
     headers: {
@@ -110,7 +111,7 @@ const reportAnswer = (req, res) => {
 const postAnswer = async (req, res) => {
   try {
     let questionId = req.body.questionId;
-    let url = `https://app-hrsei-api.herokuapp.com/api/fec2/hr-rpp/qa/questions/${questionId}/answers`;
+    let url = `${QAURL}/qa/questions/${questionId}/answers`;
 
     let data = {
       body: req.body.body,
@@ -153,7 +154,7 @@ const postAnswer = async (req, res) => {
 };
 
 const getProductName = (req, res) => {
-  let url = `https://app-hrsei-api.herokuapp.com/api/fec2/hr-rpp/products/${req.params.productId}`;
+  let url = `${QAURL}/products/${req.params.productId}`;
 
   axios.get(url, {
     headers: {

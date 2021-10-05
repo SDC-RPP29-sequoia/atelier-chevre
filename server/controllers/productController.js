@@ -1,7 +1,9 @@
+require('dotenv').config();
 const axios = require('axios');
+const PDURL = process.env.PDURL;
 
 const getProduct = (req, res) => {
-  axios.get(`https://app-hrsei-api.herokuapp.com/api/fec2/hr-rpp/products/${req.params.productId}`, {
+  axios.get(`${PDURL}/products/${req.params.productId}`, {
     headers: {
       'Authorization': process.env.TOKEN
     }
@@ -15,7 +17,7 @@ const getProduct = (req, res) => {
 };
 
 const getProductStyles = (req, res) => {
-  axios.get(`https://app-hrsei-api.herokuapp.com/api/fec2/hr-rpp/products/${req.params.productId}/styles`, {
+  axios.get(`${PDURL}/products/${req.params.productId}/styles`, {
     headers: {
       'Authorization': process.env.TOKEN
     }
