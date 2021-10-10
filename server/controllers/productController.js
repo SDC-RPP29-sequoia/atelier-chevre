@@ -1,7 +1,7 @@
 const axios = require('axios');
 
 const getProduct = (req, res) => {
-  axios.get(`http://localhost:3000/products/product_id=${req.params.productId}`, {
+  axios.get(`ec2-18-118-184-4.us-east-2.compute.amazonaws.com/products/product_id=${req.params.productId}`, {
     headers: {
       'Authorization': process.env.TOKEN
     }
@@ -15,7 +15,7 @@ const getProduct = (req, res) => {
 };
 
 const getProductStyles = (req, res) => {
-  axios.get(`http://localhost:3000/products/product_id=${req.params.productId}/styles`, {
+  axios.get(`ec2-18-118-184-4.us-east-2.compute.amazonaws.com/products/product_id=${req.params.productId}/styles`, {
     headers: {
       'Authorization': process.env.TOKEN
     }
